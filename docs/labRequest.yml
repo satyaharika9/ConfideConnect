@@ -2,7 +2,7 @@ openapi: 3.1.0
 info:
   title: INFO6150 - Web Design and User Experience Engineering Final Project || ConfideConnect
   summary: The REST service for ConfideConnect.
-  description: An API for providing a centralized space for HIV pateients to get connected to labs anonymously
+  description: An API for providing a centralized space for HIV patients to get connected to labs anonymously
   version: 'v1.0'
 servers:
   - url: http://localhost:3001
@@ -40,7 +40,7 @@ paths:
               $ref: '#/components/schemas/LabRequest'
       responses:
         201:
-          description: Lab request created succefffully
+          description: Lab request created successfully
           content:
             application/json:
               schema:
