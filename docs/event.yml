@@ -1,27 +1,27 @@
 openapi: 3.1.0
 info:
-  title: Patient API
+  title:  API
   version: 1.0.0
-  description: API for managing patient data
+  description: API for managing Events data from the db
 servers:
   - url: http://localhost:3001
 paths:
-  /patient:
+  /Event:
     get:
-      summary: Retrieve all patients
-      operationId: get-all-patients
-      description: Retrieves all the patients from the database
+      summary: Retrieve all Events
+      operationId: get-all-events
+      description: Retrieves all the Events from the database
       responses:
         200:
-          description: Patient's list
+          description: Event's list
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Patient'
+                  $ref: '#/components/schemas/Event'
         404:
-          description: Patients not found
+          description: Events not found
           content:
             application/json:
               schema:
@@ -29,22 +29,22 @@ paths:
                 items:
                   $ref: '#/components/schemas/Error'
     post:
-      summary: Create a new patient
-      operationId: create-patient
-      description: Create a new patient and add it to db.
+      summary: Create a new Event
+      operationId: create-event
+      description: Create a new Event and add it to db.
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Patient'
+              $ref: '#/components/schemas/Event'
       responses:
         201:
-          description: Patient Created successfully
+          description: Event Created successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Patient'
+                $ref: '#/components/schemas/Event'
         400:
           description: Invalid Request payload
           content:
@@ -52,49 +52,49 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /patients/{id}:
+  /Event/{id}:
     parameters:
         - in: path
           name: id
           required: true
-          description: ID of the patient to retrieve
+          description: ID of the Event to retrieve
           schema:
             type: integer
     get:
-      summary: Retrieve a patient by ID
-      operationId: get-patient-by-id
-      description: Fetch a patient by its ID
+      summary: Retrieve a Event by ID
+      operationId: get-event-by-id
+      description: Fetch a Event by its ID
       responses:
         200:
-          description: Patient retrieved with specified id
+          description: Event retrieved with specified id
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Patient'
+                $ref: '#/components/schemas/Event'
         404:
-          description: Patient not found
+          description: Event not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
     put:
-      summary: Update a patient by id
-      operationId: update-patient-by-ID
-      description: Update a patient by its id
+      summary: Update a Event by id
+      operationId: update-event-by-ID
+      description: Update a Event by its id
     
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Patient'
+              $ref: '#/components/schemas/Event'
       responses:
         200:
-          description: Patient Updated
+          description: Event Updated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Patient'
+                $ref: '#/components/schemas/Event'
         400:
           description: Invalid Request payload
           content:
@@ -102,19 +102,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         404:
-          description: Patient Not Found
+          description: Event Not Found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
     delete:
-      summary: Delete a patient by its id
-      operationId: delete-patient-by-id
+      summary: Delete a Event by its id
+      operationId: delete-event-by-id
       responses:
         204:
-          description: Patient deleted successfully
+          description: Event deleted successfully
         404:
-          description: Patient Not Found
+          description: Event Not Found
           content:
             application/json:
               schema:
@@ -129,58 +129,54 @@ paths:
 
 components:
   schemas:
-    Patient:
+    Event:
       type: object
       properties:
         id:
           type: integer
           examples: 
             - 001
-        patientId:
-          type: integer
-          examples:
-             - 002
-        userName:
+        name:
           type: string
           examples:
-             - user1
-        password:
+            - Dr. Paul
+        description:
           type: string
           examples:
-            - pass1234
-        role:
+            - "Sample description for a blog"
+
+        phoneNumber:
           type: string
           examples:
-            - patient
-        gender:
-          type: string
-          examples:
-            - male
-        language:
-          type: array
-          items:
-            type: string
-          examples:
-            - [Tamil, English, French]
+            - "01/01/2024"
         
-        dateOfBirth:
+        time:
           type: string
           examples:
-            - date
-        preExistingConditions:
-          type: array
-          items:
-            type: string
+            - "14:12:23"
+            
+        streetName:
+          type: string
+          examples: 
+            - "Mardi Gras"
+        city:
+          type: string
+          examples: 
+            - "Boston"
+
+        state:
+          type: string
           examples:
-            - [Diabetes, BP]
-        labReport:
+            - "MA"
+        country:
           type: string
-          examples: 
-            - "bit.ly"
-        doctorsPrescription:
+          examples:
+            - "US"
+        zipCode:
           type: string
-          examples: 
-            - "bit.ly"
+          examples:
+            - "02119"
+          
     Error:
       type: object
       properties:
@@ -194,3 +190,4 @@ components:
             - Error encountered
       required:
         - message
+
