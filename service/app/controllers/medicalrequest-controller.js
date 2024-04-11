@@ -75,3 +75,13 @@ export const filterMedicalRequest =  async (request, response ) => {
      setError(error, response);
  }
  }
+
+ export const deleteAllmedicalRequests = async (request, response) => {
+    try{
+        const medicalrequests = await medicalRequestService.deleteAll();
+        setResponse(medicalrequests, response);
+    }
+    catch(error){
+        setError(error, response);
+    }
+}

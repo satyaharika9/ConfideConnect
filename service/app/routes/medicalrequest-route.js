@@ -6,7 +6,8 @@ const medicalRequestRouter = express.Router();
 
 medicalRequestRouter.route('/')
     .get(medicalRequestController.getAll)
-    .post(medicalRequestController.createMedicalRequest);
+    .post(medicalRequestController.createMedicalRequest)
+    .delete(medicalRequestController.deleteAllmedicalRequests);
 
 medicalRequestRouter.route('/filter')
     .get(medicalRequestController.filterMedicalRequest);

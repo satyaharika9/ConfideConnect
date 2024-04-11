@@ -10,6 +10,11 @@ export const getAll = async () => {
         return medicalrequests;
 }
 
+export const deleteAll = async () => {
+        const medicalrequests = await MedicalRequest.deleteMany();
+        return medicalrequests;
+}
+
 /**
  * Saves a new medicalrequest object to the database.
  * @param {Object} medicalrequest The medicalrequest data to create a new document.

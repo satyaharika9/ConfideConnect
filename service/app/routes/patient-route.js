@@ -6,7 +6,8 @@ const patientRouter = express.Router();
 
 patientRouter.route('/')
     .get(patientController.getAll)
-    .post(patientController.createPatient);
+    .post(patientController.createPatient)
+    .delete(patientController.deleteAllPatients);
 
 patientRouter.route('/:patientId')
     .put(patientController.updatePatient)

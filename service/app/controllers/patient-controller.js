@@ -59,3 +59,13 @@ export const deletePatient = async (request, response) => {
         setError(error, response);
     }
 }
+
+export const deleteAllPatients = async (request, response) => {
+    try{
+        const patients = await patientService.deleteAll();
+        setResponse(patients, response);
+    }
+    catch(error){
+        setError(error, response);
+    }
+}

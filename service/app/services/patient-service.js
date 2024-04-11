@@ -9,6 +9,10 @@ export const getAll = async () => {
         const patients = await Patient.find();
         return patients;
 }
+export const deleteAll = async () => {
+        const patients = await Patient.deleteMany();
+        return patients;
+}
 
 /**
  * Saves a new patient object to the database.
