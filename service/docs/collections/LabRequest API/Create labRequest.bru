@@ -1,0 +1,36 @@
+meta {
+  name: Create labRequest
+  type: http
+  seq: 6
+}
+
+post {
+  url: http://localhost:3000/confideconnect/labrequests
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "labId": "6618a990dffbaa23ca008893",
+    "patientId": "6618a990dffbaa23ca008894",
+    "requestId": 123,
+    "requestName": "third notes",
+    "requestDescription": "This is my third notes",
+    "labReport": "ActionItem1:1, ActionItem2:2",
+    
+    "notificationEmail": "third notes",
+    "notificationPhone": "This is my third notes",
+      "modifiedTime": "2024-04-12T04:59:27.122Z",
+    "preExistingConditions": "This is my third notes",
+    "patientAddress": {
+      "street": "1",
+          "city": "2",
+          "state": "3",
+          "country": "4",
+          "zip": "5"
+    }
+    
+    
+  }
+}
