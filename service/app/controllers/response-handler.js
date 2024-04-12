@@ -7,6 +7,7 @@ export const setResponse = (data, response) => {
 
 export const setError = (err, response) => {
     response.status(500);
+    console.log("Error",err)
     response.json({
         error: {
             code: 'InternalServerError',
