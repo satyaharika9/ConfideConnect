@@ -1,0 +1,20 @@
+meta {
+  name: Delete User
+  type: http
+  seq: 5
+}
+
+delete {
+  url: http://localhost:3002/confideconnect/users/66181d062f2e6b25e07472f3
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "role": "lab",
+      "email": "lab1@gmail.com",
+      "username": "lab1testt",
+      "password": "lab1"
+    }
+}

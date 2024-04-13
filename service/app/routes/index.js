@@ -2,7 +2,7 @@ import userRouter from './user-routes.js'
 import patientRouter from "./patient-route.js";
 import medicalRequestRouter from "./medicalrequest-route.js";
 import doctorRouter from './doctor-route.js';
-import labRequestRouter from './LabRequest-route.js';
+import labRequestRouter from './labrequest-route.js';
 import labRouter from './lab-route.js';
 import blogRouter from './blog-route.js'
 import donationRouter from './donation-route.js';

@@ -1,0 +1,16 @@
+meta {
+  name: Filter Blog by Creator and BlogId
+  type: http
+  seq: 14
+}
+
+get {
+  url: http://localhost:3002/confideconnect/blogs/filter?creatorId=6618a990dffbaa23ca008896&blogId=6618cf111befc5cfb4f552d3
+  body: none
+  auth: none
+}
+
+query {
+  creatorId: 6618a990dffbaa23ca008896
+  blogId: 6618cf111befc5cfb4f552d3
+}

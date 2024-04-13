@@ -1,6 +1,6 @@
 {
   "version": "1",
-  "name": "MedicalRequest API",
+  "name": "Lab API",
   "type": "collection",
   "ignore": [
     "node_modules",

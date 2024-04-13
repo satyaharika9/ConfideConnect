@@ -1,6 +1,6 @@
 
 import express from "express";
-import * as doctorController from '../controllers/doctor-controllers.js';
+import * as doctorController from '../controllers/doctor-controller.js';
 
 const doctorRouter = express.Router();
 

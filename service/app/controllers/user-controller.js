@@ -47,10 +47,39 @@ export const deleteUser = async (request, response) => {
     }
 }
 
-// delete all notes based from db
 export const deleteAll = async (request, response) => {
     try{
         const resp = await userService.deleteAll();
+        setResponse(resp, response);
+    }
+    catch (error){
+        setError(error, response);
+    }
+}
+
+export const deleteAllPatients = async (request, response) => {
+    try{
+        const resp = await userService.deleteAllPatients();
+        setResponse(resp, response);
+    }
+    catch (error){
+        setError(error, response);
+    }
+}
+
+export const deleteAllDoctors = async (request, response) => {
+    try{
+        const resp = await userService.deleteAllDoctors();
+        setResponse(resp, response);
+    }
+    catch (error){
+        setError(error, response);
+    }
+}
+
+export const deleteAllLabs = async (request, response) => {
+    try{
+        const resp = await userService.deleteAllLabs();
         setResponse(resp, response);
     }
     catch (error){

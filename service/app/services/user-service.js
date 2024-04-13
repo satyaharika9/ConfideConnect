@@ -1,52 +1,81 @@
 import User from "../models/user.js";
 import Patient from "../models/patient.js";
+import Doctor from '../models/doctor.js'
+import Lab from '../models/lab.js'
 import MedicalRequest from "../models/medicalrequest.js";
+import LabRequest from '../models/labrequest.js';
+import Event from '../models/event.js';
+import Blog from '../models/blog.js'
 
 
 // Create User
 /**
- * Saves a new user object to the database.
+ * Saves a new user object to the database,
+ * then adds an entry to the respective document based on role
  * @param {Object} user The user data to create a new document.
  * @returns {Promise<Object>} A promise that resolves to the newly created user document.
  */
 export const createUser = async (user) => {
     if (user.role == "patient") {
-        // create the user, then create the patient
+        // 1. create user
+        // 2. create blank entry in patient
         let savedUser = {}
         try {
-            // create the user
             const newUser = new User(user);
             savedUser = await newUser.save();
         } catch (error) {
             console.error('Error creating user:', error.message);
+            return null;
         }
         try {
-            // create the patient
             const newPatient = new Patient({ patientId: savedUser._id });
-            const savedPatient = await newPatient.save();
+            await newPatient.save();
         } catch (error) {
             console.error('Error creating patient:', error.message);
+            return null;
         }
         return savedUser;
     }
-    // if (role == "doctor") {
-    //     // create the user
-    //     // create the doctor
-    //     const newUser = new User(user);
-    //     const savedUser = await newUser.save();
-    //     const newDoctor = new Doctor({doctorId:savedUser._id})
-    //     const savedDoctor = await newDoctor.save();
-    //     return savedUser;
-    // }
-    // if (role == "lab") {
-    //     // create the user
-    //     // create the lab
-    //     const newUser = new User(user);
-    //     const savedUser = await newUser.save();
-    //     const newLab = new Lab({labId:savedUser._id})
-    //     const savedLab = await newLab.save();
-    //     return savedUser;
-    // }
+    if (user.role == "doctor") {
+        // 1. create user
+        // 2. create blank entry in doctor
+        let savedUser = {}
+        try {
+            const newUser = new User(user);
+            savedUser = await newUser.save();
+        } catch (error) {
+            console.error('Error creating user:', error.message);
+            return null;
+        }
+        try {
+            const newDoctor = new Doctor({ doctorId: savedUser._id });
+            await newDoctor.save();
+        } catch (error) {
+            console.error('Error creating doctor:', error.message);
+            return null;
+        }
+        return savedUser;
+    }
+    if (user.role == "lab") {
+        // 1. create user
+        // 2. create blank entry in lab
+        let savedUser = {}
+        try {
+            const newUser = new User(user);
+            savedUser = await newUser.save();
+        } catch (error) {
+            console.error('Error creating user:', error.message);
+            return null;
+        }
+        try {
+            const newLab = new Lab({ labId: savedUser._id });
+            await newLab.save();
+        } catch (error) {
+            console.error('Error creating lab:', error.message);
+            return null;
+        }
+        return savedUser;
+    }
 };
 
 // Get All
@@ -72,7 +101,7 @@ export const updateUser = async (userId, updatedUserData) => {
 };
 
 /**
- * Deletes a user from the database by their ID.
+ * Deletes user and linked entries in all documents
  * @param {String} userId The ID of the user to delete.
  * @returns {Promise<Object>} A promise that resolves to the result of the deletion operation.
  */
@@ -80,38 +109,42 @@ export const deleteUser = async (userId) => {
     const user = await User.findById(userId);
     console.log("user:", user)
     if (user.role == "patient") {
-        // delete all medical requests associated with the patient
-        // delete all lab requests associated with the patient
-        // delete the patient
-        // delete the user
-        const patientMedicalRequestDeletionResult = await MedicalRequest.deleteMany({ patientId: userId })
-        const patientDeletionResult = await Patient.deleteOne({ patientId: userId });
+        // 1. delete linked medical requests
+        // 2. delete linked lab requests
+        // 3. delete patient
+        // 4. delete user
+        await MedicalRequest.deleteMany({ patientId: userId })
+        await LabRequest.deleteMany({ patientId: userId })
+        await Patient.deleteOne({ patientId: userId });
         const userDeletionResult = await User.findByIdAndDelete(userId);
         return userDeletionResult;
     }
-    // if (role == "doctor") {
-    //     // delete all medical requests associated with the doctor
-    //     // delete all events associated with the doctor
-    //     // delete all blogs associated with the doctor
-    //     // delete the doctor
-    //     // delete the user
-    //     const patientMedicalRequestDeletionResult = await MedicalRequest.deleteMany({ patientId: userId })
-    //     const patientDeletionResult = await Patient.deleteOne({ patientId: userId });
-    //     const userDeletionResult = await User.findByIdAndDelete(userId);
-    //     return userDeletionResult;
-    // }
-    // if (role == "lab") {
-    //     // delete all lab requests associated with the lab
-    //     // delete all events associated with the lab
-    //     // delete all blogs associated with the lab
-    //     // delete the lab
-    //     // delete the user
-    //     const patientMedicalRequestDeletionResult = await MedicalRequest.deleteMany({ patientId: userId })
-    //     const patientDeletionResult = await Patient.deleteOne({ patientId: userId });
-    //     const userDeletionResult = await User.findByIdAndDelete(userId);
-    //     return userDeletionResult;
-    // }
-    
+    if (user.role == "doctor") {
+        // 1. delete linked medical requests
+        // 2. delete linked events 
+        // 3. delete linked blogs 
+        // 4. delete doctor
+        // 5. delete user
+        await MedicalRequest.deleteMany({ doctorId: userId })
+        await Event.deleteMany({ creatorId: userId })
+        await Blog.deleteMany({ creatorId: userId });
+        await Doctor.deleteOne({ doctorId: userId });
+        const userDeletionResult = await User.findByIdAndDelete(userId);
+        return userDeletionResult;
+    }
+    if (user.role == "lab") {
+        // 1. delete linked lab requests
+        // 2. delete linked events 
+        // 3. delete linked blogs 
+        // 4. delete lab
+        // 5. delete user
+        await LabRequest.deleteMany({ labId: userId })
+        await Event.deleteMany({ creatorId: userId })
+        await Blog.deleteMany({ creatorId: userId });
+        await Lab.deleteOne({ labId: userId });
+        const userDeletionResult = await User.findByIdAndDelete(userId);
+        return userDeletionResult;
+    }
 };
 
 /**
@@ -121,6 +154,48 @@ export const deleteUser = async (userId) => {
 export const deleteAll = async() => {
     const user = await User.deleteMany();
     return user;
+}
+
+export const deleteAllPatients = async () => {
+    try {
+        const patients = await Patient.find();
+        for (const patient of patients) {
+            await Patient.findByIdAndDelete(patient._id);
+            await User.findByIdAndDelete(patient.patientId);
+        }
+        return { success: true, message: "All patients and their associated users deleted successfully" };
+    } catch (error) {
+        console.error("Error deleting patients:", error.message);
+        throw error; 
+    }
+}
+
+export const deleteAllDoctors = async () => {
+    try {
+        const doctors = await Doctor.find();
+        for (const doctor of doctors) {
+            await Doctor.findByIdAndDelete(doctor._id);
+            await User.findByIdAndDelete(doctor.doctorId);
+        }
+        return { success: true, message: "All doctors and their associated users deleted successfully" };
+    } catch (error) {
+        console.error("Error deleting doctors:", error.message);
+        throw error; 
+    }
+}
+
+export const deleteAllLabs = async () => {
+    try {
+        const labs = await Lab.find();
+        for (const lab of labs) {
+            await Lab.findByIdAndDelete(lab._id);
+            await User.findByIdAndDelete(lab.labId);
+        }
+        return { success: true, message: "All labs and their associated users deleted successfully" };
+    } catch (error) {
+        console.error("Error deleting labs:", error.message);
+        throw error; 
+    }
 }
 
 /**
