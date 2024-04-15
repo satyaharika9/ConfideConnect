@@ -79,6 +79,18 @@ export const createUser = async (user) => {
         }
         return savedUser;
     }
+    if (user.role == "admin") {
+        // 1. create user
+        let savedUser = {}
+        try {
+            const newUser = new User(user);
+            savedUser = await newUser.save();
+        } catch (error) {
+            console.error('Error creating user:', error.message);
+            return null;
+        }
+        return savedUser;
+    }
 };
 
 // Get All
