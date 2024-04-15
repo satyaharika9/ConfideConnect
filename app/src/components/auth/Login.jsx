@@ -23,12 +23,19 @@ const Login = () => {
       console.log("AuthInfo: ", authInfo);
       const user = await userService.getUser(authInfo);
       console.log("User details fetched: ", user);
-      const specificUserDetails = await userService.getUserDetails(user, authInfo);
-      console.log("Specific User details fetched: ", specificUserDetails);
-      dispatch(setUser({
-        ...specificUserDetails,
-        ...user
-      }));
+      if (user.role == "admin") {
+        dispatch(setUser({
+          ...user
+        }));
+      }
+      else {
+        const specificUserDetails = await userService.getUserDetails(user, authInfo);
+        console.log("Specific User details fetched: ", specificUserDetails);
+        dispatch(setUser({
+          ...specificUserDetails,
+          ...user
+        }));
+      }
       dispatch(setTokens(authInfo));
       navigate(`/${user.role}`);
       setError(null);

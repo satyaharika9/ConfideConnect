@@ -5,7 +5,7 @@ import Home from './pages/Home';
 import Login from './components/auth/Login';
 import Signup from './components/auth/Signup';
 import AppNavbar from './components/common/AppNavBar';
-// import AdminPage from './pages/AdminPage';
+import AdminPage from './pages/AdminPage';
 import PatientPage from './pages/PatientPage';
 import DoctorPage from './pages/DoctorPage';
 import LabPage from './pages/LabPage';
@@ -22,7 +22,7 @@ const AppRoutes = () => {
         <Route path="/home" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        {/* <Route path="/admin" element={<AdminPage />} /> */}
+        <Route path="/admin" element={<AdminPage />} />
         <Route path="/patient" element={<PatientPage />} />
         <Route path="/doctor" element={<DoctorPage />} />
         <Route path="/lab" element={<LabPage />} />
