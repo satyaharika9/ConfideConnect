@@ -160,6 +160,12 @@ export const deleteUser = async (userId) => {
         const userDeletionResult = await User.findByIdAndDelete(userId);
         return userDeletionResult;
     }
+
+    if (user.role == "admin") {
+        // Delete admin
+       const userDeletionResult = await User.findOne({_id:userId});
+        return userDeletionResult;
+    }
 };
 
 /**
