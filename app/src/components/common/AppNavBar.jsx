@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, Button, Box, IconButton, Tooltip } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 
+import { clearUser } from "../../store/slices/user-slice";
+
 
 const AppNavbar = () => {
+
   const navigate = useNavigate();
-  const [isAuthenticated, setIsAuthenticated] = useState(false); // TODO: convert to redux
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector((state) => state.user.accessToken);
 
   const handleHomeClick = () => {
     navigate('/home');
@@ -19,7 +24,7 @@ const AppNavbar = () => {
   };
 
   const handleLogoutClick = () => {
-    setIsAuthenticated(false);
+    dispatch(clearUser());
     navigate('/home');
   };
 
@@ -42,7 +47,7 @@ const AppNavbar = () => {
         {isAuthenticated ? (
             <Tooltip title="Logout" placement="bottom">
                 <IconButton color="inherit" onClick={handleLogoutClick}>
-                    <LoginIcon />
+                    <LogoutIcon />
                 </IconButton>
             </Tooltip>
         ) : (

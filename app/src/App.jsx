@@ -1,5 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { store } from './store';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import AppRoutes from './Routes';
@@ -21,9 +23,11 @@ function App() {
 
   return (
     <ThemeProvider theme={darkTheme}>
+      <Provider store={store}>
         <Router basename="/confideconnect">
           <AppRoutes />
         </Router>
+      </Provider>
     </ThemeProvider>
   )
 }

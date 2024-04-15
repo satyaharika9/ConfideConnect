@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Box from '@mui/material/Box';
-import { Button } from '@mui/material';
+import Typography from '@mui/material/Typography';
 
-import ribbonImage4 from '../assets/images/ribbon4.png'; 
+import ribbonImage4 from '../assets/images/ribbon7.png'; 
 
 
 const Home = () => {
@@ -12,6 +12,7 @@ const Home = () => {
     sx={{
       backgroundColor: 'black',
       display: 'flex',
+      flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
       height: 'calc(100vh - 64px)',
@@ -21,10 +22,13 @@ const Home = () => {
         src={ribbonImage4}
         alt="AIDS Ribbon"
         style={{
-          maxWidth: '300px',
-          maxHeight: '300px',
+          maxWidth: '350px',
+          maxHeight: '350px',
         }}
       />
+      <Typography variant="h4" component="h1" style={{ color: 'white', marginTop: '30px' }}>
+        ConfideConnect
+      </Typography>
     </Box>
   );
 

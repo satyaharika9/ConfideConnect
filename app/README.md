@@ -6,6 +6,8 @@
     - npm install react-router-dom
     - npm install formik yup
     - npm install axios
+    - npm install react-redux
+    - npm install @reduxjs/toolkit
 
 ## Run Frontend
         - cd app

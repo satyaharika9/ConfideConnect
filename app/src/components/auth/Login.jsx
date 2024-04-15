@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { TextField, Button, FormHelperText, Link, Alert } from '@mui/material';
@@ -7,17 +8,29 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
 import userService from "../../services/userService";
+import { setUser, setTokens } from "../../store/slices/user-slice";
 
 
 const Login = () => {
 
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const login = async (userInfo) => {
     try {
-      const loggedInUser = await userService.login(userInfo);
-      console.log("User logged in:", loggedInUser);
+      const authInfo = await userService.login(userInfo);
+      console.log("AuthInfo: ", authInfo);
+      const user = await userService.getUser(authInfo);
+      console.log("User details fetched: ", user);
+      const specificUserDetails = await userService.getUserDetails(user, authInfo);
+      console.log("Specific User details fetched: ", specificUserDetails);
+      dispatch(setUser({
+        ...specificUserDetails,
+        ...user
+      }));
+      dispatch(setTokens(authInfo));
+      navigate(`/${user.role}`);
       setError(null);
     } catch (error) {
       console.error(`Error logging in user: ${error}`);
@@ -52,7 +65,7 @@ const Login = () => {
             password: Yup.string().required('Password is required'),
           })}
           onSubmit={(values, { setSubmitting }) => {
-            console.log("Register form: ", values);
+            console.log("Login form values: ", values);
             const userInfo = {
               "username": values.username,
               "password": values.password

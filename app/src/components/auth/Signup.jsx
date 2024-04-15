@@ -54,7 +54,7 @@ const Signup = () => {
               .required('Confirm Password is required')
           })}
           onSubmit={(values, { setSubmitting }) => {
-            console.log("Register form: ", values);
+            console.log("Register form values: ", values);
             const newUserInfo = {
               "role": "patient",
               "email": values.email,
