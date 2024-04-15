@@ -3,6 +3,7 @@
     - npm init
     - npm i express mongoose cors
     - npm install nodemon dotenv --save-dev 
+    - npm install jsonwebtoken
 
 ## Run Backend
         - cd service
@@ -20,6 +21,7 @@ connection string = "mongodb+srv://admin:connect123@confideconnectcluster.purt6j
 
 ## .env details
 MONGO_CONNECTION=mongodb+srv://admin:connect123@confideconnectcluster.purt6ji.mongodb.net/confideconnectdb?retryWrites=true&w=majority&appName=ConfideConnectCluster
-
+SECRET_ACCESS_KEY='your_secret_access_key'
+SECRET_REFRESH_KEY='your_secret_refresh_key'
 
 

@@ -97,3 +97,25 @@ export const getById = async (request, response) => {
         setError(error, response);
     }
 }
+
+export const loginUser = async (request, response) => {
+    try {
+        const { username, password } = request.body;
+        const resp = await userService.loginUser(username, password);
+        setResponse(resp, response);
+    }
+    catch (error) {
+        setError(error, response);
+    }
+}
+
+export const refreshUserToken = async (request, response) => {
+    try {
+        const refreshToken = request.body.refreshToken;
+        const resp = await userService.refreshUserToken(refreshToken);
+        setResponse(resp, response);
+    }
+    catch (error) {
+        setError(error, response);
+    }
+}

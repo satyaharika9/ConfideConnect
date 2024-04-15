@@ -6,7 +6,7 @@ import MedicalRequest from "../models/medicalrequest.js";
 import LabRequest from '../models/labrequest.js';
 import Event from '../models/event.js';
 import Blog from '../models/blog.js'
-
+import jwt from 'jsonwebtoken';
 
 // Create User
 /**
@@ -224,4 +224,40 @@ export const deleteAllLabs = async () => {
 export const getById = async (userId) => {
     const user = await User.findById(userId);
     return user;
+}
+
+export const loginUser = async (username, password) => {
+    try {
+        const user = await User.findOne({username: username, password: password});
+        if(!user) {
+            return { success: false, message: "Invalid username/password"}
+        }
+        const accessToken = jwt.sign({ userId: user.id }, process.env.SECRET_ACCESS_KEY, { expiresIn: '1h' });
+        const refreshToken = jwt.sign({ userId: user.id }, process.env.SECRET_REFRESH_KEY, { expiresIn: '2 days' });
+        return { success: true, accessToken: accessToken, refreshToken: refreshToken, role: user.role, userId: user.id }
+    } catch (error) {
+        console.error("Error while validating user:", error.message);
+        throw error; 
+    }
+}
+
+export const refreshUserToken =  async (refreshToken) => {
+    if (refreshToken == null) return { success: false, message: "Refresh Token required" };
+    try {
+        const decodedToken = jwt.verify(refreshToken, process.env.SECRET_REFRESH_KEY);
+        const user = await User.findById(decodedToken.userId);
+        if (!user) {
+            return { success: false, message: "Invalid refresh token" };
+        }
+        const newAccessToken = jwt.sign({ userId: user.id }, process.env.SECRET_ACCESS_KEY, { expiresIn: '1h' });
+        const newRefreshToken = jwt.sign({ userId: user.id }, process.env.SECRET_REFRESH_KEY, { expiresIn: '2 days' });
+        return { success: true, accessToken: newAccessToken, refreshToken: newRefreshToken }
+    } catch (error) {
+        if (error instanceof jwt.JsonWebTokenError) {
+            return { success: false, message: "Invalid refresh token" };
+        } else {
+            console.error("Error while refreshing token:", error)
+            throw error;
+        }
+    }
 }
