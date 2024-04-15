@@ -28,7 +28,7 @@ export const update = async (requestId, updatedLabRequestData) => {
 
 
 export const deleteAllLabReq = async () => {
-   return await LabRequest.deleteMany({});
+   return await LabRequest.deleteMany();
 };
 
 export const filter = async (patientId, labId) => {

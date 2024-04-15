@@ -13,11 +13,11 @@ export const createBlog = async (blogData) => {
 
 
 export const updateBlog = async(id,blogUpdate) => {
-    return await Blog.findByIdAndUpdate(id, blogUpdate, { new: true });
+    return await Blog.updateOne({_id:id}, blogUpdate, { new: true });
 };
 
 export const deleteBlog = async(id) => {
-    return await Blog.findByIdAndDelete(id);
+    return await Blog.deleteOne({_id:id});
 };
 
 export const filterBlog = async (blogId, creatorId) => {
@@ -34,5 +34,5 @@ export const filterBlog = async (blogId, creatorId) => {
 };
 
 export const deleteAllBlogs = async () => {
-    return await Blog.deleteMany({});
+    return await Blog.deleteMany();
 };

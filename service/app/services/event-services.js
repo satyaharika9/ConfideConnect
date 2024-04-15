@@ -12,11 +12,11 @@ export const createEvent = async (eventData) => {
 };
 
 export const updateEvent = async(id,eventUpdate) => {
-    return await Event.findByIdAndUpdate(id, eventUpdate, { new: true });
+    return await Event.updateOne({_id:id}, eventUpdate, { new: true });
 };
 
 export const deleteEvent = async(id) => {
-    return await Event.findByIdAndDelete(id);
+    return await Event.deleteOne({_id:id});
 };
 
 export const filterEvent = async (eventId, creatorId) => {

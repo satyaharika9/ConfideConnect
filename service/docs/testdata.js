@@ -1,10 +1,26 @@
 // Sample data for creating DB entries
-
+// Patient user
 User = {
     "role": "patient",
     "email": "patient1@gmail.com",
     "username": "patient1",
     "password": "patient1"
+}
+
+// Doctor user
+User = {
+    "role": "doctor",
+    "email": "doctor1@gmail.com",
+    "username": "doctor1",
+    "password": "doctor1"
+}
+
+// Lab user
+User = {
+    "role": "lab",
+    "email": "lab1@gmail.com",
+    "username": "lab1",
+    "password": "lab1"
 }
 
 Patient = {

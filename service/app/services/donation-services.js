@@ -21,13 +21,13 @@ export const filterDonation = async (donationId) => {
 };
 
 export const updateDonation = async(id,donationUpdate) => {
-    return await Donation.findByIdAndUpdate(id, donationUpdate, { new: true });
+    return await Donation.updateOne({_id:id}, donationUpdate, { new: true });
 };
 
 export const deleteDonation = async(id) => {
-    return await Donation.findByIdAndDelete(id);
+    return await Donation.deleteOne({_id:id});
 };
 
 export const deleteAllDonations = async () => {
-    return await Donation.deleteMany({});
+    return await Donation.deleteMany();
 };
