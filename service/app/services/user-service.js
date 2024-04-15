@@ -6,7 +6,10 @@ import MedicalRequest from "../models/medicalrequest.js";
 import LabRequest from '../models/labrequest.js';
 import Event from '../models/event.js';
 import Blog from '../models/blog.js'
+import ResetToken from "../models/resettoken.js";
 import jwt from 'jsonwebtoken';
+import nodemailer from 'nodemailer';
+import crypto from 'crypto';
 
 // Create User
 /**
@@ -259,5 +262,61 @@ export const refreshUserToken =  async (refreshToken) => {
             console.error("Error while refreshing token:", error)
             throw error;
         }
+    }
+}
+
+export const getResetToken =  async (email) => {
+    if (email == null) return { success: false, message: "Email required" };
+    try {
+        const user = await User.findOne({"email": email});
+        if (!user) {
+            return { success: false, message: "No such user found" };
+        }
+        await ResetToken.deleteMany({"userId": user.id});
+        const newToken = crypto.randomBytes(100).toString('hex');
+        const tokenObject = new ResetToken({"userId": user.id, "token": newToken});
+        await tokenObject.save()
+        
+        const transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+                user: process.env.RESET_TOKEN_EMAIL,
+                pass: process.env.RESET_TOKEN_PASSWORD
+            }
+        });
+
+        transporter.sendMail({
+            from: process.env.RESET_TOKEN_EMAIL,
+            to: email,
+            subject: "Password Reset",
+            text: `To reset your password, click on this link: ${process.env.URL}/confideconnect/users/reset/${newToken}`
+        });
+        return { success: true }
+    } catch (error) {
+        console.error("Error while getting reset token:", error)
+        throw error;
+    }
+}
+
+export const resetPassword = async (resetToken, password) => {
+    // username can be changed too
+    if (password == null) return { success: false, message: "Password required" };
+    if (resetToken == null) return { success: false, message: "Reset Token required" };
+    try {
+        const tokenObject = await ResetToken.findOne({'token': resetToken});
+        if (!tokenObject ) {
+            return { success: false, message: "Invalid reset token" };
+        }
+        if (tokenObject.expiryAt < Date.now()) {
+            return { success: false, message: "Reset token expired" };
+        }
+        const user = await User.findById(tokenObject.userId);
+        user.password = password;
+        await user.save()
+        await ResetToken.deleteOne({ _id: tokenObject._id });
+        return { success: true, message: "Password reset successfull" }
+    } catch (error) {
+        console.error("Error while reseting password:", error)
+        throw error;
     }
 }

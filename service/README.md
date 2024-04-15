@@ -4,6 +4,7 @@
     - npm i express mongoose cors
     - npm install nodemon dotenv --save-dev 
     - npm install jsonwebtoken
+    - npm install nodemailer
 
 ## Run Backend
         - cd service
@@ -23,5 +24,10 @@ connection string = "mongodb+srv://admin:connect123@confideconnectcluster.purt6j
 MONGO_CONNECTION=mongodb+srv://admin:connect123@confideconnectcluster.purt6ji.mongodb.net/confideconnectdb?retryWrites=true&w=majority&appName=ConfideConnectCluster
 SECRET_ACCESS_KEY='your_secret_access_key'
 SECRET_REFRESH_KEY='your_secret_refresh_key'
+RESET_TOKEN_EXPIRATION_SECONDS=300
+RESET_TOKEN_EXPIRATION_SECONDS=3600
+RESET_TOKEN_EMAIL=
+RESET_TOKEN_PASSWORD=
+URL=http://127.0.0.1:3002
 
 

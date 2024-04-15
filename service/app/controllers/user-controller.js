@@ -119,3 +119,26 @@ export const refreshUserToken = async (request, response) => {
         setError(error, response);
     }
 }
+
+export const getResetToken = async (request, response) => {
+    try {
+        const email = request.body.email
+        const resetToken = await userService.getResetToken(email);
+        setResponse(resetToken, response);
+    }
+    catch (error) {
+        setError(error, response);
+    }
+}
+
+export const resetPassword = async (request, response) => {
+    try {
+        const resetToken = request.params.token;
+        const password = request.body.password;
+        const resp = await userService.resetPassword(resetToken, password);
+        setResponse(resp, response);
+    }
+    catch (error) {
+        setError(error, response);
+    }
+}
