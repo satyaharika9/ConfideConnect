@@ -29,7 +29,7 @@ const Signup = () => {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      height: '100vh',
+      height: 'calc(100vh - 64px)',
     }}>
       <Box sx={{ width: '40vw' }}>
         <Typography variant="h2" color="primary">Sign Up</Typography>

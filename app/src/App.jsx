@@ -21,9 +21,9 @@ function App() {
 
   return (
     <ThemeProvider theme={darkTheme}>
-      <Router basename="/confideconnect">
-        <AppRoutes />
-      </Router>
+        <Router basename="/confideconnect">
+          <AppRoutes />
+        </Router>
     </ThemeProvider>
   )
 }

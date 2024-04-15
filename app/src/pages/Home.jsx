@@ -1,30 +1,30 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
 import Box from '@mui/material/Box';
 import { Button } from '@mui/material';
+
+import ribbonImage4 from '../assets/images/ribbon4.png'; 
 
 
 const Home = () => {
 
-  const navigate = useNavigate();
-
-  const handleLoginClick = () => {
-    navigate('/login');
-  };
-
   return (
-    <Box sx={{
+    <Box  
+    sx={{
       backgroundColor: 'black',
       display: 'flex',
-      justifyContent: 'right',
-      alignItems: 'start',
-      height: '100vh',
-    }}>
-      <Button 
-        sx={{
-          margin: '15px'
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: 'calc(100vh - 64px)',
+    }}
+    >
+      <img
+        src={ribbonImage4}
+        alt="AIDS Ribbon"
+        style={{
+          maxWidth: '300px',
+          maxHeight: '300px',
         }}
-        onClick={handleLoginClick}>Login</Button>
+      />
     </Box>
   );
 
