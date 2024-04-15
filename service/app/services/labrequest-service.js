@@ -11,17 +11,17 @@ export const save = async (labRequestData) => {
 }
 
 export const get = async (requestId) => {
-   const labRequestData = await LabRequest.findOne({requestId: requestId}).exec();
+   const labRequestData = await LabRequest.findOne({_id: requestId}).exec();
    return labRequestData;
 }
 
 export const deleteLabRequest = async (requestId) => {
-   const deletedLabRequest = await LabRequest.deleteOne({requestId:requestId});
+   const deletedLabRequest = await LabRequest.deleteOne({_id:requestId});
    return deletedLabRequest;
 }
 
-export const update = async (labRequest) => {
-   const updatedLabRequest = await LabRequest.updateOne({ requestId: labRequest.requestId }, labRequest).exec();
+export const update = async (requestId, updatedLabRequestData) => {
+   const updatedLabRequest = await LabRequest.updateOne({ _id: requestId }, updatedLabRequestData, { new: true });
    return updatedLabRequest;
 }
 

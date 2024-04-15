@@ -8,11 +8,12 @@ blogRouter.route('/')
     .post(blogController.createBlog)
     .delete(blogController.deleteAllBlogs);
 
+blogRouter.route('/filter')
+    .get( blogController.filterBlog);
+
 blogRouter.route('/:id')
     .put(blogController.updateBlog)
     .delete(blogController.deleteBlog);
 
-blogRouter.route('/filter')
-.get( blogController.filterBlog);
 
 export default blogRouter;

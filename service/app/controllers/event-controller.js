@@ -40,8 +40,8 @@ export const updateEvent = async (request, response) => {
 export const deleteEvent = async (request,response) =>{
     const {id} = request.params;
     try{
-        await eventService.deleteEvent(id);
-        response.sendStatus(204);
+        const deletedEvent = await eventService.deleteEvent(id);
+        setResponse(deletedEvent, response);
     }
     catch(error){
         setError(error,response)
@@ -61,8 +61,9 @@ export const filterEvent = async (request,response) =>{
 
 export const deleteAllEvents = async (request, response) => {
     try {
-        await eventService.deleteAllEvents();
-        response.sendStatus(204);
+        const events = await eventService.deleteAllEvents();
+        setResponse(events, response);
+        
     } catch (error) {
         setError(error, response);
     }

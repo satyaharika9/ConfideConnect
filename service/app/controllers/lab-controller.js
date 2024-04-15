@@ -13,7 +13,9 @@ export const search = async (request, response) => {
 
 export const post = async (request, response) => {
   try {
+    console.log("Inside post function")
     const labsData = { ...request.body };
+    console.log(labsData);
     const labs = await labService.save(labsData);
     setResponse(labs, response);
   } catch (error) {
@@ -66,8 +68,8 @@ export const filterLabs = async (req, res) => {
 
 export const deleteAllLab = async (request, response) => {
   try {
-      await labService.deleteAllLab();
-      response.sendStatus(204);
+      const labs = await labService.deleteAllLab();
+      setResponse(labs, response);
   } catch (error) {
       setError(error, response);
   }

@@ -27,5 +27,5 @@ export const update = async (lab) => {
 
 
 export const deleteAllLab = async () => {
-   return await Lab.deleteMany({});
+   return await Lab.deleteMany();
 };

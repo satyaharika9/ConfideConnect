@@ -9,16 +9,15 @@ labRequestRouter.route('/')
      .delete(labRequestController.deleteAllLabReq)
     .post(labRequestController.post); 
 
+    labRequestRouter.route('/filter')
+    .get(labRequestController.filterLabRequest);
+
     labRequestRouter.route('/:requestId')
     .get(labRequestController.get) 
     .put(labRequestController.put)
     .delete(labRequestController.del);
 
     
-
-
-    labRequestRouter.route('/filter')
-    .get(labRequestController.filterLabRequest);
     
     //labRequestRouter.delete('/', labRequestController.deleteAllLabReq);
 

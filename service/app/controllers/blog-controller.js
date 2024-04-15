@@ -40,8 +40,8 @@ export const updateBlog = async (request, response) => {
 export const deleteBlog = async (request,response) =>{
     const {id} = request.params;
     try{
-        await blogService.deleteBlog(id);
-        response.sendStatus(204);
+        const deletedBlog = await blogService.deleteBlog(id);
+        setResponse(deletedBlog, response);
     }
     catch(error){
         setError(error,response)
@@ -61,8 +61,8 @@ export const filterBlog = async (request,response) =>{
 
 export const deleteAllBlogs = async (request, response) => {
     try {
-        await blogService.deleteAllBlogs();
-        response.sendStatus(204);
+        const blogs = await blogService.deleteAllBlogs();
+        setResponse(blogs, response);
     } catch (error) {
         setError(error, response);
     }

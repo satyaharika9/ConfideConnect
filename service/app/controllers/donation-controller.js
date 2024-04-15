@@ -5,7 +5,6 @@ import { request } from 'express';
 
 export const getAllDonations = async (request, response) => {
     try{
-        const getParams = {...request.filter}
         const allDonations = await donationService.getAllDonations();
         setResponse(allDonations,response);
     }
@@ -52,8 +51,8 @@ export const updateDonation = async (request, response) => {
 export const deleteDonation = async (request,response) =>{
     const {id} = request.params;
     try{
-        await donationService.deleteDonation(id);
-        response.sendStatus(204);
+        const deletedDonation = await donationService.deleteDonation(id);
+        setResponse(deletedDonation, response);
     }
     catch(error){
         setError(error,response)
@@ -62,8 +61,8 @@ export const deleteDonation = async (request,response) =>{
 
 export const deleteAllDonations = async (request, response) => {
     try {
-        await donationService.deleteAllDonations();
-        response.sendStatus(204);
+        const donations = await donationService.deleteAllDonations();
+        setResponse(donations, response); 
     } catch (error) {
         setError(error, response);
     }

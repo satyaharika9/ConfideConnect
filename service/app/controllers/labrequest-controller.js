@@ -42,10 +42,10 @@ export const del = async (request, response) => {
 
 export const put = async (request, response) => {
   try {
-    const id = request.params.id;
-    const labRequest = { requestId: id, ...request.body };
-    const labRequestCreation = await labRequestService.update(labRequest);
-    setResponse(labRequestCreation, response);
+    const updatedLabRequest = {...request.body};
+    const  requestId  = request.params.requestId;
+    const updateLabRequest =  await labRequestService.update(requestId, updatedLabRequest);
+    setResponse(updateLabRequest, response);
   } catch (error) {
     console.error("Error in put function:", error);
     setError(error, response);
@@ -54,8 +54,8 @@ export const put = async (request, response) => {
 
 export const deleteAllLabReq = async (request, response) => {
   try {
-    await labRequestService.deleteAllLabReq();
-    response.sendStatus(204);
+    const labRequests = await labRequestService.deleteAllLabReq();
+    setResponse(labRequests, response)
   } catch (error) {
     setError(error, response);
   }

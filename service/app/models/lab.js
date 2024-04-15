@@ -9,11 +9,11 @@ const Schema = new mongoose.Schema({
     },
     name: {
         type: String,
-        required: true
+        required: false
     },
     phone : {
         type: String,
-        required: true
+        required: false
     },
     address: {
         street: { type: String, required: false },

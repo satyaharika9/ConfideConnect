@@ -67,8 +67,8 @@ export const filterDoctors = async (req, res) => {
 
 export const deleteAllDoctors = async (request, response) => {
   try {
-    await doctorService.deleteAllDoctors();
-    response.sendStatus(204);
+    const doctors = await doctorService.deleteAllDoctors();
+    setResponse(doctors, response);
   } catch (error) {
     setError(error, response);
   }

@@ -27,5 +27,6 @@ export const update = async (doctor) => {
 
 
 export const deleteAllDoctors = async () => {
-   return await Doctors.deleteMany({});
+   const doctors = await Doctors.deleteMany()
+   return doctors;
 };

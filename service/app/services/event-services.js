@@ -33,5 +33,5 @@ export const filterEvent = async (eventId, creatorId) => {
 };
 
 export const deleteAllEvents = async () => {
-    return await Event.deleteMany({});
+    return await Event.deleteMany();
 };

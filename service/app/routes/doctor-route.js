@@ -16,8 +16,5 @@ doctorRouter.route('/')
 
     doctorRouter.route('/filterD')
     .get(doctorController.filterDoctors);
-
-   // doctorRouter.delete('/', doctorRouter.deleteAllDoctors);
-
     
     export default doctorRouter;

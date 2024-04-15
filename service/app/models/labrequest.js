@@ -12,10 +12,6 @@ const Schema = new mongoose.Schema({
         ref: 'Lab',
         required: true
     },
-    requestId: {
-        type: Number,
-        required: true
-    },
     requestName: {
         type: String,
         required: true
@@ -51,7 +47,7 @@ const Schema = new mongoose.Schema({
         required: true
     },
     preExistingConditions: {
-        type: String,
+        type: [String],
         required: true
     },
     patientAddress: {

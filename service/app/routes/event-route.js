@@ -8,12 +8,13 @@ eventRouter.route('/')
 .post(eventController.createEvent)       
 .delete(eventController.deleteAllEvents); 
 
+eventRouter.route('/filter')
+.get( eventController.filterEvent); 
 
 eventRouter.route('/:id')
 .put(eventController.updateEvent)       
 .delete(eventController.deleteEvent);  
 
-eventRouter.route('/filter')
-.get( eventController.filterEvent); 
+
 
 export default eventRouter;

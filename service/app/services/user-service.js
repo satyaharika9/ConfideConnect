@@ -152,8 +152,26 @@ export const deleteUser = async (userId) => {
  * @returns {Promise<Object>} A promise that resolves to the result of the deletion operation.
  */
 export const deleteAll = async() => {
-    const user = await User.deleteMany();
-    return user;
+    // 1. delete all patients
+    // 2. delete all doctors
+    // 3. delete all labs
+    // 4. delete all medical requests
+    // 5. delete all lab requests
+    // 6. delete all events
+    // 7. delete all blogs
+    // 8. delete all users
+
+    await LabRequest.deleteMany();
+    await MedicalRequest.deleteMany();
+    await Event.deleteMany();
+    await Blog.deleteMany();
+    await Patient.deleteMany();
+    await Doctor.deleteMany();
+    await Lab.deleteMany();
+    
+
+    const users = await User.deleteMany();
+    return users;
 }
 
 export const deleteAllPatients = async () => {
