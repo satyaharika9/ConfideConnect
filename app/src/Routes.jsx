@@ -1,10 +1,10 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
+import AppNavbar from './components/common/AppNavBar';
 import Home from './pages/Home';
 import Login from './components/auth/Login';
 import Signup from './components/auth/Signup';
-import AppNavbar from './components/common/AppNavBar';
 import AdminPage from './pages/AdminPage';
 import PatientPage from './pages/PatientPage';
 import DoctorPage from './pages/DoctorPage';

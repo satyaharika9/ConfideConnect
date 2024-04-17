@@ -16,7 +16,6 @@ const AdminDashboard = () => {
       alignItems: 'center',
       height: 'calc(100vh - 64px)',
     }}>
-        {console.log("currentuser: ",currentUser)}
       <Box sx={{ width: '40vw' }}>
         <Typography variant="h2" color="primary"> Heloooo {currentUser.user.role}</Typography>
       </Box>
