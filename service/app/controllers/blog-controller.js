@@ -1,6 +1,5 @@
 // controller for blog 
 import * as blogService from '../services/blog-services.js'
-import mongoose from 'mongoose';
 import { setError, setResponse } from './response-handler.js';
 
 export const getAllBlogs = async (request, response) => {
@@ -49,9 +48,9 @@ export const deleteBlog = async (request,response) =>{
 }
 
 export const filterBlog = async (request,response) =>{
-    const{blogId, createrId} = request.query;
+    const{blogId, creatorId} = request.query;
     try{
-        const filteredBlogs = await blogService.filterBlog(blogId,createrId);
+        const filteredBlogs = await blogService.filterBlog(blogId,creatorId);
         setResponse(filteredBlogs,response)
     }
     catch(error){

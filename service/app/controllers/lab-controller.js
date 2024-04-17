@@ -13,9 +13,7 @@ export const search = async (request, response) => {
 
 export const post = async (request, response) => {
   try {
-    console.log("Inside post function")
     const labsData = { ...request.body };
-    console.log(labsData);
     const labs = await labService.save(labsData);
     setResponse(labs, response);
   } catch (error) {

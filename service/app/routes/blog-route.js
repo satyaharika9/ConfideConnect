@@ -9,7 +9,7 @@ blogRouter.route('/')
     .delete(blogController.deleteAllBlogs);
 
 blogRouter.route('/filter')
-    .get( blogController.filterBlog);
+    .get(blogController.filterBlog);
 
 blogRouter.route('/:id')
     .put(blogController.updateBlog)

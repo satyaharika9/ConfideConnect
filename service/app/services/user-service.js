@@ -122,7 +122,6 @@ export const updateUser = async (userId, updatedUserData) => {
  */
 export const deleteUser = async (userId) => {
     const user = await User.findById(userId);
-    console.log("user:", user)
     if (user.role == "patient") {
         // 1. delete linked medical requests
         // 2. delete linked lab requests
