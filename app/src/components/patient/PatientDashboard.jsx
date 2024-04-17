@@ -1,25 +1,38 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+import React from "react";
+import { useSelector } from "react-redux";
+import { Box, Grid, Paper } from '@mui/material';
+
+import Sidebar from "../userscommon/sidebar";
+import MainContent from "../userscommon/maincontent";
 
 
 const PatientDashboard = () => {
 
-  const currentUser = useSelector((state) => state.user);
+  const currentUser = useSelector((state) => state.user);  
 
   return (
     <Box sx={{
       backgroundColor: 'black',
       display: 'flex',
       justifyContent: 'center',
-      alignItems: 'center',
+      // alignItems: 'center',
       height: 'calc(100vh - 64px)',
+      flexGrow: 1,
     }}>
-        {console.log("currentuser: ",currentUser)}
-      <Box sx={{ width: '40vw' }}>
-        <Typography variant="h2" color="primary"> Heloooo {currentUser.user.role}</Typography>
-      </Box>
+      {currentUser.user?
+        <Grid container spacing={1}>
+          <Grid item xs={3}>
+            <Paper elevation={3} sx={{ height: 'calc(100% - 20px)', margin: '10px 0px 10px 10px'}}>
+              <Sidebar currentUser={currentUser} />
+            </Paper>
+          </Grid>
+          <Grid item xs={9} >
+            <Paper elevation={3} sx={{ height: 'calc(100% - 20px)', margin: '10px 10px 10px 0px'}}>
+              <MainContent currentUser={currentUser} />
+            </Paper>
+          </Grid>
+        </Grid>
+      :null}
     </Box>
   );
 };
