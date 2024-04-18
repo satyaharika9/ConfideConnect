@@ -3,6 +3,21 @@ import axios from "axios";
 
 const baseURL = "http://localhost:3002/confideconnect";
 
+const getAllUsers = async () => {
+  const response = await axios.get(baseURL+'/users');
+  return response.data;
+}
+
+const updateUser = async (user) => {
+  const response = await axios.put(baseURL+`/users/${user._id}`, user);
+  return response.data;
+}
+
+const deleteUser = async (id) => {
+  const response = await axios.delete(baseURL+`/users/${id}`);
+  return response.data;
+}
+
 const createUser = async (newUserInfo) => {
   const response = await axios.post(baseURL+'/users', newUserInfo);
   return response.data;
