@@ -3,12 +3,15 @@ import { Button, Paper, CircularProgress, Grid, Typography,IconButton, Box,Dialo
 import DeleteIcon from '@mui/icons-material/Delete';
 import donationService from '../../services/donationService';
 
+// AdminDonations component
 const AdminDonations = () => {
+    // State variables
     const [donations, setDonations] = useState([]);
     const [loading, setLoading] = useState(true);
     const [open, setOpen] = useState(false);
     const [editingDonation, setEditingDonation] = useState(null);
 
+    // Fetch all donations
     const fetchDonations = async () => {
         setLoading(true);
         donationService.getDonations().then((data) => {
@@ -20,20 +23,24 @@ const AdminDonations = () => {
         });
     };
 
+    // Fetch all donations on component mount
     useEffect(() => {
         fetchDonations();
     }, []);
 
+    // Open donation form
     const handleOpen = (donation) => {
         setEditingDonation(donation);
         setOpen(true);
     }
 
+    // Close form
     const handleClose = () => {
         setOpen(false);
         setEditingDonation(null);
     }
 
+    // Save donation
     const handleSave = () => {
         console.log('Updating donation...',editingDonation);
         donationService.updateDonation(editingDonation).then(() => {
@@ -44,6 +51,7 @@ const AdminDonations = () => {
         });
     };
 
+    // Delete donation
     const handleDelete = (id) => (e) =>{
         e.stopPropagation(); // Prevent opening the edit dialog or any other click propagation issues
         console.log('Deleting donation...',id);
@@ -54,6 +62,7 @@ const AdminDonations = () => {
         });
     };
 
+    // Handle form input change
     const handleChange = (event) => {
         const { name, value } = event.target;
         const keys = name.split('.');
@@ -69,8 +78,7 @@ const AdminDonations = () => {
                     if (!current[key]) current[key] = {}; // Ensure nested object exists
                     current = current[key]; // Move reference down to the nested object
                 }
-            });
-            
+            }); 
             return updated;
         });
     };
@@ -78,17 +86,18 @@ const AdminDonations = () => {
     return (
         <>
          <Box sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            height: 'calc(100vh - 64px)',
-            width: 'calc(100vw - 15vw)',
-            backgroundColor: 'white',
-            overflow: 'hidden',
-            marginLeft: '-28px'
+              position: 'relative',
+              display: 'flex',
+              flexDirection: 'column',
+              height: '750px',
+              width: 'calc(100vw - 15vw)',
+              backgroundColor: '#dec8c3',
+              overflow: 'hidden',
+              marginLeft: '-28px'
         }}>
-             <Paper sx={{ width: '100%', overflowX: 'auto', padding: 2 }}>
-                <Grid container spacing={2} sx={{ minWidth: 1000, alignItems: 'center' }}>
-                    {/* Header Row */}
+             <Paper sx={{ width: '96%', height:'92%', overflowX: 'auto', padding: 2, marginBottom:1.2, marginLeft: 1.2, marginTop:1.2 }}>
+                <Grid container spacing={2} sx={{ minWidth: 1000, alignItems: 'center',marginBottom: 2, marginTop:2, marginLeft: 1 }}>
+                    {/* Header Row for table*/}
                     <Grid item xs={12}>
                         <Grid container spacing={1} sx={{ fontWeight: 'bold', borderBottom: '2px solid white' }}>
                         <Grid item xs={3}><Typography>Donation ID</Typography></Grid>
@@ -114,9 +123,7 @@ const AdminDonations = () => {
                                     <Grid item xs={3}><Typography>{donation.createdDate? new Date(donation.createdDate).toLocaleDateString() : 'N/A'}</Typography></Grid>
                                     <Grid item xs={1}><Typography>{donation.status}</Typography></Grid>
                                     <Grid item xs={0.5}>
-                                    <IconButton  onClick={handleDelete(donation._id)} aria-label="delete">
-        <DeleteIcon />
-    </IconButton></Grid>
+                                    <IconButton  onClick={handleDelete(donation._id)} aria-label="delete"><DeleteIcon /></IconButton></Grid>
                                     
                                 </Grid>
                             </Grid>
@@ -166,6 +173,7 @@ const AdminDonations = () => {
                                 </Grid>
                     </DialogContent>
                     <DialogActions>
+                        {/* Save and Cancel buttons */}
                         <Button onClick={handleClose}>Cancel</Button>
                         <Button onClick={handleSave}>Save</Button>
                     </DialogActions>

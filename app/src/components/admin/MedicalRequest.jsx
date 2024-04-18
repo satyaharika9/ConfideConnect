@@ -3,14 +3,16 @@ import medicalRequestService from '../../services/medicalrequestService';
 import { Button, Paper, CircularProgress, Grid, Typography,IconButton, Box,Dialog, DialogActions, DialogContent, DialogTitle, TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-
+// AdminMedicalRequests component
 const AdminMedicalRequests = () => {
+    // State variables
     const [medicalRequests, setMedicalRequests] = useState([]);
     const [loading, setLoading] = useState(true);
     const [open, setOpen] = useState(false);
     const [editingMedicalRequest, setEditingMedicalRequest] = useState(null);
     const [isNewMedicalRequest, setIsNewMedicalRequest] = useState(false);
 
+    // Fetch all medical requests
     const fetchMedicalRequests = async () => {
         setLoading(true);
        medicalRequestService.getMedicalRequests().then(res => {
@@ -22,12 +24,14 @@ const AdminMedicalRequests = () => {
         });
     };
 
+    // Open new medical request form
     const openNewMedicalRequestForm = () => { 
         setEditingMedicalRequest({ patientId:'',doctorId:'',requestName: '', requestDescription: '', doctorPrescription: '', status: 'REQUESTED', notificationEmail: '', notificationPhone: '', preExistingConditions: [] });
         setIsNewMedicalRequest(true);
         setOpen(true);
     };
 
+    // Open edit medical request form
     const openEditForm = (medicalRequest) => {
         setEditingMedicalRequest(medicalRequest);
         setIsNewMedicalRequest(false);
@@ -35,20 +39,24 @@ const AdminMedicalRequests = () => {
     
     }
 
+    // Fetch all medical requests on component mount
     useEffect(() => {
         fetchMedicalRequests();
     }, []);
 
+    // Open edit dialog
     const handleOpen = (medicalRequest) => {
         setEditingMedicalRequest(medicalRequest);
         setOpen(true);
     }
 
+    // Close dialog
     const handleClose = () => {
         setOpen(false);
         setEditingMedicalRequest(null);
     }
 
+    // Save medical request
    const handleSave = () => {
     const action = isNewMedicalRequest ? medicalRequestService.createMedicalRequest : medicalRequestService.updateMedicalRequest;
     console.log('Updating data...', editingMedicalRequest);
@@ -60,6 +68,7 @@ const AdminMedicalRequests = () => {
             });
    };
 
+    // Delete medical request
 const handleDelete = (id) => (e) => {
     e.stopPropagation(); // Prevent opening the edit dialog or any other click propagation issues
     console.log('Deleting data with ID:', id);
@@ -73,6 +82,7 @@ const handleDelete = (id) => (e) => {
 };
 
 
+// Handle form input changes
    const handleChange = (event) => {
     const { name, value } = event.target;
     const keys = name.split('.');
@@ -94,6 +104,7 @@ const handleDelete = (id) => (e) => {
     });
 };
 
+// Text style for the table data
 const textStyle = {
     wordBreak: 'break-word', // Break the word to next line if needed
     hyphens: 'auto' // Automatically add hyphens when breaking words
@@ -106,16 +117,16 @@ const textStyle = {
                 position: 'relative',
                 display: 'flex',
                 flexDirection: 'column',
-                height: 'calc(100vh - 64px)',
+                height: '750px',
                 width: 'calc(100vw - 15vw)',
-                backgroundColor: 'white',
+                backgroundColor: '#dec8c3',
                 overflow: 'hidden',
                 marginLeft: '-28px'
             }}>
-                <Button variant="contained" onClick={openNewMedicalRequestForm} sx={{ alignSelf:'flex-end', mt: 2, marginRight: 6}}>New Medical Request</Button>
-           <Paper sx={{ width: '100%', overflowX: 'auto',  padding: 2, marginBottom: 2, marginTop:2 }}>
+             
+           <Paper sx={{ width: '96%', height:'95%', overflowX: 'auto',  padding: 2, marginBottom: 2, marginTop:1.5, marginLeft: 1 }}>
                 <Grid container spacing={2} sx={{ minWidth: 2600, alignItems: 'center' }}>
-                    {/* Header Row */}
+                    {/* Header Row of table*/}
                     <Grid item xs={12}>
                         <Grid container spacing={1} sx={{ fontWeight: 'bold', borderBottom: '2px solid white' } } >
                             <Grid item xs={1} style={textStyle}><Typography>Request ID</Typography></Grid>
@@ -162,7 +173,7 @@ const textStyle = {
                     )}
                 </Grid>
             </Paper>
-           
+            <Button variant="contained" onClick={openNewMedicalRequestForm} sx={{ alignSelf:'flex-end', mt: 2, marginRight: 6, marginBlock: 4}}>New Medical Request</Button>
             {/* Edit Dialog */}
             {open && (
                     <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
@@ -266,6 +277,7 @@ const textStyle = {
                                 </Grid>
                             </Grid>
                         </DialogContent>
+                        {/* Save and Cancel buttons */}
                         <DialogActions>
                             <Button onClick={handleClose} color="primary">Cancel</Button>
                             <Button onClick={handleSave} color="primary">Save</Button>

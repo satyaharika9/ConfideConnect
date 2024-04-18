@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import Typography from '@mui/material/Typography';
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import Box from '@mui/material/Box';
 import AdminNav from './AdminNav';
 import './../../App.css'
@@ -15,10 +14,13 @@ import AdminBlogs from "./Blog";
 import AdminDonations from "./Donation";
 import AdminUsers from "./User";
 
+// AdminDashboard component
 const AdminDashboard = () => {
 
+  // Get current user
   const currentUser = useSelector((state) => state.user);
-  const [tabClicked, setTabClicked] = useState('patient');
+  // State variable
+  const [tabClicked, setTabClicked] = useState('user');
 
   return (
 
@@ -26,11 +28,11 @@ const AdminDashboard = () => {
 
     <Grid container spacing={2}>
         <Grid item xs={2}>
-       
             <AdminNav setTabClicked={setTabClicked}/>
         </Grid>
         <Grid item xs={10}>
           <Paper elevation={3}>
+            {/* State management for each clicks */}
             {
               tabClicked === 'user' ? <AdminUsers/> : null
             }

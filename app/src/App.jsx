@@ -3,9 +3,9 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './store';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import './App.css'
 
 import AppRoutes from './Routes';
-import './App.css'
 
 
 const darkTheme = createTheme({

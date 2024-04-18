@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from 'react-router-dom';
 import { ListItem, Box } from "@mui/material";
 
+// List of links for the admin navbar
     const link = [
         {
             title: 'Users',
@@ -31,9 +32,11 @@ import { ListItem, Box } from "@mui/material";
             title: 'Events',
         }
     ]
-     
+
+// AdminNavbar component
 const AdminNavbar = ({setTabClicked}) => {
 
+    // Handle tab click
     const handleTabClick = (e) => {
         if(e.target.innerText == 'Users'){
             setTabClicked('user');
@@ -70,9 +73,10 @@ const AdminNavbar = ({setTabClicked}) => {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'left',
-            height: 'calc(100vh - 64px)',
+            height: '750px',
             width: '15vw',
           }}>
+            <h1 className="admin">Welcome Admin</h1>
             { link.map(link=> (
             <Link className="link" to={link.linkTo} key ={link.title}>
                 <ListItem sx={{

@@ -3,7 +3,7 @@ import labRequestService from '../../services/labrequestService';
 import { Button, Paper, CircularProgress, Grid, Typography,IconButton, Box,Dialog, DialogActions, DialogContent, DialogTitle, TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-
+// AdminLabRequests component
 const AdminLabRequests = () => {
     const [labRequests, setLabRequests] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -11,6 +11,7 @@ const AdminLabRequests = () => {
     const [editingLabRequest, setEditingLabRequest] = useState(null);
     const [isNewLabRequest, setIsNewLabRequest] = useState(false);
 
+    // Fetch all lab requests
     const fetchLabRequests = async () => {
         setLoading(true);
        labRequestService.getLabRequests().then(res => {
@@ -23,10 +24,12 @@ const AdminLabRequests = () => {
         });
     };
 
+    // Fetch all lab requests on component mount
     useEffect(() => {
         fetchLabRequests();
     }, []);
 
+    // Open new lab request form
     const openNewLabRequestForm = () => {
         setEditingLabRequest({
             patientId: '',
@@ -52,22 +55,26 @@ const AdminLabRequests = () => {
         setOpen(true);
     };
 
+    // Open edit lab request form
     const openEditForm = (labRequest) => {
         setEditingLabRequest(labRequest);
         setIsNewLabRequest(false);
         setOpen(true);
     }
 
+    // Open edit lab request form
     const handleOpen = (labRequest) => {
         setEditingLabRequest(labRequest);
         setOpen(true);
     }
 
+    // Close form
     const handleClose = () => {
         setOpen(false);
         setEditingLabRequest(null);
     }
 
+    // Save lab request
    const handleSave = () => {
     const action = isNewLabRequest ? labRequestService.createLabRequest : labRequestService.updateLabRequest;
     console.log('Updating data...', editingLabRequest);
@@ -81,6 +88,7 @@ const AdminLabRequests = () => {
             });
    };
 
+    // Delete lab request
 const handleDelete = (id) => (e) => {
     e.stopPropagation(); // Prevent opening the edit dialog or any other click propagation issues
     console.log('Deleting data with ID:', id);
@@ -93,7 +101,7 @@ const handleDelete = (id) => (e) => {
         });
 };
 
-
+// Handle form input changes
    const handleChange = (event) => {
     const { name, value } = event.target;
     const keys = name.split('.');
@@ -115,6 +123,7 @@ const handleDelete = (id) => (e) => {
     });
 };
 
+// Text style for the table data
 const textStyle = {
     wordBreak: 'break-word', // Break the word to next line if needed
     hyphens: 'auto' // Automatically add hyphens when breaking words
@@ -127,16 +136,15 @@ const textStyle = {
                 position: 'relative',
                 display: 'flex',
                 flexDirection: 'column',
-                height: 'calc(100vh - 64px)',
+                height: '750px',
                 width: 'calc(100vw - 15vw)',
-                backgroundColor: 'white',
+                backgroundColor: '#dec8c3',
                 overflow: 'hidden',
                 marginLeft: '-28px'
             }}>
-                 <Button variant="contained" onClick={openNewLabRequestForm} sx={{ alignSelf:'flex-end', mt: 2, marginRight: 6}}>New Lab Request</Button>
-           <Paper sx={{ width: '100%', overflowX: 'auto', padding: 2 }}>
+           <Paper sx={{ width: '96%', height:'95%', overflowX: 'auto', padding: 2, marginBottom: 2, marginTop:2, marginLeft: 1 }}>
                 <Grid container spacing={2} sx={{ minWidth: 2600, alignItems: 'center' }}>
-                    {/* Header Row */}
+                    {/* Header Row of the table*/}
                     <Grid item xs={12}>
                         <Grid container spacing={1} sx={{ fontWeight: 'bold', borderBottom: '2px solid white' }}>
                             <Grid item xs={1} style={textStyle}><Typography>Request ID</Typography></Grid>
@@ -197,6 +205,7 @@ const textStyle = {
                     )}
                 </Grid>
             </Paper>
+            <Button variant="contained" onClick={openNewLabRequestForm} sx={{ alignSelf:'flex-end', mt: 2, marginRight: 6, marginBottom:3}}>New Lab Request</Button>
            
             {/* Edit Dialog */}
             {open && (
@@ -351,6 +360,7 @@ const textStyle = {
                            
                             </Grid>
                         </DialogContent>
+                        {/* Save and Cancel buttons */}
                         <DialogActions>
                             <Button onClick={handleClose} color="primary">Cancel</Button>
                             <Button onClick={handleSave} color="primary">Save</Button>

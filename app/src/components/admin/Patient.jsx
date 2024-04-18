@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import patientService from '../../services/patientService';
 import { Button, Paper, CircularProgress, Grid, Typography, Box,Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
-import { useFormik } from "formik";
-import * as Yup from 'yup';
 
-
+// AdminPatients component
 const AdminPatients = () => {
+    // State variables
     const [patients, setPatients] = useState([]);
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
     const [editingPatient, setEditingPatient] = useState(null);
 
+    // Fetch all patients initially
     useEffect(() => {
         fetchPatients();
     }, []);
+
+    // Fetch all patients
     const fetchPatients = () => {
         setLoading(true);
         patientService.getPatients().then((res) => {
@@ -25,16 +27,19 @@ const AdminPatients = () => {
         });
     };
 
+    // Open the dialog to edit a patient
     const handleOpen = (patient) => {
         setEditingPatient(patient);
         setOpen(true);
     };
 
+    // Close the dialog
     const handleClose = () => {
         setOpen(false);
         setEditingPatient(null); // Clear the editing patient
     };
 
+    // Save the patient
     const handleSave = () => {
         console.log('Updating data...', editingPatient);
         patientService.updatePatient(editingPatient)
@@ -47,6 +52,7 @@ const AdminPatients = () => {
             });
     };
 
+    // Handle changes to the patient data with nested objects
     const handleChange = (event) => {
         const { name, value } = event.target;
         const keys = name.split('.');
@@ -74,15 +80,15 @@ const AdminPatients = () => {
                 position: 'relative',
                 display: 'flex',
                 alignItems: 'start',
-                height: 'calc(100vh - 64px)',
+                height: '750px',
                 width: 'calc(100vw - 15vw)',
-                backgroundColor: 'white',
+                backgroundColor: '#dec8c3',
                 marginLeft: '-28px',
                 overflow: 'hidden'
             }}>
-                 <Paper sx={{ width: '100%', margin: 0, overflow: 'auto', padding: 2 }}>
+                 <Paper sx={{ width: '96%', height:'92%', margin: 0, overflow: 'auto', padding: 2, marginTop:1.5, marginLeft:1 }}>
                 <Grid container spacing={2} sx={{ minWidth: 1000, alignItems: 'center' }}>
-                    {/* Header Row */}
+                    {/* Header Rows of table */}
                     <Grid item xs={12}>
                         <Grid container spacing={1} sx={{ fontWeight: 'bold', borderBottom: '2px solid white' }}>
                             <Grid item xs={3}><Typography>Patient ID</Typography></Grid>
@@ -116,6 +122,7 @@ const AdminPatients = () => {
                     )}
                 </Grid>
             </Paper>
+            {/* Patient Edit Dialog */}
                 {editingPatient && (
                     <Dialog open={open} onClose={handleClose} >
                         <DialogTitle>Edit Patient</DialogTitle>
@@ -213,6 +220,7 @@ const AdminPatients = () => {
                                 value={editingPatient.dob ? editingPatient.dob.split('T')[0] : ''}
                             />
                         </DialogContent>
+                        {/* Save and Cancel buttons */}
                         <DialogActions>
                             <Button onClick={handleClose} color="primary">Cancel</Button>
                             <Button onClick={handleSave} color="primary">Save</Button>

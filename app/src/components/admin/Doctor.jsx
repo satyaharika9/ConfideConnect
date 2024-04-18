@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react';
 import doctorService from '../../services/doctorService';
 import { Button, Paper, CircularProgress, Grid, Typography, Box,Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 
+// AdminDoctors component
 const AdminDoctors = () => {
+    // State variables
     const [doctors, setDoctors] = useState([]);
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
     const [editingDoctor, setEditingDoctor] = useState(null);
 
+    // Fetch all doctors
     const fetchDoctors = () => {
         setLoading(true);
         doctorService.getDoctors().then((res) => {
@@ -19,20 +22,24 @@ const AdminDoctors = () => {
         });
     };
 
+    // Fetch all doctors on component mount
     useEffect(() => {
         fetchDoctors();
     }, []);
 
+    // Open doctor form
     const handleOpen = (doctor) => {
         setEditingDoctor(doctor);
         setOpen(true);
     };
 
+    // Close form
     const handleClose = () => {
         setOpen(false);
         setEditingDoctor(null);
     };
 
+    // Save doctor
     const handleSave = () => {
         console.log('Updating data...', editingDoctor);
         doctorService.updateDoctor(editingDoctor)
@@ -45,6 +52,7 @@ const AdminDoctors = () => {
             });
     };
 
+    // Handle form input changes
     const handleChange = (event) => {
         const { name, value } = event.target;
         const keys = name.split('.');
@@ -55,10 +63,10 @@ const AdminDoctors = () => {
             
             keys.forEach((key, index) => {
                 if (index === keys.length - 1) {
-                    current[key] = value; // Set the value at the final key
+                    current[key] = value;
                 } else {
-                    if (!current[key]) current[key] = {}; // Ensure nested object exists
-                    current = current[key]; // Move reference down to the nested object
+                    if (!current[key]) current[key] = {};
+                    current = current[key];
                 }
             });
             
@@ -72,15 +80,16 @@ const AdminDoctors = () => {
                position: 'relative',
                display: 'flex',
                alignItems: 'start',
-               height: 'calc(100vh - 64px)',
+               height: '750px',
                width: 'calc(100vw - 15vw)',
-               backgroundColor: 'white',
+               backgroundColor: '#dec8c3',
                marginLeft: '-28px',
                overflow: 'hidden'
             }}>
-                 <Paper sx={{ width: '100%', margin: 0, overflow: 'auto', padding: 2 }}>
+                 <Paper sx={{ width: '96%', height:'92%', margin: 0, overflow: 'auto', padding: 2, marginTop:1.5, marginLeft:1 }}>
                  <Grid container spacing={2} sx={{ padding: 1 }}>
                  <Grid item xs={12}>
+                        {/* Headers for table */}
                         <Grid container spacing={1} sx={{ fontWeight: 'bold', borderBottom: '2px solid white' }}>
                             <Grid item xs={3}><Typography>Doctor ID</Typography></Grid>
                             <Grid item xs={1}><Typography>Name</Typography></Grid>
@@ -116,6 +125,7 @@ const AdminDoctors = () => {
                      )}
                     </Grid>
                     </Paper>
+                    {/* Doctor form dialog */}
                     {
                         editingDoctor && (
                             <Dialog open={open} onClose={handleClose}>
@@ -224,6 +234,7 @@ const AdminDoctors = () => {
                                 value={editingDoctor.qualifications || ''}
                             />
                              </DialogContent>
+                                {/* Save and Cancel buttons */}
                              <DialogActions>
                             <Button onClick={handleClose} color="primary">Cancel</Button>
                             <Button onClick={handleSave} color="primary">Save</Button>

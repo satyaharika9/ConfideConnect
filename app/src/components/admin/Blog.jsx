@@ -3,12 +3,15 @@ import { Button, Paper, CircularProgress, Grid, Typography,IconButton, Box,Dialo
 import DeleteIcon from '@mui/icons-material/Delete';
 import blogService from '../../services/blogService';
 
+// AdminBlogs component
 const AdminBlogs = () => {
+    // State variables
     const [blogs, setBlogs] = useState([]);
     const [loading, setLoading] = useState(true);
     const [open, setOpen] = useState(false);
     const [editingBlog, setEditingBlog] = useState(null);
 
+    // Fetch all blogs
     const fetchBlogs = async () => {
         setLoading(true);
         blogService.getBlogs().then((data) => {
@@ -20,20 +23,24 @@ const AdminBlogs = () => {
         });
     };
 
+    // Fetch all blogs on component mount
     useEffect(() => {
         fetchBlogs();
     }, []);
 
+    // Open blog form
     const handleOpen = (blog) => {
         setEditingBlog(blog);
         setOpen(true);
     }
 
+    // Close form
     const handleClose = () => {
         setOpen(false);
         setEditingBlog(null);
     }
 
+    // Save blog
     const handleSave = () => {
         console.log('Updating blog...',editingBlog);
         blogService.updateBlog(editingBlog).then(() => {
@@ -44,6 +51,7 @@ const AdminBlogs = () => {
         });
     };
 
+    // Delete blog
     const handleDelete = (id) => (e) =>{
         e.stopPropagation(); // Prevent opening the edit dialog or any other click propagation issues
         console.log('Deleting blog...',id);
@@ -54,6 +62,7 @@ const AdminBlogs = () => {
         });
     }
 
+    // Handle form input change
     const handleChange = (event) => {
         const { name, value } = event.target;
         const keys = name.split('.');
@@ -78,17 +87,18 @@ const AdminBlogs = () => {
     return (
         <>
         <Box sx={{
+            position: 'relative',
             display: 'flex',
             flexDirection: 'column',
-            height: 'calc(100vh - 64px)',
+            height: '750px',
             width: 'calc(100vw - 15vw)',
-            backgroundColor: 'white',
+            backgroundColor: '#dec8c3',
             overflow: 'hidden',
             marginLeft: '-28px'
         }}>
-             <Paper sx={{ width: '100%', overflowX: 'auto', padding: 2 }}>
+             <Paper sx={{ width: '96%',height:'92%', overflowX: 'auto', padding: 2, marginLeft:1, marginTop:1 }}>
                 <Grid container spacing={2} sx={{ minWidth: 1600, alignItems: 'center' }}>
-                    {/* Header Row */}
+                    {/* Header Row for table */}
                     <Grid item xs={12}>
                         <Grid container spacing={1} sx={{ fontWeight: 'bold', borderBottom: '2px solid white' }}>
                         <Grid item xs={2}><Typography>Blog ID</Typography></Grid>
@@ -114,10 +124,7 @@ const AdminBlogs = () => {
                                     <Grid item xs={2}><Typography>{blog.creationTime? new Date(patient.dob).toLocaleDateString() : 'N/A'}</Typography></Grid>
                                     <Grid item xs={2}><Typography>{blog.creatorId}</Typography></Grid>
                                     <Grid item xs={1}>
-                                    <IconButton  onClick={handleDelete(blog._id)} aria-label="delete">
-        <DeleteIcon />
-    </IconButton></Grid>
-                                    
+                                    <IconButton  onClick={handleDelete(blog._id)} aria-label="delete"><DeleteIcon /></IconButton></Grid>           
                                 </Grid>
                             </Grid>
                         ))
@@ -155,6 +162,7 @@ const AdminBlogs = () => {
                                 </Grid>
                             </Grid>
                             </DialogContent>
+                            {/* Save and Cancel buttons */}
                         <DialogActions>
                             <Button onClick={handleClose} color="primary">Cancel</Button>
                             <Button onClick={handleSave} color="primary">Save</Button>

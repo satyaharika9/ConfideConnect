@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react';
 import labService from '../../services/labService';
 import { Button, Paper, CircularProgress, Grid, Typography, Box,Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 
+// AdminLabs component
 const AdminLabs = () => {
+    // State variables
     const [labs, setLabs] = useState([]);
     const [loading, setLoading] = useState(true);
     const [open, setOpen] = useState(false);
     const [editingLab, setEditingLab] = useState({});
 
+    // Fetch all labs
     const fetchLabs = () => {
        setLoading(true);
        labService.getLabs().then(res => {
@@ -19,20 +22,24 @@ const AdminLabs = () => {
          });
     };
 
+    // Fetch all labs on component mount
     useEffect(() => {
         fetchLabs();
     }, []);
 
+    // Open lab form
     const handleOpen = (lab) => {
         setOpen(true);
         setEditingLab(lab);
     };
 
+    // Close form
     const handleClose = () => {
         setOpen(false);
         setEditingLab(null);
     };
 
+    // Edit lab
     const handleEdit = () => {
         labService.updateLab(editingLab).then(res => {
             fetchLabs();
@@ -42,6 +49,7 @@ const AdminLabs = () => {
         });
     };
 
+    // Save lab
     const handleSave = () => {
         labService.updateLab(editingLab).then(res => {  
             fetchLabs();
@@ -51,6 +59,7 @@ const AdminLabs = () => {
         });
     }
 
+    // Handle form input change
     const handleChange = (event) => {
         const { name, value } = event.target;
         const keys = name.split('.');
@@ -75,17 +84,18 @@ const AdminLabs = () => {
     return(
         <>
          <Box sx={{
-               position: 'relative',
-               display: 'flex',
-               alignItems: 'start',
-               height: 'calc(100vh - 64px)',
-               width: 'calc(100vw - 15vw)',
-               backgroundColor: 'white',
-               marginLeft: '-28px',
-               overflow: 'hidden'
+             position: 'relative',
+             display: 'flex',
+             flexDirection: 'column',
+             height: '750px',
+             width: 'calc(100vw - 15vw)',
+             backgroundColor: '#dec8c3',
+             overflow: 'hidden',
+             marginLeft: '-28px'
             }}>
-              <Paper sx={{ width: '100%', margin: 0, overflow: 'auto', padding: 2 }}>
+              <Paper sx={{ width: '96%', height:'92%', margin: 0, overflow: 'auto', padding: 2, marginLeft:1, marginTop:1 }}>
                  <Grid container spacing={2} sx={{ padding: 1 }}>
+                    {/* Header rows for table */}
                  <Grid item xs={12}>
                         <Grid container spacing={1} sx={{ fontWeight: 'bold', borderBottom: '2px solid white' }}>
                             <Grid item xs={3}><Typography>Lab ID</Typography></Grid>
@@ -114,8 +124,8 @@ const AdminLabs = () => {
                         ))
                      )}
                      </Grid>
-
                     </Paper>
+                    {/* Lab form dialog */}
                     { editingLab && (
                     <Dialog open={open} onClose={handleClose} >
                         <DialogTitle>Edit Lab</DialogTitle>
@@ -186,16 +196,14 @@ const AdminLabs = () => {
                             />
 
                     </DialogContent>
+                    {/* Save and Cancel buttons */}
                         <DialogActions>
                             <Button onClick={handleClose} color="primary">Cancel</Button>
                             <Button onClick={handleSave} color="primary">Save</Button>
                         </DialogActions>
                     </Dialog>
                 )}
-
-
                     </Box>
-
         </>
     )
 

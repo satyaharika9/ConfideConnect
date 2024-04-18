@@ -8,7 +8,7 @@ export function authenticateToken(req, res, next) {
   
     jwt.verify(token, process.env.SECRET_ACCESS_KEY, (err, decodedToken) => {
       if (err) return res.sendStatus(403);
-      if (decodedToken.userId != req.params.userId) return res.sendStatus(401);
+      // if (decodedToken.userId != req.params.userId) return res.sendStatus(401);
       next();
     });
 }

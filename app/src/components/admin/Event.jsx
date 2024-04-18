@@ -3,12 +3,15 @@ import { Button, Paper, CircularProgress, Grid, Typography,IconButton, Box,Dialo
 import DeleteIcon from '@mui/icons-material/Delete';
 import eventService from '../../services/eventService';
 
+// AdminEvents component
 const AdminEvents = () => {
+    // State variables
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(true);
     const [open, setOpen] = useState(false);
     const [editingEvent, setEditingEvent] = useState(null);
 
+    // Fetch all events
     const fetchEvents = async () => {
         setLoading(true);
         eventService.getEvents().then((data) => {
@@ -20,20 +23,24 @@ const AdminEvents = () => {
         });
     };
 
+    // Fetch all events on component mount
     useEffect(() => {
         fetchEvents();
     }, []);
 
+    // Open event form
     const handleOpen = (event) => {
         setEditingEvent(event);
         setOpen(true);
     }
 
+    // Close form
     const handleClose = () => {
         setOpen(false);
         setEditingEvent(null);
     }
 
+    // Save event
     const handleSave = () => {
         console.log('Updating event...',editingEvent);
         eventService.updateEvent(editingEvent).then(() => {
@@ -44,8 +51,9 @@ const AdminEvents = () => {
         });
     };
 
+    // Delete event
     const handleDelete = (id) => (e) =>{
-        e.stopPropagation(); // Prevent opening the edit dialog or any other click propagation issues
+        e.stopPropagation();
         console.log('Deleting event...',id);
         eventService.deleteEvent(id).then(() => {
             fetchEvents();
@@ -54,6 +62,7 @@ const AdminEvents = () => {
         });
     };
 
+    // Handle form input change
     const handleChange = (event) => {
         const { name, value } = event.target;
         const keys = name.split('.');
@@ -66,8 +75,8 @@ const AdminEvents = () => {
                 if (index === keys.length - 1) {
                     current[key] = value; // Set the value at the final key
                 } else {
-                    if (!current[key]) current[key] = {}; // Ensure nested object exists
-                    current = current[key]; // Move reference down to the nested object
+                    if (!current[key]) current[key] = {};
+                    current = current[key];
                 }
             });
             
@@ -78,17 +87,18 @@ const AdminEvents = () => {
     return (
         <>
         <Box sx={{
+            position: 'relative',
             display: 'flex',
             flexDirection: 'column',
-            height: 'calc(100vh - 64px)',
+            height: '750px',
             width: 'calc(100vw - 15vw)',
-            backgroundColor: 'white',
+            backgroundColor: '#dec8c3',
             overflow: 'hidden',
             marginLeft: '-28px'
         }}>
-             <Paper sx={{ width: '100%', overflowX: 'auto', padding: 2 }}>
+             <Paper sx={{  width: '96%',height:'92%', overflowX: 'auto', padding: 2, marginLeft:1, marginTop:1}}>
                 <Grid container spacing={2} sx={{ minWidth: 1600, alignItems: 'center' }}>
-                    {/* Header Row */}
+                    {/* Header Row for table */}
                     <Grid item xs={12}>
                         <Grid container spacing={1} sx={{ fontWeight: 'bold', borderBottom: '2px solid white' }}>
                         <Grid item xs={2}><Typography>Event ID</Typography></Grid>
@@ -116,10 +126,7 @@ const AdminEvents = () => {
                                     <Grid item xs={1.5}><Typography>{event.creationTime? new Date(patient.dob).toLocaleDateString() : 'N/A'}</Typography></Grid>
                                     <Grid item xs={2}><Typography>{event.creatorId}</Typography></Grid>
                                     <Grid item xs={0.5}>
-                                    <IconButton  onClick={handleDelete(event._id)} aria-label="delete">
-        <DeleteIcon />
-    </IconButton></Grid>
-                                    
+                                    <IconButton  onClick={handleDelete(event._id)} aria-label="delete"><DeleteIcon /></IconButton></Grid>
                                 </Grid>
                             </Grid>
                         ))
@@ -202,6 +209,7 @@ const AdminEvents = () => {
                             />
                             </Grid>
                             </DialogContent>
+                            {/* Save and Cancel buttons */}
                         <DialogActions>
                             <Button onClick={handleClose} color="primary">Cancel</Button>
                             <Button onClick={handleSave} color="primary">Save</Button>
