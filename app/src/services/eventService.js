@@ -9,6 +9,18 @@ const getEventsForCreator = async (creatorId) => {
   return response.data;
 }
 
-const eventService = { getEventsForCreator };
+// create event
+const createEvent = async (eventInfo) => {
+  const response = await axios.post(baseURL, eventInfo);
+  return response.data;
+}
+
+// delete event by id
+const deleteEvent= async (eventId) => {
+  const response = await axios.delete(baseURL+`/${eventId}`);
+  return response.data;
+}
+
+const eventService = { getEventsForCreator, createEvent, deleteEvent };
 
 export default eventService;

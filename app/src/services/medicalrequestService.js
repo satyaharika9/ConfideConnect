@@ -15,6 +15,23 @@ const getMedicalRequestsForDoctor = async (doctorId) => {
   return response.data;
 }
 
-const medicalRequestService = { getMedicalRequestsForPatient, getMedicalRequestsForDoctor };
+// create MedicalRequest
+const createMedicalRequest = async (requestInfo) => {
+  const response = await axios.post(baseURL, requestInfo);
+  return response.data;
+}
+
+// delete MedicalRequest by id
+const deleteMedicalRequest = async (medicalRequestId) => {
+  const response = await axios.delete(baseURL+`/${medicalRequestId}`);
+  return response.data;
+}
+
+const medicalRequestService = {
+  getMedicalRequestsForPatient,
+  getMedicalRequestsForDoctor,
+  createMedicalRequest,
+  deleteMedicalRequest
+};
 
 export default medicalRequestService;
