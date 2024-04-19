@@ -1,8 +1,19 @@
 import React from 'react';
 import { Box, Avatar, Typography, Button } from '@mui/material';
+import { useState } from 'react';
+
+import PatientProfileUpdate from '../patient/PatientProfile';
+import DoctorProfileUpdate from '../doctor/DoctorProfile';
+import LabProfileUpdate from '../lab/LabProfile';
 
 
 const Sidebar = ({ currentUser }) => {
+  const [showProfileUpdate, setShowProfileUpdate] = useState(false);
+
+  const handleManageProfile = () => {
+      setShowProfileUpdate(!showProfileUpdate);
+  }
+
   return (
     <Box
       sx={{
@@ -23,9 +34,19 @@ const Sidebar = ({ currentUser }) => {
       <Typography variant="body2" color="text.secondary">
         {currentUser.user.email}
       </Typography>
-      <Button variant="contained" sx={{ mt: 2 }}>
+     
+      <Button variant="contained" sx={{ mt: 2 }} onClick={handleManageProfile}>
         Manage Profile
       </Button>
+      {
+        currentUser.user.role === 'patient' && showProfileUpdate? <PatientProfileUpdate user={currentUser} showProfileUpdate={setShowProfileUpdate}/>: null
+      }
+      {
+        currentUser.user.role === 'doctor' && showProfileUpdate? <DoctorProfileUpdate user={currentUser} showProfileUpdate={setShowProfileUpdate}/>: null
+      }
+      {
+        currentUser.user.role === 'lab' && showProfileUpdate? <LabProfileUpdate user={currentUser} showProfileUpdate={setShowProfileUpdate}/>: null
+      }
     </Box>
   );
 };
