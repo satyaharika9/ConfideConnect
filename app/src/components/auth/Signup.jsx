@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { TextField, Button, FormHelperText, Alert } from '@mui/material';
@@ -11,11 +12,19 @@ import userService from "../../services/userService";
 const Signup = () => {
 
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const register = async (newUserInfo) => {
     try {
       const createdUser = await userService.createUser(newUserInfo);
       console.log("User created:", createdUser);
+      if(createdUser){
+        navigate(`/login`);
+      }
+      else{
+        console.log("User created in else:", createdUser);
+        setError("Registration failed. Please try again."); // not working :(
+      }
       setError(null);
     } catch (error) {
       console.error(`Error creating user: ${error}`);
