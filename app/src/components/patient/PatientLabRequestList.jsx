@@ -53,7 +53,7 @@ const PatientLabRequestList = ({fetchData, labRequests}) => {
         // Create a link and trigger download
         const link = document.createElement('a');
         link.href = blobUrl;
-        link.setAttribute('download', 'prescription.pdf');
+        link.setAttribute('download', 'report.pdf');
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -82,6 +82,12 @@ const PatientLabRequestList = ({fetchData, labRequests}) => {
     const handleCloseModal = () => {
         setOpenModal(false);
         setSelectedRequest(null);
+    };
+
+    // Function to format date
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return [date.getFullYear(), (date.getMonth() + 1).toString().padStart(2, '0'), date.getDate().toString().padStart(2, '0')].join('-');
     };
 
     return (
@@ -173,7 +179,7 @@ const PatientLabRequestList = ({fetchData, labRequests}) => {
                                 <Typography variant="body1">{selectedRequest.labrequest.requestDescription}</Typography>
                             </Box>
                             <Box sx={{ mt: 2 }}>
-                                <Typography variant="body1">On {selectedRequest.labrequest.createdDate}</Typography>
+                                <Typography variant="body1">On {formatDate(selectedRequest.labrequest.createdDate)}</Typography>
                             </Box>
                             <Box sx={{ mt: 2 }}>
                                 <Typography variant="body1">Status: {selectedRequest.labrequest.status}</Typography>
@@ -183,7 +189,7 @@ const PatientLabRequestList = ({fetchData, labRequests}) => {
                                     <Button
                                         variant="contained"
                                         startIcon={<GetAppIcon />}
-                                        onClick={(e) => handleDownloadClick(e)}
+                                        onClick={(e) => handleDownloadClick(e, selectedRequest.labrequest.labReport)}
                                     >
                                         Download Report
                                     </Button>

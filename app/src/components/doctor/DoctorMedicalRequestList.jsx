@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, 
-        Paper, Tooltip, Button, Typography, Modal, Box, IconButton, Input } from '@mui/material';
+        Paper, Tooltip, Button, Typography, Modal, Box, IconButton, Input, Select, MenuItem, FormControl } from '@mui/material';
 import ChatIcon from '@mui/icons-material/Chat';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
@@ -12,6 +12,7 @@ const DoctorMedicalRequestList = ({fetchData, medicalRequests}) => {
 
     const [openModal, setOpenModal] = useState(false);
     const [selectedRequest, setSelectedRequest] = useState(null);
+
 
     useEffect(() => {
         fetchData('doctor_medical_requests');
@@ -34,6 +35,7 @@ const DoctorMedicalRequestList = ({fetchData, medicalRequests}) => {
         }
         setOpenModal(false);
     };
+
 
     // Function to handle file upload
     const handleFileUpload = (event) => {
@@ -77,7 +79,29 @@ const DoctorMedicalRequestList = ({fetchData, medicalRequests}) => {
             }
         }
     };
-    
+
+    // Function to handle status change
+    const handleOnChange=async(e)  => {  
+        e.stopPropagation();
+        const updatedRequest = {
+            ...selectedRequest,
+            medicalrequest: {
+                ...selectedRequest.medicalrequest,
+                status: e.target.value
+            }
+        };
+        // setSelectedRequest(updatedRequest);
+        console.log("Updated status:", updatedRequest.medicalrequest.status);
+        try{
+            const resp = await medicalRequestService.updateMedicalRequest(updatedRequest.medicalrequest._id, updatedRequest.medicalrequest);
+            console.log("update resp : ", resp);
+        }
+        catch(error){
+            console.error('Error updating medical request:', error);
+        }
+        fetchData('doctor_medical_requests');
+     }
+
     const handleRowClick = (request) => {
         setSelectedRequest(request);
         setOpenModal(true);
@@ -86,6 +110,12 @@ const DoctorMedicalRequestList = ({fetchData, medicalRequests}) => {
     const handleCloseModal = () => {
         setOpenModal(false);
         setSelectedRequest(null);
+    };
+
+    // Function to format date
+     const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return [date.getFullYear(), (date.getMonth() + 1).toString().padStart(2, '0'), date.getDate().toString().padStart(2, '0')].join('-');
     };
 
     return (
@@ -116,7 +146,7 @@ const DoctorMedicalRequestList = ({fetchData, medicalRequests}) => {
                                     {request.medicalrequest.requestDescription}
                                 </Typography>
                             </TableCell>
-                            <TableCell>{request.medicalrequest.creationTime}</TableCell>
+                            <TableCell>{formatDate(request.medicalrequest.creationTime)}</TableCell>
                             <TableCell>{request.medicalrequest.status}</TableCell>
                             <TableCell>
                                 <Tooltip title={`Chat with patient`}>
@@ -166,11 +196,22 @@ const DoctorMedicalRequestList = ({fetchData, medicalRequests}) => {
                             <Typography variant="body1">{selectedRequest.medicalrequest.requestDescription}</Typography>
                         </Box>
                         <Box sx={{ mt: 2 }}>
-                            <Typography variant="body1">On {selectedRequest.medicalrequest.creationTime}</Typography>
+                            <Typography variant="body1">On {formatDate(selectedRequest.medicalrequest.creationTime)}</Typography>
                         </Box>
-                        <Box sx={{ mt: 2 }}>
-                            <Typography variant="body1">Status: {selectedRequest.medicalrequest.status}</Typography>
-                        </Box>
+
+                         <Box sx={{ mt: 2 }}>
+                         <FormControl  sx={{ mt: 2 }}>
+                            <Select
+                                value={selectedRequest.medicalrequest.status}
+                                onChange={handleOnChange}
+                            >
+                                <MenuItem value="REQUESTED">REQUESTED</MenuItem>
+                                <MenuItem value="MATCHED">MATCHED</MenuItem>
+                                <MenuItem value="INPROGRESS">INPROGRESS</MenuItem>
+                                <MenuItem value="COMPLETED">COMPLETED</MenuItem>
+                            </Select>
+                        </FormControl>
+                            </Box>
                         <Box sx={{ mt: 4 }}>
                             <Input type="file" accept="application/pdf" onChange={handleFileUpload} />
                         </Box>

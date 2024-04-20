@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableContainer, TableHead, 
-    TableRow, Paper, Tooltip, Button, Typography, Modal, Box, IconButton , Input} from '@mui/material';
+    TableRow, Paper, Tooltip, Button, Typography, Modal, Box, IconButton , Input, Select, MenuItem, FormControl} from '@mui/material';
 import ChatIcon from '@mui/icons-material/Chat';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
@@ -78,6 +78,27 @@ const LabRequestList = ({fetchData, labRequests}) => {
         }
     };
 
+    const handleOnChange = async (e) => {
+        e.stopPropagation();
+        const updatedRequest = {
+            ...selectedRequest,
+            labrequest: {
+                ...selectedRequest.labrequest,
+                status: e.target.value
+            }
+        };
+        try{
+
+            const resp = await labRequestService.updateLabRequest(updatedRequest.labrequest._id, updatedRequest.labrequest);
+            console.log("update resp : ", resp);
+        }
+        catch (error) {
+            console.error('Error updating lab request:', error);
+        }
+       
+        fetchData("lab_lab_requests");
+    }
+
     const handleRowClick = (request) => {
         setSelectedRequest(request);
         setOpenModal(true);
@@ -86,6 +107,12 @@ const LabRequestList = ({fetchData, labRequests}) => {
     const handleCloseModal = () => {
         setOpenModal(false);
         setSelectedRequest(null);
+    };
+
+    // Function to format date
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return [date.getFullYear(), (date.getMonth() + 1).toString().padStart(2, '0'), date.getDate().toString().padStart(2, '0')].join('-');
     };
 
     return (
@@ -116,7 +143,7 @@ const LabRequestList = ({fetchData, labRequests}) => {
                                     {request.labrequest.requestDescription}
                                 </Typography>
                             </TableCell>
-                            <TableCell>{request.labrequest.createdDate}</TableCell>
+                            <TableCell>{formatDate(request.labrequest.createdDate)}</TableCell>
                             <TableCell>{request.labrequest.status}</TableCell>
                             <TableCell>
                                 <Tooltip title={`Chat with patient`}>
@@ -170,11 +197,24 @@ const LabRequestList = ({fetchData, labRequests}) => {
                             <Typography variant="body1">{selectedRequest.labrequest.requestDescription}</Typography>
                         </Box>
                         <Box sx={{ mt: 2 }}>
-                            <Typography variant="body1">On {selectedRequest.labrequest.creationTime}</Typography>
+                            <Typography variant="body1">On {formatDate(selectedRequest.labrequest.creationTime)}</Typography>
                         </Box>
                         <Box sx={{ mt: 2 }}>
-                            <Typography variant="body1">Status: {selectedRequest.labrequest.status}</Typography>
-                        </Box>
+                         <FormControl  sx={{ mt: 2 }}>
+                            <Select
+                                value={selectedRequest.labrequest.status}
+                                onChange={handleOnChange}
+                            >
+                                <MenuItem value="REQUESTED">REQUESTED</MenuItem>
+                                <MenuItem value="MATCHED">MATCHED</MenuItem>
+                                <MenuItem value="KITDELIVERED">KIT DELIVERED</MenuItem>
+                                <MenuItem value="SAMPLESENT">SAMPLE SENT</MenuItem>
+                                <MenuItem value="SAMPLEDELIVERED">SAMPLE DELIVERED</MenuItem>
+                                <MenuItem value="ANALYSISINPROGRESS">ANALYSIS IN PROGRESS</MenuItem>
+                                <MenuItem value="REPORTPUBLISHED">REPORT PUBLISHED</MenuItem>"
+                            </Select>
+                        </FormControl>
+                            </Box>
                         <Box sx={{ mt: 4 }}>
                             <Input type="file" accept="application/pdf" onChange={handleFileUpload} />
                         </Box>

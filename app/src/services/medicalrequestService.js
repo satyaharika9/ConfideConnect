@@ -27,11 +27,18 @@ const deleteMedicalRequest = async (medicalRequestId) => {
   return response.data;
 }
 
+// update MedicalRequest by id
+const updateMedicalRequest = async (medicalRequestId, requestInfo) => {
+  const response = await axios.put(baseURL+`/${medicalRequestId}`, requestInfo);
+  return response.data;
+}
+
 const medicalRequestService = {
   getMedicalRequestsForPatient,
   getMedicalRequestsForDoctor,
   createMedicalRequest,
-  deleteMedicalRequest
+  deleteMedicalRequest,
+  updateMedicalRequest
 };
 
 export default medicalRequestService;

@@ -28,6 +28,7 @@ const DoctorProfileUpdate = ({ user, showProfileUpdate }) => {
       fetchDoctor();
   }, [user.user._id]);
 
+  // Update Doctor Profile
   const formatDate = (dateString) => {
       const date = new Date(dateString);
       return [date.getFullYear(), (date.getMonth() + 1).toString().padStart(2, '0'), date.getDate().toString().padStart(2, '0')].join('-');

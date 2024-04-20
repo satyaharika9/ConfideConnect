@@ -27,11 +27,17 @@ const deleteLabRequest = async (labRequestId) => {
   return response.data;
 }
 
+const updateLabRequest = async (labRequestId, requestInfo) => {
+  const response = await axios.put(baseURL+`/${labRequestId}`, requestInfo);
+  return response.data;
+}
+
 const labRequestService = {
   getLabRequestsForPatient,
   getLabRequestsForLab,
   createLabRequest,
-  deleteLabRequest
+  deleteLabRequest,
+  updateLabRequest
 };
 
 export default labRequestService;

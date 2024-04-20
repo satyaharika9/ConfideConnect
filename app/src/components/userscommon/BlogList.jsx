@@ -49,6 +49,12 @@ const BlogList = ({fetchData, blogs, user}) => {
         setSelectedBlog(null);
     };
 
+    // Function to format date
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return [date.getFullYear(), (date.getMonth() + 1).toString().padStart(2, '0'), date.getDate().toString().padStart(2, '0')].join('-');
+    };
+
     return (
         <>
         <TableContainer component={Paper} sx={{ marginTop: '30px', maxHeight: '430px'  }}>
@@ -75,7 +81,7 @@ const BlogList = ({fetchData, blogs, user}) => {
                                     {blog.content}
                                 </Typography>
                             </TableCell>
-                            <TableCell>{blog.createdDate}</TableCell>
+                            <TableCell>{formatDate(blog.createdDate)}</TableCell>
                             <TableCell>
                                 <Tooltip title="Delete Blog">
                                     <Button onClick={(e) => handleDeleteClick(e, blog._id)}><DeleteIcon /></Button>
@@ -120,7 +126,7 @@ const BlogList = ({fetchData, blogs, user}) => {
                                 <Typography variant="body1">{selectedBlog.description}</Typography>
                             </Box>
                             <Box sx={{ mt: 2 }}>
-                                <Typography variant="body1">On {selectedBlog.createdDate}</Typography>
+                                <Typography variant="body1">On {formatDate(selectedBlog.createdDate)}</Typography>
                             </Box>
                             <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
                                 <Button

@@ -49,6 +49,12 @@ const EventList = ({fetchData, events, user}) => {
         setSelectedEvent(null);
     };
 
+    // Function to format date
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return [date.getFullYear(), (date.getMonth() + 1).toString().padStart(2, '0'), date.getDate().toString().padStart(2, '0')].join('-');
+    };
+
     return (
         <>
         <TableContainer component={Paper} sx={{ marginTop: '30px', maxHeight: '430px' }}>
@@ -76,7 +82,7 @@ const EventList = ({fetchData, events, user}) => {
                                     {event.description}
                                 </Typography>
                             </TableCell>
-                            <TableCell>{event.createdDate}</TableCell>
+                            <TableCell>{formatDate(event.createdDate)}</TableCell>
                             <TableCell>{event.address.city}</TableCell>
                             <TableCell>
                                 <Tooltip title="Delete Event">
@@ -122,7 +128,7 @@ const EventList = ({fetchData, events, user}) => {
                                 <Typography variant="body1">{selectedEvent.description}</Typography>
                             </Box>
                             <Box sx={{ mt: 2 }}>
-                                <Typography variant="body1">On {selectedEvent.createdDate}</Typography>
+                                <Typography variant="body1">On {formatDate(selectedEvent.createdDate)}</Typography>
                             </Box>
                             <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
                                 <Button

@@ -9,6 +9,11 @@ const getDoctor = async (doctorId) => {
   return response.data;
 }
 
-const doctorService = { getDoctor };
+const updateDoctor = async (doctorId, doctor) => {
+  const response = await axios.put(baseURL+`/${doctorId}`, doctor);
+  return response.data;
+}
+
+const doctorService = { getDoctor, updateDoctor};
 
 export default doctorService;

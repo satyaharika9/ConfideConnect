@@ -9,6 +9,12 @@ const getLab = async (labId) => {
   return response.data;
 }
 
-const labService = { getLab };
+const updateLab = async (labId, lab) => {
+  const response = await axios.put(baseURL+`/${labId}`, lab);
+  return response.data;
+
+}
+
+const labService = { getLab, updateLab };
 
 export default labService;

@@ -83,6 +83,12 @@ const PatientMedicalRequestList = ({fetchData, medicalRequests}) => {
         setSelectedRequest(null);
     };
 
+    // Function to format date
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return [date.getFullYear(), (date.getMonth() + 1).toString().padStart(2, '0'), date.getDate().toString().padStart(2, '0')].join('-');
+    };
+
     return (
         <>
             <TableContainer component={Paper} sx={{ marginTop: '30px', maxHeight: '430px'}}>
@@ -176,7 +182,7 @@ const PatientMedicalRequestList = ({fetchData, medicalRequests}) => {
                             <Typography variant="body1">{selectedRequest.medicalrequest.requestDescription}</Typography>
                         </Box>
                         <Box sx={{ mt: 2 }}>
-                            <Typography variant="body1">On {selectedRequest.medicalrequest.creationTime}</Typography>
+                            <Typography variant="body1">On {formatDate(selectedRequest.medicalrequest.creationTime)}</Typography>
                         </Box>
                         <Box sx={{ mt: 2 }}>
                             <Typography variant="body1">Status: {selectedRequest.medicalrequest.status}</Typography>
@@ -186,7 +192,7 @@ const PatientMedicalRequestList = ({fetchData, medicalRequests}) => {
                             <Button
                                 variant="contained"
                                 startIcon={<GetAppIcon />}
-                                onClick={(e) => handleDownloadClick(e)}
+                                onClick={(e) => handleDownloadClick(e, selectedRequest.medicalrequest.doctorPrescription)}
                             >
                                 Download Prescription
                             </Button>
