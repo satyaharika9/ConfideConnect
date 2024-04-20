@@ -23,10 +23,42 @@ const PatientMedicalRequestList = ({fetchData, medicalRequests}) => {
         e.stopPropagation();
     };
 
-    const handleDownloadClick = (e) => {
-        console.log('Download button clicked');
+    // Function to handle file download
+    const handleDownloadClick = (e, base64Data) => {
         e.stopPropagation();
+        console.log('Download button clicked');
+    
+        // Convert base64 to raw binary data held in a string
+        const byteCharacters = atob(base64Data.split(',')[1]); // Remove header
+    
+        // Convert binary string to an array of 8-bit unsigned integers
+        const byteArrays = [];
+        for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+            const slice = byteCharacters.slice(offset, offset + 512);
+            const byteNumbers = new Array(slice.length);
+            for (let i = 0; i < slice.length; i++) {
+                byteNumbers[i] = slice.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+            byteArrays.push(byteArray);
+        }
+    
+        // Create a blob from the typed arrays
+        const blob = new Blob(byteArrays, {type: 'application/pdf'});
+        const blobUrl = URL.createObjectURL(blob);
+    
+        // Create a link and trigger download
+        const link = document.createElement('a');
+        link.href = blobUrl;
+        link.setAttribute('download', 'prescription.pdf');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    
+        // Clean up the blob URL
+        URL.revokeObjectURL(blobUrl);
     };
+    
 
     const handleDeleteClick = async (e, medicalRequestId) => {
         console.log('Delete button clicked');
@@ -88,11 +120,15 @@ const PatientMedicalRequestList = ({fetchData, medicalRequests}) => {
                                     </Tooltip>
                                 </TableCell>
                                 <TableCell>
-                                    {request.medicalrequest.doctorPrescription? 
+                                {request.medicalrequest.doctorPrescription ? 
                                     <Tooltip title="Download Prescription">
-                                        <Button onClick={(e) => handleDownloadClick(e)}><GetAppIcon /></Button>
-                                    </Tooltip>: "On the way..."}
-                                </TableCell>
+                                        <Button onClick={(e) => handleDownloadClick(e, request.medicalrequest.doctorPrescription)}>
+                                            <GetAppIcon />
+                                        </Button>
+                                    </Tooltip> : 
+                                    "On the way..."
+                                }
+                            </TableCell>
                                 <TableCell>
                                     <Tooltip title="Delete Request">
                                         <Button onClick={(e) => handleDeleteClick(e, request.medicalrequest._id)}><DeleteIcon /></Button>

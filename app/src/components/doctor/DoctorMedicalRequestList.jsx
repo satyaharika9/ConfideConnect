@@ -35,10 +35,49 @@ const DoctorMedicalRequestList = ({fetchData, medicalRequests}) => {
         setOpenModal(false);
     };
 
-    const handleFileUpload = () => {
-        console.log('File Upload ');
-    };
+    // Function to handle file upload
+    const handleFileUpload = (event) => {
+        if (event.target.type === "file") {
+            const file = event.target.files?.[0];
+            if (file) {
+                if (file.type !== "application/pdf") {
+                    console.log("Invalid file type: ", file.type);
+                    alert("Please upload a PDF file.");
+                    return; // Stop the function if the file is not a PDF
+                }
 
+                console.log("File uploaded: ", file);
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+    
+                reader.onload = () => {
+                    // This function runs after the file is read successfully
+                    console.log("File as Data URL: ", reader.result);
+    
+                    // Copy the current state of selectedRequest to avoid mutating the state directly
+                    const updatedRequest = {
+                        ...selectedRequest,
+                        medicalrequest: {
+                            ...selectedRequest.medicalrequest,
+                            doctorPrescription: reader.result
+                        }
+                    };
+    
+                    // Update the state with the new prescription
+                    setSelectedRequest(updatedRequest);
+                    console.log("Updated prescription:", updatedRequest.medicalrequest.doctorPrescription);
+                    const requestId = updatedRequest.medicalrequest._id
+                    medicalRequestService.updateMedicalRequest(requestId, updatedRequest.medicalrequest);
+                };
+    
+                reader.onerror = (error) => {
+                    console.log("Error reading file: ", error);
+                };
+                
+            }
+        }
+    };
+    
     const handleRowClick = (request) => {
         setSelectedRequest(request);
         setOpenModal(true);
@@ -133,7 +172,7 @@ const DoctorMedicalRequestList = ({fetchData, medicalRequests}) => {
                             <Typography variant="body1">Status: {selectedRequest.medicalrequest.status}</Typography>
                         </Box>
                         <Box sx={{ mt: 4 }}>
-                            <Input type="file" onChange={handleFileUpload} />
+                            <Input type="file" accept="application/pdf" onChange={handleFileUpload} />
                         </Box>
                         <Box sx={{mt: 4}}>
                             <Button

@@ -26,9 +26,40 @@ const PatientLabRequestList = ({fetchData, labRequests}) => {
         e.stopPropagation()
     };
 
-    const handleDownloadClick = (e) => {
+    // Function to handle file download
+    const handleDownloadClick = (e, base64Data) => {
+        e.stopPropagation();
         console.log('Download button clicked');
-        e.stopPropagation()
+    
+        // Convert base64 to raw binary data held in a string
+        const byteCharacters = atob(base64Data.split(',')[1]); // Remove header
+    
+        // Convert binary string to an array of 8-bit unsigned integers
+        const byteArrays = [];
+        for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+            const slice = byteCharacters.slice(offset, offset + 512);
+            const byteNumbers = new Array(slice.length);
+            for (let i = 0; i < slice.length; i++) {
+                byteNumbers[i] = slice.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+            byteArrays.push(byteArray);
+        }
+    
+        // Create a blob from the typed arrays
+        const blob = new Blob(byteArrays, {type: 'application/pdf'});
+        const blobUrl = URL.createObjectURL(blob);
+    
+        // Create a link and trigger download
+        const link = document.createElement('a');
+        link.href = blobUrl;
+        link.setAttribute('download', 'prescription.pdf');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    
+        // Clean up the blob URL
+        URL.revokeObjectURL(blobUrl);
     };
 
     const handleDeleteClick = async (e, labRequestId) => {
@@ -92,7 +123,7 @@ const PatientLabRequestList = ({fetchData, labRequests}) => {
                                 <TableCell>
                                     {request.labrequest.labReport ?
                                         <Tooltip title="Download Report">
-                                            <Button onClick={(e) => handleDownloadClick(e)}><GetAppIcon /></Button>
+                                            <Button onClick={(e) => handleDownloadClick(e,request.labrequest.labReport)}><GetAppIcon /></Button>
                                         </Tooltip> : "On the way..."}
                                 </TableCell>
                                 <TableCell>
