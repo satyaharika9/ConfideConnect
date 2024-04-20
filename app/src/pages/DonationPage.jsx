@@ -1,7 +1,7 @@
 import React from "react";
 import { Elements } from "@stripe/react-stripe-js";
 import Donation from "../components/donation/donation";
-import donationService from "../services/donationService";
+import stripeTestPromise from "../components/donation/stripe";
 
 function StripeContainerPage() {
     return (
