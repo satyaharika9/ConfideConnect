@@ -3,27 +3,17 @@ body {
     margin: 0;
   }
   /* Donation form styles */
-  body {
-    padding: 0;
-    margin: 0;
-    background: #f7f7f7; /* Assuming the background is a light grey */
-    font-family: Arial, sans-serif; /* Or any font you prefer */
-  }
   
   /* Donation form container styles to center the form like a box */
   .donation-container {
-    max-width: 480px; /* Or any max-width you prefer */
+    max-width: 500px; 
     background: #ffffff;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin: 40px auto; /* This centers the box in the middle of the page */
+    margin: 40px auto; 
   }
   
-  /* Donation form styles */
-  .donation-form {
-    /* Add any additional form styles here */
-  }
   
   .donation-input label {
     display: block;
@@ -33,7 +23,7 @@ body {
   
   .donation-input input,
   .donation-input select {
-    width: calc(100% - 20px); /* Adjust width to account for padding */
+    width: calc(100% - 20px); 
     padding: 10px;
     margin-bottom: 1rem;
     border: 1px solid #ccc;
@@ -43,19 +33,15 @@ body {
   
   /* Styles for the Stripe CardElement */
   .FormGroup {
-    border: 1px solid #c4f0ff;
+    border: 1px solid #ffc4d6;
     border-radius: 10px;
     padding: 10px;
     background: #fff;
   }
-  
-  .FormRow {
-    /* Add CardElement styles here, if necessary */
-  }
-  
+    
   /* Button styles */
   .donate-button {
-    width: 100%; /* Full width of the container */
+    width: 100%; 
     padding: 12px 20px;
     border: none;
     border-radius: 5px;
@@ -69,7 +55,6 @@ body {
   .thank-you-message {
     text-align: center;
     margin-top: 2rem;
-    /* Additional styles if needed */
   }
   
 
