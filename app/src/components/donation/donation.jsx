@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import donationService from '../../services/donationService';
-import '../../App.css'
+import '../../App.css';
 
 function Donation() {
     const [success, setSuccess] = useState(false);
@@ -14,76 +14,86 @@ function Donation() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Form submission');
+        const cardElement = elements.getElement(CardElement);
         const { error, paymentMethod } = await stripe.createPaymentMethod({
             type: 'card',
-            card: elements.getElement(CardElement),
+            card: cardElement,
         });
 
         if (!error) {
             try {
-                const { id } = paymentMethod;
-                const response = await donationService.makeDonation(name, parseInt(amount), id);
+                const response = await donationService.makeDonation({
+                    name,
+                    email,
+                    country,
+                    amount: parseInt(amount) * 100, 
+                    paymentMethodId: paymentMethod.id
+                });
+                console.log('Response:', response);
                 if (response.success) {
                     setSuccess(true);
-                  }
-                } catch (error) {
-                  alert('Error making donation: ' + error.message); 
+                } else {
+                    alert(response.message || 'Donation failed.');
                 }
-              } else {
-                alert(error.message);
-              }
+            } catch (error) {
+                alert('Error making donation: ' + error.message);
+            }
+        } else {
+            alert(error.message);
+        }
     };
 
     return (
-        <div className="donation-container"> 
+        <div className="donation-container">
             {!success ? (
                 <>
-                <h1 className="donation-heading">Donate to Our Cause</h1>
-                <form onSubmit={handleSubmit} className="donation-form">
-                    <div className="donation-input">
-                        <label>Email:</label>
-                        <input
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            placeholder="Enter your email"
-                        />
-                    </div>
-                    <div className="donation-input">
-                        <label>Donation Amount ($):</label>
-                        <input
-                            type="number"
-                            value={amount}
-                            onChange={(e) => setAmount(e.target.value)}
-                            placeholder="Enter donation amount"
-                            required
-                        />
-                    </div>
-                    <div className="donation-input">
-                        <label>Full Name on Card:</label>
-                        <input
-                            type="text"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            placeholder="Enter your name"
-                        />
-                    </div>
-                    <div className="donation-input">
-                        <label>Country or Region:</label>
-                        <select value={country} onChange={(e) => setCountry(e.target.value)} >
-                            <option value="">Select Country</option>
-                            <option value="United States">United States</option>
-                            <option value="India">India</option>
-                            <option value="Australia">Australia</option>
-                            <option value="Dubai">Dubai</option>
-                        </select>
-                    </div>
-                    <fieldset className="FormGroup">
-                        <CardElement className="FormRow" required />
-                    </fieldset>
-                    <button type="submit" className="donate-button">Donate</button>
-                </form>
+                    <h1 className="donation-heading">Donate to Our Cause</h1>
+                    <form onSubmit={handleSubmit} className="donation-form">
+                        <div className="donation-input">
+                            <label>Email:</label>
+                            <input
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="Enter your email"
+                                required
+                            />
+                        </div>
+                        <div className="donation-input">
+                            <label>Donation Amount ($):</label>
+                            <input
+                                type="number"
+                                value={amount}
+                                onChange={(e) => setAmount(e.target.value)}
+                                placeholder="Enter donation amount"
+                                required
+                            />
+                        </div>
+                        <div className="donation-input">
+                            <label>Full Name on Card:</label>
+                            <input
+                                type="text"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                placeholder="Enter your name"
+                                required
+                            />
+                        </div>
+                        <div className="donation-input">
+                            <label>Country or Region:</label>
+                            <select value={country} onChange={(e) => setCountry(e.target.value)} required>
+                                <option value="">Select Country</option>
+                                <option value="United States">United States</option>
+                                <option value="India">India</option>
+                                <option value="Australia">Australia</option>
+                                <option value="Dubai">Dubai</option>
+                            </select>
+                        </div>
+                        <fieldset className="FormGroup">
+                            <CardElement className="FormRow" required />
+                        </fieldset>
+                        <button type="submit" className="donate-button">Donate</button>
+                    </form>
                 </>
             ) : (
                 <div className="thank-you-message">
@@ -92,7 +102,6 @@ function Donation() {
             )}
         </div>
     );
-    
 }
 
 export default Donation;

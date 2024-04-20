@@ -1,15 +1,11 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:3002/confideconnect';
+const BASE_URL = 'http://localhost:3002';
 
 const donationService = {
-    makeDonation: async (name, amount, paymentMethodId) => {
+    makeDonation: async (data) => {
         try {
-            const response = await axios.post(`${BASE_URL}/donations`, {
-                name,
-                amount,
-                paymentMethodId
-            });
+            const response = await axios.post(`${BASE_URL}/donations`, data);
             return response.data;
         } catch (error) {
             console.error('Error making donation:', error);

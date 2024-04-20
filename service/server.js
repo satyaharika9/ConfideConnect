@@ -6,7 +6,7 @@ import initialize from './app/app.js';
 import initializeChatServer from './app/chat.js';
 
 
-dotenv.config(); // not required once hosted
+dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
