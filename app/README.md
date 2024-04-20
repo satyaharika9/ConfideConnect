@@ -8,6 +8,7 @@
     - npm install axios
     - npm install react-redux
     - npm install @reduxjs/toolkit
+    - npm install socket.io-client
 
 ## Run Frontend
         - cd app

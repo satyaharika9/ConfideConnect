@@ -5,6 +5,7 @@
     - npm install nodemon dotenv --save-dev 
     - npm install jsonwebtoken
     - npm install nodemailer
+    - npm install socket.io
 
 ## Run Backend
         - cd service

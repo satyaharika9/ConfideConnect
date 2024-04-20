@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from "react-redux";
-import { Box, Button } from '@mui/material';
+import { Box, Button, IconButton, Tooltip } from '@mui/material';
+import ForumIcon from '@mui/icons-material/Forum';
 
 import SubNavBar from "../userscommon/subnavbar";
 import PatientLabRequestList from '../patient/PatientLabRequestList';
@@ -19,6 +20,7 @@ import medicalRequestService from '../../services/medicalrequestService';
 import doctorService from "../../services/doctorService";
 import eventService from '../../services/eventService';
 import blogService from "../../services/blogService";
+import ChatWindow from './ChatWindow';
 
 
 const tabMappings = {
@@ -30,6 +32,7 @@ const tabMappings = {
 const MainContent = ({ currentUser }) => {
 
     const user = useSelector((state) => state.user);
+    console.log("userrrrrrrrr: ",user);
     const [labRequestsForPatient, setLabRequestsForPatient] = useState([]);
     const [medicalRequestsForPatients, setMedicalRequestsForPatients] = useState([]);
     const [medicalRequestsForDoctor, setMedicalRequestsForDoctor] = useState([]);
@@ -173,6 +176,12 @@ const MainContent = ({ currentUser }) => {
         setOpenCreateBlogModal(true);
     };
 
+    const [showChatWindow, setShowChatWindow] = useState(false);
+
+    const toggleChatWindow = () => {
+        setShowChatWindow(!showChatWindow);
+      };
+
     return (
         <Box
             sx={{
@@ -182,7 +191,7 @@ const MainContent = ({ currentUser }) => {
                 padding: '20px',
                 height: 'calc(100% - 50px)'
             }}
-        >
+        >   
             <SubNavBar items={tabMappings[currentUser.user.role]} handleTabChange={handleTabChange} tabIndex={tabIndex} />
 
             {currentUser.user.role == 'patient' &&
@@ -331,6 +340,38 @@ const MainContent = ({ currentUser }) => {
                 setOpen={setOpenCreateBlogModal}
                 fetchData={fetchData}
             />
+            
+            {!showChatWindow && (
+                <Tooltip title="Talk to Our Community">
+                    <IconButton
+                        sx={{
+                            position: 'fixed',
+                            bottom: 40,
+                            right: 40,
+                            backgroundColor: 'primary.main',
+                            color: 'primary.contrastText',
+                            '&:hover': {
+                                transform: 'translateY(-10px)',
+                                backgroundColor: 'primary.dark',
+                                boxShadow: '0 2px 4px rgba(0,0,0,0.3)',
+                            },
+                            zIndex: 9997,
+                            transition: 'transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease', // Add transition for smooth animation
+                        }}
+                        onClick={toggleChatWindow}
+                    >
+                        <ForumIcon fontSize="large" />
+                    </IconButton>
+                </Tooltip>
+            )}
+
+            {showChatWindow && (
+                <ChatWindow
+                    userId={user.user._id}
+                    name={user.user.role === 'patient' ? `Patient_${(user.user._id.toString()).slice(-3)}` : user.user.name}
+                    onClose={toggleChatWindow}
+                />
+            )}
 
         </Box>
     );
