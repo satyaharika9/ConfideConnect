@@ -16,7 +16,7 @@ import LabPage from './pages/LabPage';
 import { setTokens, setUser } from './store/slices/user-slice';
 // import EventsPage from './pages/EventPage';
 // import BlogsPage from './pages/BlogPage';
-// import DonationPage from './pages/DonationPage';
+ import DonationPage from './pages/DonationPage';
 
 
 const AppRoutes = () => {
@@ -55,7 +55,7 @@ const AppRoutes = () => {
         <Route path="/lab" element={<LabPage />} />
         {/* <Route path="/events" element={<EventsPage />} /> */}
         {/* <Route path="/blogs" element={<BlogsPage />} /> */}
-        {/* <Route path="/donation" element={<DonationPage />} /> */}
+         <Route path="/donations" element={<DonationPage />} /> 
         {/* <Route path="*" element={<Navigate to="/Home" />} /> */}
       </Routes>
       <Backdrop open={loading} style={{ zIndex: 9999 }}>
