@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { TextField, Button, FormHelperText, Alert } from '@mui/material';
@@ -7,14 +8,18 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
 import userService from "../../services/userService";
+import { setLoading } from "../../store/slices/loading-slice";
 
 
 const Signup = () => {
 
   const [error, setError] = useState(null);
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const register = async (newUserInfo) => {
+    dispatch(setLoading(true));
     try {
       const createdUser = await userService.createUser(newUserInfo);
       console.log("User created:", createdUser);
@@ -29,6 +34,8 @@ const Signup = () => {
     } catch (error) {
       console.error(`Error creating user: ${error}`);
       setError("Registration failed. Please try again.");
+    } finally {
+      dispatch(setLoading(false));
     }
   };
 

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { TextField, Button, FormHelperText, Link, Alert } from '@mui/material';
@@ -9,15 +9,18 @@ import Box from '@mui/material/Box';
 
 import userService from "../../services/userService";
 import { setUser, setTokens } from "../../store/slices/user-slice";
+import { setLoading } from "../../store/slices/loading-slice";
 
 
 const Login = () => {
 
   const [error, setError] = useState(null);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const login = async (userInfo) => {
+    dispatch(setLoading(true));
     try {
       const authInfo = await userService.login(userInfo);
       console.log("AuthInfo: ", authInfo);
@@ -51,6 +54,8 @@ const Login = () => {
     } catch (error) {
       console.error(`Error logging in user: ${error}`);
       setError("Loggin in failed. Please try again.");
+    } finally {
+      dispatch(setLoading(false));
     }
   };
 

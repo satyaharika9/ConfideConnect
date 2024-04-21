@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { CircularProgress, Backdrop } from '@mui/material';
 
 import AppNavbar from './components/common/AppNavBar';
 import Home from './pages/Home';
@@ -19,6 +20,8 @@ import { setTokens, setUser } from './store/slices/user-slice';
 
 
 const AppRoutes = () => {
+
+  const loading = useSelector((state) => state.loading.loading);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -55,6 +58,9 @@ const AppRoutes = () => {
         {/* <Route path="/donation" element={<DonationPage />} /> */}
         {/* <Route path="*" element={<Navigate to="/Home" />} /> */}
       </Routes>
+      <Backdrop open={loading} style={{ zIndex: 9999 }}>
+        <CircularProgress  />
+      </Backdrop>
     </>
   );
 };

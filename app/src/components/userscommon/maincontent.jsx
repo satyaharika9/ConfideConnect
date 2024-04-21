@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Box, Button, IconButton, Tooltip } from '@mui/material';
 import ForumIcon from '@mui/icons-material/Forum';
 
@@ -21,6 +21,7 @@ import doctorService from "../../services/doctorService";
 import eventService from '../../services/eventService';
 import blogService from "../../services/blogService";
 import ChatWindow from './ChatWindow';
+import { setLoading } from '../../store/slices/loading-slice';
 
 
 const tabMappings = {
@@ -31,8 +32,11 @@ const tabMappings = {
 
 const MainContent = ({ currentUser }) => {
 
+    const dispatch = useDispatch();
+
     const user = useSelector((state) => state.user);
     console.log("userrrrrrrrr: ",user);
+
     const [labRequestsForPatient, setLabRequestsForPatient] = useState([]);
     const [medicalRequestsForPatients, setMedicalRequestsForPatients] = useState([]);
     const [medicalRequestsForDoctor, setMedicalRequestsForDoctor] = useState([]);
@@ -43,6 +47,7 @@ const MainContent = ({ currentUser }) => {
     const [blogsForLab, setBlogsForLab] = useState([]);
 
     const fetchData = async (type) => {
+        dispatch(setLoading(true));
         if(type=="patient_medical_requests")
         {
             try {
@@ -57,6 +62,8 @@ const MainContent = ({ currentUser }) => {
                 setMedicalRequestsForPatients(medicalRequestsWithDoctorDetails);
             } catch (error) {
                 console.error('Error fetching medical requests or doctors:', error);
+            } finally {
+                dispatch(setLoading(false));
             }
         }
         else if(type=="patient_lab_requests")
@@ -73,6 +80,8 @@ const MainContent = ({ currentUser }) => {
                 setLabRequestsForPatient(requestsWithLabsDetails);
             } catch (error) {
                 console.error('Error fetching lab requests or labs:', error);
+            } finally {
+                dispatch(setLoading(false));
             }
         }
         else if(type=="doctor_medical_requests")
@@ -89,6 +98,8 @@ const MainContent = ({ currentUser }) => {
                 setMedicalRequestsForDoctor(medicalRequestsWithDoctorDetails);
             } catch (error) {
                 console.error('Error fetching medical requests or doctors:', error);
+            } finally {
+                dispatch(setLoading(false));
             }
         }
         else if(type=="doctor_events")
@@ -99,6 +110,8 @@ const MainContent = ({ currentUser }) => {
                 setEventsForDoctor(eventsData);
             } catch (error) {
                 console.error('Error fetching events:', error);
+            } finally {
+                dispatch(setLoading(false));
             }
         }
         else if(type=="doctor_blogs")
@@ -109,6 +122,8 @@ const MainContent = ({ currentUser }) => {
                 setBlogsForDoctor(blogsData);
             } catch (error) {
                 console.error('Error fetching blogs:', error);
+            } finally {
+                dispatch(setLoading(false));
             }
         }
         else if(type=="lab_lab_requests")
@@ -125,6 +140,8 @@ const MainContent = ({ currentUser }) => {
                 setLabRequestsForLab(labRequestsWithLabDetails);
             } catch (error) {
                 console.error('Error fetching medical requests or doctors:', error);
+            } finally {
+                dispatch(setLoading(false));
             }
         }
         else if(type=="lab_events")
@@ -135,6 +152,8 @@ const MainContent = ({ currentUser }) => {
                 setEventsForLab(eventsData);
             } catch (error) {
                 console.error('Error fetching events:', error);
+            } finally {
+                dispatch(setLoading(false));
             }
         }
         else if(type=="lab_blogs")
@@ -145,6 +164,8 @@ const MainContent = ({ currentUser }) => {
                 setBlogsForLab(blogsData);
             } catch (error) {
                 console.error('Error fetching blogs:', error);
+            } finally {
+                dispatch(setLoading(false));
             }
         }
     };
@@ -192,6 +213,7 @@ const MainContent = ({ currentUser }) => {
                 height: 'calc(100% - 50px)'
             }}
         >   
+
             <SubNavBar items={tabMappings[currentUser.user.role]} handleTabChange={handleTabChange} tabIndex={tabIndex} />
 
             {currentUser.user.role == 'patient' &&

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { TextField, Button, FormHelperText, Link, Alert } from '@mui/material';
@@ -7,27 +8,33 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
 import userService from "../../services/userService";
+import { setLoading } from "../../store/slices/loading-slice";
 
 
 const ResetToken = () => {
 
   const [error, setError] = useState(null);
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const resetToken = async (userInfo) => {
+    dispatch(setLoading(true));
     try {
       console.log("userInfo ", userInfo)
       const authInfo = await userService.getResetToken(userInfo);
       if (authInfo.success == false) {
-        throw ErrorMessage("Invalid Email")
+        throw ErrorMessage("Invalid Email. Please try again.")
       }
       console.log(authInfo)
-      alert("Check you email for further instructions.");
+      alert("Check your email for further instructions.");
       navigate("/login")
       setError(null);
     } catch (error) {
       console.error(`Error Forgot password: ${error}`);
       setError("Invalid Email. Please try again.");
+    } finally {
+      dispatch(setLoading(false));
     }
   };
   return (
@@ -71,10 +78,10 @@ const ResetToken = () => {
               )}
             </Field>
             <FormHelperText error>
-              <ErrorMessage name="Email" />
+              <ErrorMessage name="email" />
             </FormHelperText>
             <Button type="submit" variant="contained" color="primary">
-              Get Reset Token
+              Reset Password
             </Button>
           </Form>
         </Formik>
