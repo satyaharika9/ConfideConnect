@@ -54,7 +54,7 @@ function Donation() {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 placeholder="Enter your email"
-                                required
+                                
                             />
                         </div>
                         <div className="donation-input">
@@ -74,12 +74,12 @@ function Donation() {
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 placeholder="Enter your name"
-                                required
+                                
                             />
                         </div>
                         <div className="donation-input">
                             <label>Country or Region:</label>
-                            <select value={country} onChange={(e) => setCountry(e.target.value)} required>
+                            <select value={country} onChange={(e) => setCountry(e.target.value)} >
                                 <option value="">Select Country</option>
                                 <option value="United States">United States</option>
                                 <option value="India">India</option>
