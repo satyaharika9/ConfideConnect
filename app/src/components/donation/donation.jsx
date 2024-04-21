@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import donationService from '../../services/donationService';
-import '../../App.css';
+import { TextField, Button, Typography, FormControl, InputLabel, Select, MenuItem, Box, Card, Container, Alert } from '@mui/material';
+//import '../../App.css';
 
 function Donation() {
     const [success, setSuccess] = useState(false);
@@ -42,63 +43,90 @@ function Donation() {
     };
 
     return (
-        <div className="donation-container">
-            {!success ? (
-                <>
-                    <h1 className="donation-heading">Donate to Our Cause</h1>
-                    <form onSubmit={handleSubmit} className="donation-form">
-                        <div className="donation-input">
-                            <label>Email:</label>
-                            <input
-                                type="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                placeholder="Enter your email"
-                                
-                            />
-                        </div>
-                        <div className="donation-input">
-                            <label>Donation Amount ($):</label>
-                            <input
-                                type="number"
-                                value={amount}
-                                onChange={(e) => setAmount(e.target.value)}
-                                placeholder="Enter donation amount"
-                                required
-                            />
-                        </div>
-                        <div className="donation-input">
-                            <label>Full Name on Card:</label>
-                            <input
-                                type="text"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                placeholder="Enter your name"
-                                
-                            />
-                        </div>
-                        <div className="donation-input">
-                            <label>Country or Region:</label>
-                            <select value={country} onChange={(e) => setCountry(e.target.value)} >
-                                <option value="">Select Country</option>
-                                <option value="United States">United States</option>
-                                <option value="India">India</option>
-                                <option value="Australia">Australia</option>
-                                <option value="Dubai">Dubai</option>
-                            </select>
-                        </div>
-                        <fieldset className="FormGroup">
-                            <CardElement className="FormRow" required />
-                        </fieldset>
-                        <button type="submit" className="donate-button">Donate</button>
-                    </form>
-                </>
-            ) : (
-                <div className="thank-you-message">
-                    <h2>Thank you for your Donation, {name}! Your donation has been received.</h2>
-                </div>
-            )}
-        </div>
+        <Box sx={{
+            backgroundColor: 'background.default',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: 'calc(100vh - 64px)',
+            color: 'text.primary',
+        }}>
+            <Container maxWidth="sm" sx={{ width: '40vw' }}>
+                {!success ? (
+                    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 3 }}>
+                        <Typography variant="h4" color="primary" gutterBottom>Donate to Our Cause</Typography>
+                        <TextField
+                            label="Email"
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            fullWidth
+                            margin="normal"
+                            variant="outlined"
+                            required
+                            sx={{ input: { color: 'white' }, label: { color: 'text.secondary' } }}
+                        />
+                        <TextField
+                            label="Donation Amount ($)"
+                            type="number"
+                            value={amount}
+                            onChange={(e) => setAmount(e.target.value)}
+                            fullWidth
+                            margin="normal"
+                            variant="outlined"
+                            required
+                            sx={{ input: { color: 'white' }, label: { color: 'text.secondary' } }}
+                        />
+                        <TextField
+                            label="Full Name on Card"
+                            type="text"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            fullWidth
+                            margin="normal"
+                            variant="outlined"
+                            required
+                            sx={{ input: { color: 'white' }, label: { color: 'text.secondary' } }}
+                        />
+                        <FormControl fullWidth margin="normal" required>
+                            <InputLabel sx={{ color: 'text.secondary' }}>Country</InputLabel>
+                            <Select
+                                value={country}
+                                onChange={(e) => setCountry(e.target.value)}
+                                label="Country"
+                                sx={{ color: 'white', '.MuiOutlinedInput-notchedOutline': { borderColor: 'text.secondary' } }}
+                            >
+                                <MenuItem value="">Select Country</MenuItem>
+                                <MenuItem value="United States">United States</MenuItem>
+                                <MenuItem value="India">India</MenuItem>
+                                <MenuItem value="Australia">Australia</MenuItem>
+                                <MenuItem value="Dubai">Dubai</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <FormControl fullWidth margin="normal" variant="outlined" required>
+                            <Card variant="outlined" sx={{ p: 2, backgroundColor: 'background.paper' }}>
+                                <CardElement options={{ hidePostalCode: true, style: { base: { color: '#fff', '::placeholder': { color: '#aab7c4' } } } }} />
+                            </Card>
+                        </FormControl>
+                        <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mb: 2 }}>
+                            Donate
+                        </Button>
+                    </Box>
+                ) : (
+                    <Alert> <Typography 
+                    sx={{ 
+                      fontSize: { xs: '1.25rem', sm: '1.5rem', md: '2rem', lg: '2.5rem', xl: '2.5rem' },
+                      fontWeight: 'bold',
+                      textAlign: 'center',  
+                    }}
+                  >
+                    Thank you for your Donation, {name}! Your donation has been received.
+                  </Typography>
+                  
+                    </Alert>
+                )}
+            </Container>
+        </Box>
     );
 }
 
