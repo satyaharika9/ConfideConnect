@@ -28,6 +28,11 @@ const ChatWindow = ({ userId, name, onClose }) => {
   useEffect(() => {
     socket.emit('join', userId); // Join room with userId
 
+    // Listen for 'initialMessages' event from server
+    socket.on('initialMessages', (storedMessages) => {
+      setMessages(storedMessages);
+    });
+
     // Listen for 'message' event from server
     socket.on('message', (data) => {
       setMessages((prevMessages) => [...prevMessages, data]);
