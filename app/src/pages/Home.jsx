@@ -26,7 +26,18 @@ const Home = () => {
           maxHeight: '350px',
         }}
       />
-      <Typography variant="h4" component="h1" style={{ color: 'white', marginTop: '30px' }}>
+      <Typography 
+        variant="h4" 
+        style={{ 
+          marginTop: '15px',
+          backgroundImage: 'linear-gradient(45deg, #FFFFFF, #CCCCCC)',
+          backgroundClip: 'text',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          textShadow: '0 4px 10px rgba(0,0,0,0.6)',
+          fontSize: '3rem',
+        }}
+      >
         ConfideConnect
       </Typography>
     </Box>

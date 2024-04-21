@@ -2,11 +2,11 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, Button, Box, IconButton, Tooltip } from '@mui/material';
-import HomeIcon from '@mui/icons-material/Home';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 
 import { clearUser } from "../../store/slices/user-slice";
+import ribbonIcon from '../../assets/images/ribbon7.png'; 
 
 
 const AppNavbar = () => {
@@ -39,48 +39,56 @@ const AppNavbar = () => {
   };
 
   return (
-    <AppBar position="static" color="primary"
-    sx={{ 
-        backgroundColor: 'black',
-     }}>
+    <AppBar position="static" color="primary" sx={{ backgroundColor: 'black'}}>
       <Toolbar>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <HomeIcon onClick={handleHomeClick} sx={{ mr: 1, cursor: 'pointer' }} />
-          <Typography variant="h6" component="div" onClick={handleHomeClick} sx={{ cursor: 'pointer' }}>
-            ConfideConnect
-          </Typography>
-        </Box>
+        {!isActiveRoute('/home') ? (
+          <Box sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer'  }} 
+              onClick={handleHomeClick}>
+            <img
+              src={ribbonIcon}
+              alt="AIDS Ribbon"
+              style={{
+                maxWidth: '35px',
+                maxHeight: '35px',
+              }}
+            />
+          </Box>
+        ) : null}
         <Box sx={{ flexGrow: 1 }} />
         {user ? (
           <Button color="inherit" onClick={() => navigate(`/${user.role}`)}
-              variant={isActiveRoute(`/${user.role}`) ? "contained" : "text"}>
+            variant={isActiveRoute(`/${user.role}`) ? "contained" : "text"}
+            sx={{ mr: 1 }}>
             My Dashboard
           </Button>
         ) : null}
-        <Button color="inherit" onClick={() => navigate('/events')} 
-            variant={isActiveRoute('/events') ? "contained" : "text"}>
+        <Button color="inherit" onClick={() => navigate('/events')}
+          variant={isActiveRoute('/events') ? "contained" : "text"}
+          sx={{ mr: 1 }}>
           Events
         </Button>
         <Button color="inherit" onClick={() => navigate('/blogs')}
-            variant={isActiveRoute('/blogs') ? "contained" : "text"}>
+          variant={isActiveRoute('/blogs') ? "contained" : "text"}
+          sx={{ mr: 1 }}>
           Blogs
         </Button>
         <Button color="inherit" onClick={() => navigate('/donations')}
-            variant={isActiveRoute('/donations') ? "contained" : "text"}>
+          variant={isActiveRoute('/donations') ? "contained" : "text"}
+          sx={{ mr: 1 }}>
           Donate
         </Button>
         {isAuthenticated ? (
-            <Tooltip title="Logout" placement="bottom">
-                <IconButton color="inherit" onClick={handleLogoutClick}>
-                    <LogoutIcon />
-                </IconButton>
-            </Tooltip>
+          <Tooltip title="Logout" placement="bottom">
+            <IconButton color="inherit" onClick={handleLogoutClick}>
+              <LogoutIcon />
+            </IconButton>
+          </Tooltip>
         ) : (
-            <Tooltip title="Login" placement="bottom">
-                <IconButton color="inherit" onClick={handleLoginClick}>
-                    <LoginIcon />
-                </IconButton>
-            </Tooltip>
+          <Tooltip title="Login" placement="bottom">
+            <IconButton color="inherit" onClick={handleLoginClick}>
+              <LoginIcon />
+            </IconButton>
+          </Tooltip>
         )}
       </Toolbar>
     </AppBar>
