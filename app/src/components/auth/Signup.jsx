@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { useTranslation } from 'react-i18next';
 import { TextField, Button, FormHelperText, Alert } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -17,6 +18,7 @@ const Signup = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { t } = useTranslation('common');
 
   const register = async (newUserInfo) => {
     dispatch(setLoading(true));
@@ -48,7 +50,7 @@ const Signup = () => {
       height: 'calc(100vh - 64px)',
     }}>
       <Box sx={{ width: '40vw' }}>
-        <Typography variant="h2" color="primary">Sign Up</Typography>
+        <Typography variant="h2" color="primary">{t('signup')}</Typography>
         {error && (
           <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>
         )}
@@ -144,7 +146,7 @@ const Signup = () => {
             </FormHelperText>
 
             <Button type="submit" variant="contained" color="primary">
-              Sign Up
+              {t('signup')}
             </Button>
           </Form>
         </Formik>

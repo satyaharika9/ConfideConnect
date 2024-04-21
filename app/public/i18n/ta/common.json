@@ -5,6 +5,7 @@
     "donate": "தானம்செய்",
     "manage_profile": "சுயவிவரம் நிர்வகி",
     "medical_requests": "மருத்துவ உதவிகள்",
+    "login": "உள்நுழை",
     "request": "கோரிக்கை",
     "description": "விளக்கம்",
     "created_date": "உருவாக்கப்பட்ட தேதி",
@@ -34,5 +35,6 @@
     "download_report": "அறிக்கையை பதிவிறக்கு",
     "download_prescription": "மருத்துவ பத்திரத்தை பதிவிறக்கு",
     "create_a_lab_request": "ஆய்வு கோரிக்கை உருவாக்க",
-    "create_a_medical_request": "மருத்துவ கோரிக்கை உருவாக்க"
+    "create_a_medical_request": "மருத்துவ கோரிக்கை உருவாக்க",
+    "signup": "பதிவு செய்ய"
 }

@@ -35,6 +35,7 @@
     "download_report": "Download Report",
     "download_prescription": "Download Prescription",
     "create_a_lab_request": "Create a Lab Request",
-    "create_a_medical_request": "Create a Medical Request"
+    "create_a_medical_request": "Create a Medical Request",
+    "signup": "Sign Up"
 
 }

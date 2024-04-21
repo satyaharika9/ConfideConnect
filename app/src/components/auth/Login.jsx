@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { useTranslation } from 'react-i18next';
 import { TextField, Button, FormHelperText, Link, Alert } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -18,6 +19,7 @@ const Login = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { t } = useTranslation('common');
 
   const login = async (userInfo) => {
     dispatch(setLoading(true));
@@ -76,7 +78,7 @@ const Login = () => {
       height: 'calc(100vh - 64px)',
     }}>
       <Box sx={{ width: '40vw' }}>
-        <Typography variant="h2" color="primary">Login</Typography>
+        <Typography variant="h2" color="primary"> {t('login')}</Typography>
         {error && (
           <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>
         )}
@@ -131,7 +133,7 @@ const Login = () => {
             </FormHelperText>
 
             <Button type="submit" variant="contained" color="primary">
-              Login
+              {t('login')}
             </Button>
           </Form>
         </Formik>
@@ -142,7 +144,7 @@ const Login = () => {
         </Typography>
         <Typography variant="body2" mt={2}>
           Don't have an account? <Link onClick={handleSignupClick} underline="hover" sx={{ cursor: 'pointer' }}>
-            Sign up
+            {t('signup')}
           </Link>
         </Typography>
 
