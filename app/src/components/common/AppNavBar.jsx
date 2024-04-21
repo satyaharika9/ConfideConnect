@@ -25,6 +25,9 @@ const AppNavbar = () => {
 
   const handleLogoutClick = () => {
     dispatch(clearUser());
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('user')
     navigate('/home');
   };
 

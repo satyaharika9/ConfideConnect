@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Route, Routes } from 'react-router-dom';
+import { useDispatch } from "react-redux";
 
 import AppNavbar from './components/common/AppNavBar';
 import Home from './pages/Home';
@@ -11,12 +12,31 @@ import AdminPage from './pages/AdminPage';
 import PatientPage from './pages/PatientPage';
 import DoctorPage from './pages/DoctorPage';
 import LabPage from './pages/LabPage';
+import { setTokens, setUser } from './store/slices/user-slice';
 // import EventsPage from './pages/EventPage';
 // import BlogsPage from './pages/BlogPage';
 // import DonationPage from './pages/DonationPage';
 
 
 const AppRoutes = () => {
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    // If user data exists in localStorage , then set it in state
+    const accessToken = localStorage.getItem('accessToken');
+    const refreshToken = localStorage.getItem('refreshToken');
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (accessToken && refreshToken && user) {
+      dispatch(setTokens({
+        accessToken: accessToken,
+        refreshToken: refreshToken
+      }));
+      dispatch(setUser({
+        ...user
+      }))
+    }
+  }, []);
+
   return (
     <>
       <AppNavbar />

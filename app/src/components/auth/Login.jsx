@@ -27,6 +27,9 @@ const Login = () => {
         dispatch(setUser({
           ...user
         }));
+        localStorage.setItem('user', JSON.stringify({
+          ...user
+        }));
       }
       else {
         const specificUserDetails = await userService.getUserDetails(user, authInfo);
@@ -35,8 +38,14 @@ const Login = () => {
           ...specificUserDetails,
           ...user
         }));
+        localStorage.setItem('user', JSON.stringify({
+          ...specificUserDetails,
+          ...user
+        }));
       }
       dispatch(setTokens(authInfo));
+      localStorage.setItem('accessToken', authInfo.accessToken);
+      localStorage.setItem('refreshToken', authInfo.refreshToken);
       navigate(`/${user.role}`);
       setError(null);
     } catch (error) {
