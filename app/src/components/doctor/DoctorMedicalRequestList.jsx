@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, 
         Paper, Tooltip, Button, Typography, Modal, Box, IconButton, Input, Select, MenuItem, FormControl } from '@mui/material';
-import ChatIcon from '@mui/icons-material/Chat';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -12,15 +11,36 @@ const DoctorMedicalRequestList = ({fetchData, medicalRequests}) => {
 
     const [openModal, setOpenModal] = useState(false);
     const [selectedRequest, setSelectedRequest] = useState(null);
+    const [dropDownValue, setDropDownValue] = useState(null);
+    const [updateState, setUpdateState] = useState(null);
 
 
     useEffect(() => {
         fetchData('doctor_medical_requests');
     }, []);
 
-    const handleChatClick = (e) => {
-        console.log('Chat button clicked');
+    // Function to handle update request
+    const handleUpdate = async (e) => {
+        console.log('Update button clicked');
         e.stopPropagation();
+
+        try {
+            const updatedRequest = {
+                ...updateState,
+                medicalrequest: {
+                    ...updateState.medicalrequest,
+                    status: dropDownValue
+                }
+            };
+
+            console.log("medical Updated Request:&&&&&&&&&& ", updatedRequest);
+            const resp = await medicalRequestService.updateMedicalRequest(updateState.medicalrequest._id, updatedRequest.medicalrequest);
+            console.log("Update response:", resp);
+            fetchData('doctor_medical_requests');
+            handleCloseModal();
+        } catch (error) {
+            console.error('Error updating medical request:', error);
+        }
     };
 
     const handleDeleteClick = async (e, medicalRequestId) => {
@@ -36,8 +56,6 @@ const DoctorMedicalRequestList = ({fetchData, medicalRequests}) => {
         setOpenModal(false);
     };
 
-
-    // Function to handle file upload
     const handleFileUpload = (event) => {
         if (event.target.type === "file") {
             const file = event.target.files?.[0];
@@ -45,71 +63,44 @@ const DoctorMedicalRequestList = ({fetchData, medicalRequests}) => {
                 if (file.type !== "application/pdf") {
                     console.log("Invalid file type: ", file.type);
                     alert("Please upload a PDF file.");
-                    return; // Stop the function if the file is not a PDF
+                    return;
                 }
 
                 console.log("File uploaded: ", file);
                 const reader = new FileReader();
                 reader.readAsDataURL(file);
-    
+
                 reader.onload = () => {
-                    // This function runs after the file is read successfully
                     console.log("File as Data URL: ", reader.result);
-    
-                    // Copy the current state of selectedRequest to avoid mutating the state directly
-                    const updatedRequest = {
-                        ...selectedRequest,
+                    setUpdateState(prevState => ({
+                        ...prevState,
                         medicalrequest: {
-                            ...selectedRequest.medicalrequest,
+                            ...prevState.medicalrequest,
                             doctorPrescription: reader.result
-                        }
-                    };
-    
-                    // Update the state with the new prescription
-                    setSelectedRequest(updatedRequest);
-                    console.log("Updated prescription:", updatedRequest.medicalrequest.doctorPrescription);
-                    const requestId = updatedRequest.medicalrequest._id
-                    medicalRequestService.updateMedicalRequest(requestId, updatedRequest.medicalrequest);
+                        },
+                    }));
                 };
-    
+
                 reader.onerror = (error) => {
                     console.log("Error reading file: ", error);
                 };
-                
             }
         }
     };
 
-    // Function to handle status change
-    const handleOnChange=async(e)  => {  
-        e.stopPropagation();
-        const updatedRequest = {
-            ...selectedRequest,
-            medicalrequest: {
-                ...selectedRequest.medicalrequest,
-                status: e.target.value
-            }
-        };
-        // setSelectedRequest(updatedRequest);
-        console.log("Updated status:", updatedRequest.medicalrequest.status);
-        try{
-            const resp = await medicalRequestService.updateMedicalRequest(updatedRequest.medicalrequest._id, updatedRequest.medicalrequest);
-            console.log("update resp : ", resp);
-        }
-        catch(error){
-            console.error('Error updating medical request:', error);
-        }
-        fetchData('doctor_medical_requests');
-     }
 
     const handleRowClick = (request) => {
         setSelectedRequest(request);
+        setUpdateState(request);
         setOpenModal(true);
+        setDropDownValue(request.medicalrequest.status);
     };
 
     const handleCloseModal = () => {
         setOpenModal(false);
         setSelectedRequest(null);
+        setDropDownValue(null);
+        setUpdateState(null);
     };
 
     // Function to format date
@@ -129,7 +120,6 @@ const DoctorMedicalRequestList = ({fetchData, medicalRequests}) => {
                         <TableCell>Created Date</TableCell>
                         <TableCell>Status</TableCell>
                         <TableCell></TableCell>
-                        <TableCell></TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -148,11 +138,6 @@ const DoctorMedicalRequestList = ({fetchData, medicalRequests}) => {
                             </TableCell>
                             <TableCell>{formatDate(request.medicalrequest.creationTime)}</TableCell>
                             <TableCell>{request.medicalrequest.status}</TableCell>
-                            <TableCell>
-                                <Tooltip title={`Chat with patient`}>
-                                    <Button onClick={(e) => handleChatClick(e)}><ChatIcon /></Button>
-                                </Tooltip>
-                            </TableCell>
                             <TableCell>
                                 <Tooltip title="Delete Request">
                                     <Button onClick={(e) => handleDeleteClick(e, request.medicalrequest._id)}><DeleteIcon /></Button>
@@ -202,8 +187,8 @@ const DoctorMedicalRequestList = ({fetchData, medicalRequests}) => {
                          <Box sx={{ mt: 2 }}>
                          <FormControl  sx={{ mt: 2 }}>
                             <Select
-                                value={selectedRequest.medicalrequest.status}
-                                onChange={handleOnChange}
+                                value={dropDownValue}
+                                onChange={(e) => setDropDownValue(e.target.value)}
                             >
                                 <MenuItem value="REQUESTED">REQUESTED</MenuItem>
                                 <MenuItem value="MATCHED">MATCHED</MenuItem>
@@ -217,11 +202,11 @@ const DoctorMedicalRequestList = ({fetchData, medicalRequests}) => {
                         </Box>
                         <Box sx={{mt: 4}}>
                             <Button
+                                type="submit"
                                 variant="contained"
-                                startIcon={<ChatIcon />}
-                                onClick={(e) => handleChatClick(e)}
+                                onClick={(e) => handleUpdate(e)}
                             >
-                                Chat with patient
+                                Update
                             </Button>
                         </Box>
                         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>

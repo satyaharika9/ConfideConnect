@@ -12,6 +12,8 @@ const LabRequestList = ({fetchData, labRequests}) => {
 
     const [openModal, setOpenModal] = useState(false);
     const [selectedRequest, setSelectedRequest] = useState(null);
+    const [dropDownValue, setDropDownValue] = useState(null);
+    const [updateState, setUpdateState] = useState(null);
 
     useEffect(() => {
         fetchData("lab_lab_requests");
@@ -20,6 +22,29 @@ const LabRequestList = ({fetchData, labRequests}) => {
     const handleChatClick = (e) => {
         console.log('Chat button clicked');
         e.stopPropagation();
+    };
+
+     // Function to handle update request
+     const handleUpdate = async (e) => {
+        console.log('Update button clicked');
+        e.stopPropagation();
+
+        try {
+            const updatedRequest = {
+                ...updateState,
+                labrequest: {
+                    ...updateState.labrequest,
+                    status: dropDownValue
+                }
+            };
+            console.log("updatedRequest*************:", updatedRequest);
+            const resp = await labRequestService.updateLabRequest(updateState.labrequest._id, updatedRequest.labrequest);
+            console.log("Update response:", resp);
+            fetchData('lab_lab_requests');
+            handleCloseModal();
+        } catch (error) {
+            console.error('Error updating lab request:', error);
+        }
     };
 
     const handleDeleteClick = async (e, labRequestId) => {
@@ -43,70 +68,45 @@ const LabRequestList = ({fetchData, labRequests}) => {
                 if (file.type !== "application/pdf") {
                     console.log("Invalid file type: ", file.type);
                     alert("Please upload a PDF file.");
-                    return; // Stop the function if the file is not a PDF
+                    return;
                 }
 
                 console.log("File uploaded: ", file);
                 const reader = new FileReader();
                 reader.readAsDataURL(file);
-    
+
                 reader.onload = () => {
-                    // This function runs after the file is read successfully
                     console.log("File as Data URL: ", reader.result);
-    
-                    // Copy the current state of selectedRequest to avoid mutating the state directly
-                    const updatedRequest = {
-                        ...selectedRequest,
+                    setUpdateState(prevState => ({
+                        ...prevState,
                         labrequest: {
-                            ...selectedRequest.labrequest,
+                            ...prevState.labrequest,
                             labReport: reader.result
-                        }
-                    };
-    
-                    // Update the state with the new prescription
-                    setSelectedRequest(updatedRequest);
-                    console.log("Updated Report:", updatedRequest.labrequest.labReport);
-                    const requestId = updatedRequest.labrequest._id
-                    labRequestService.updateLabRequest(requestId, updatedRequest.labrequest);
+                        },
+                    }));
                 };
-    
+
                 reader.onerror = (error) => {
                     console.log("Error reading file: ", error);
                 };
-                
             }
         }
     };
 
-    const handleOnChange = async (e) => {
-        e.stopPropagation();
-        const updatedRequest = {
-            ...selectedRequest,
-            labrequest: {
-                ...selectedRequest.labrequest,
-                status: e.target.value
-            }
-        };
-        try{
 
-            const resp = await labRequestService.updateLabRequest(updatedRequest.labrequest._id, updatedRequest.labrequest);
-            console.log("update resp : ", resp);
-        }
-        catch (error) {
-            console.error('Error updating lab request:', error);
-        }
-       
-        fetchData("lab_lab_requests");
-    }
 
     const handleRowClick = (request) => {
         setSelectedRequest(request);
+        setUpdateState(request);
+        setDropDownValue(request.labrequest.status)
         setOpenModal(true);
     };
 
     const handleCloseModal = () => {
         setOpenModal(false);
         setSelectedRequest(null);
+        setUpdateState(null);
+        setDropDownValue(null);
     };
 
     // Function to format date
@@ -118,7 +118,7 @@ const LabRequestList = ({fetchData, labRequests}) => {
     return (
         <>
         <TableContainer component={Paper} sx={{ marginTop: '30px', maxHeight: '430px' }}>
-            <Table aria-label="medical request table">
+            <Table aria-label="Lab request table">
                 <TableHead>
                     <TableRow>
                         <TableCell>Request</TableCell>
@@ -202,8 +202,8 @@ const LabRequestList = ({fetchData, labRequests}) => {
                         <Box sx={{ mt: 2 }}>
                          <FormControl  sx={{ mt: 2 }}>
                             <Select
-                                value={selectedRequest.labrequest.status}
-                                onChange={handleOnChange}
+                                value={dropDownValue}
+                                onChange={(e) => setDropDownValue(e.target.value)}
                             >
                                 <MenuItem value="REQUESTED">REQUESTED</MenuItem>
                                 <MenuItem value="MATCHED">MATCHED</MenuItem>
@@ -220,11 +220,11 @@ const LabRequestList = ({fetchData, labRequests}) => {
                         </Box>
                         <Box sx={{mt: 4}}>
                             <Button
+                                type="submit"
                                 variant="contained"
-                                startIcon={<ChatIcon />}
-                                onClick={(e) => handleChatClick(e)}
+                                onClick={(e) => handleUpdate(e)}
                             >
-                                Chat with patient
+                                Update
                             </Button>
                         </Box>
                         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
