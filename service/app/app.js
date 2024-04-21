@@ -53,4 +53,3 @@ const initialize = (app) => {
 }
 
 export default initialize;
-

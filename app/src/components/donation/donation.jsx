@@ -12,6 +12,8 @@ function Donation() {
     const stripe = useStripe();
     const elements = useElements();
 
+    const [error, setError] = useState(null);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const cardElement = elements.getElement(CardElement);
@@ -19,22 +21,18 @@ function Donation() {
             type: 'card',
             card: cardElement,
         });
-
+    
         if (!error) {
             try {
                 const response = await donationService.makeDonation({
                     name,
                     email,
                     country,
-                    amount: parseInt(amount) * 100, 
-                    paymentMethodId: paymentMethod.id
-                });
-                console.log('Response:', response);
-                if (response.success) {
+                    amount: parseInt(amount) * 100,
+                    paymentMethodId: paymentMethod.id,
+                }).then(() => {
                     setSuccess(true);
-                } else {
-                    alert(response.message || 'Donation failed.');
-                }
+                });
             } catch (error) {
                 alert('Error making donation: ' + error.message);
             }
