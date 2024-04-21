@@ -120,6 +120,7 @@ export const refreshUserToken = async (request, response) => {
     }
 }
 
+// generate a reset token and send it to user email
 export const getResetToken = async (request, response) => {
     try {
         const email = request.body.email
@@ -131,6 +132,7 @@ export const getResetToken = async (request, response) => {
     }
 }
 
+// reset password to user input new password
 export const resetPassword = async (request, response) => {
     try {
         const resetToken = request.params.token;

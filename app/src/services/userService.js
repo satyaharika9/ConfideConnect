@@ -30,6 +30,16 @@ const getUserDetails = async (user, authInfo) => {
   return response.data;
 }
 
-const userService = { createUser, login, getUser, getUserDetails };
+const getResetToken = async (userInfo) => {
+  const response = await axios.post(baseURL+'/users/reset', userInfo);
+  return response.data;
+}
+
+const resetPassword = async (userInfo, token) => {
+  const response = await axios.post(baseURL+`/users/reset/${token}`, userInfo);
+  return response.data;
+}
+
+const userService = { createUser, login, getUser, getUserDetails, getResetToken, resetPassword };
 
 export default userService;

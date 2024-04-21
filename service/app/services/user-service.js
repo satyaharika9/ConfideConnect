@@ -297,16 +297,16 @@ export const getResetToken =  async (email) => {
         const transporter = nodemailer.createTransport({
             service: "gmail",
             auth: {
-                user: process.env.RESET_TOKEN_EMAIL,
-                pass: process.env.RESET_TOKEN_PASSWORD
+                user: process.env.ADMIN_EMAIL,
+                pass: process.env.ADMIN_EMAIL_APP_PASSWORD
             }
         });
 
-        transporter.sendMail({
-            from: process.env.RESET_TOKEN_EMAIL,
+        await transporter.sendMail({
+            from: process.env.ADMIN_EMAIL,
             to: email,
             subject: "Password Reset",
-            text: `To reset your password, click on this link: ${process.env.URL}/confideconnect/users/reset/${newToken}`
+            text: `To reset your password, click on this link: ${process.env.URL}/reset/${newToken}`
         });
         return { success: true }
     } catch (error) {

@@ -49,6 +49,10 @@ const Login = () => {
     navigate('/signup');
   };
 
+  const handleForgotPasswordClick = () => {
+    navigate('/forgotpassword');
+  };
+
   return (
     <Box sx={{
       backgroundColor: 'black',
@@ -117,11 +121,17 @@ const Login = () => {
             </Button>
           </Form>
         </Formik>
+        <Typography variant="body2" mt={3}>
+          Forgot password? <Link onClick={handleForgotPasswordClick} underline="hover" sx={{ cursor: 'pointer' }}>
+            Click Here
+          </Link>
+        </Typography>
         <Typography variant="body2" mt={2}>
-          Don't have an account? <Link onClick={handleSignupClick} underline="hover">
+          Don't have an account? <Link onClick={handleSignupClick} underline="hover" sx={{ cursor: 'pointer' }}>
             Sign up
           </Link>
         </Typography>
+
       </Box>
     </Box>
   );

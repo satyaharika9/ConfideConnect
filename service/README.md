@@ -27,8 +27,13 @@ SECRET_ACCESS_KEY='your_secret_access_key'
 SECRET_REFRESH_KEY='your_secret_refresh_key'
 RESET_TOKEN_EXPIRATION_SECONDS=300
 RESET_TOKEN_EXPIRATION_SECONDS=3600
-RESET_TOKEN_EMAIL=
-RESET_TOKEN_PASSWORD=
-URL=http://127.0.0.1:3002
+ADMIN_EMAIL="confideconnect@gmail.com"
+ADMIN_EMAIL_APP_PASSWORD="lzcuvhkbnxyfnjyh"
+URL=http://localhost:5173/confideconnect
+
+## setup gmail for nodemailer
+1. In google account settings of confideconnect@gmail.com, set app password
+2. In gmail account settings of confideconnect@gmail.com, in Forwarding and POP/IMAP enable IMAP
+3. In env app password as ADMIN_EMAIL_APP_PASSWORD
 
 
