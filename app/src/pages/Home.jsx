@@ -3,9 +3,13 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 import ribbonImage4 from '../assets/images/ribbon7.png'; 
+import { useTranslation } from 'react-i18next';
 
 
 const Home = () => {
+
+  // state variables
+  const { t , i18n} = useTranslation('common');
 
   return (
     <Box  
@@ -38,7 +42,7 @@ const Home = () => {
           fontSize: '3rem',
         }}
       >
-        ConfideConnect
+        {t('confide_connect')}
       </Typography>
     </Box>
   );

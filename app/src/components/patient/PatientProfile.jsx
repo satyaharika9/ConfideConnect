@@ -5,11 +5,15 @@ import { TextField, Button, FormHelperText, Alert, Modal, Box ,  Select, MenuIte
 import Typography from '@mui/material/Typography';
 
 import patientService from "../../services/patientService";
+import { useTranslation } from 'react-i18next';
 
 const PatientProfileUpdate = ({ user, showProfileUpdate }) => {
     const [open, setOpen] = useState(true);
     const [error, setError] = useState(null);
     const [patient, setPatient] = useState({});
+
+    // Function to handle internationalization
+    const { t } = useTranslation('common');
 
     useEffect(() => {
         const fetchPatient = async () => {
@@ -74,7 +78,7 @@ const PatientProfileUpdate = ({ user, showProfileUpdate }) => {
           }}
          >
              <Typography variant="h4" color="primary">
-                Update Profile
+                {t('update_profile')}
              </Typography>
              {error && (
             <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>
@@ -261,7 +265,7 @@ const PatientProfileUpdate = ({ user, showProfileUpdate }) => {
                 </FormHelperText>
 
                 <Button type="submit" variant="contained" color="primary">
-                Save Profile
+                {t('save_profile')}
               </Button>
 
                 </Form>

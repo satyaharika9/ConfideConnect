@@ -5,15 +5,17 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
 
 import medicalRequestService from '../../services/medicalrequestService';
-
+import { useTranslation } from 'react-i18next';
 
 const DoctorMedicalRequestList = ({fetchData, medicalRequests}) => {
 
+    // state variables
     const [openModal, setOpenModal] = useState(false);
     const [selectedRequest, setSelectedRequest] = useState(null);
     const [dropDownValue, setDropDownValue] = useState(null);
     const [updateState, setUpdateState] = useState(null);
 
+    const { t } = useTranslation('common');
 
     useEffect(() => {
         fetchData('doctor_medical_requests');
@@ -33,7 +35,7 @@ const DoctorMedicalRequestList = ({fetchData, medicalRequests}) => {
                 }
             };
 
-            console.log("medical Updated Request:&&&&&&&&&& ", updatedRequest);
+            console.log("medical Updated Request:", updatedRequest);
             const resp = await medicalRequestService.updateMedicalRequest(updateState.medicalrequest._id, updatedRequest.medicalrequest);
             console.log("Update response:", resp);
             fetchData('doctor_medical_requests');
@@ -43,6 +45,7 @@ const DoctorMedicalRequestList = ({fetchData, medicalRequests}) => {
         }
     };
 
+    // Function to handle delete request
     const handleDeleteClick = async (e, medicalRequestId) => {
         console.log('Delete button clicked');
         e.stopPropagation();
@@ -56,6 +59,7 @@ const DoctorMedicalRequestList = ({fetchData, medicalRequests}) => {
         setOpenModal(false);
     };
 
+    // Function to handle file upload
     const handleFileUpload = (event) => {
         if (event.target.type === "file") {
             const file = event.target.files?.[0];
@@ -89,6 +93,7 @@ const DoctorMedicalRequestList = ({fetchData, medicalRequests}) => {
     };
 
 
+    // Function to handle row click
     const handleRowClick = (request) => {
         setSelectedRequest(request);
         setUpdateState(request);
@@ -96,6 +101,7 @@ const DoctorMedicalRequestList = ({fetchData, medicalRequests}) => {
         setDropDownValue(request.medicalrequest.status);
     };
 
+    // Function to handle close modal
     const handleCloseModal = () => {
         setOpenModal(false);
         setSelectedRequest(null);
@@ -115,10 +121,10 @@ const DoctorMedicalRequestList = ({fetchData, medicalRequests}) => {
             <Table aria-label="medical request table">
                 <TableHead>
                     <TableRow>
-                        <TableCell>Request</TableCell>
-                        <TableCell>Description</TableCell>
-                        <TableCell>Created Date</TableCell>
-                        <TableCell>Status</TableCell>
+                        <TableCell>{t('request')}</TableCell>
+                        <TableCell>{t('description')}</TableCell>
+                        <TableCell>{t('created_date')}</TableCell>
+                        <TableCell>{t('status')}</TableCell>
                         <TableCell></TableCell>
                     </TableRow>
                 </TableHead>
@@ -169,7 +175,7 @@ const DoctorMedicalRequestList = ({fetchData, medicalRequests}) => {
                     }}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <Typography id="modal-modal-title" variant="h6" component="h2">
-                            {selectedRequest? selectedRequest.medicalrequest.requestName: Request} Details
+                            {selectedRequest? selectedRequest.medicalrequest.requestName: Request} {t('details')}
                         </Typography>
                         <IconButton aria-label="close" onClick={handleCloseModal}>
                             <CloseIcon />
@@ -181,7 +187,7 @@ const DoctorMedicalRequestList = ({fetchData, medicalRequests}) => {
                             <Typography variant="body1">{selectedRequest.medicalrequest.requestDescription}</Typography>
                         </Box>
                         <Box sx={{ mt: 2 }}>
-                            <Typography variant="body1">On {formatDate(selectedRequest.medicalrequest.creationTime)}</Typography>
+                            <Typography variant="body1">{t('on')} {formatDate(selectedRequest.medicalrequest.creationTime)}</Typography>
                         </Box>
 
                          <Box sx={{ mt: 2 }}>
@@ -206,7 +212,7 @@ const DoctorMedicalRequestList = ({fetchData, medicalRequests}) => {
                                 variant="contained"
                                 onClick={(e) => handleUpdate(e)}
                             >
-                                Update
+                                {t('update')}
                             </Button>
                         </Box>
                         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
@@ -216,7 +222,7 @@ const DoctorMedicalRequestList = ({fetchData, medicalRequests}) => {
                                 startIcon={<DeleteIcon />}
                                 onClick={(e) => handleDeleteClick(e, selectedRequest.medicalrequest._id)}
                             >
-                                Delete Request
+                                {t('delete_request')}
                             </Button>
                         </Box>
                     </>

@@ -5,11 +5,39 @@ import { TextField, Button, FormHelperText, Alert, Modal, Box } from '@mui/mater
 import Typography from '@mui/material/Typography';
 
 import medicalRequestService from "../../services/medicalrequestService";
+import doctorService from "../../services/doctorService";
+import { useTranslation } from 'react-i18next';
 
 
 const PatientCreateMedicalRequestModal = ({ user, open, setOpen, fetchData }) => {
 
   const [error, setError] = useState(null);
+  const [allDoctorIds, setAllDoctorIds] = useState([]);
+
+  // Function to handle internationalization
+  const { t } = useTranslation('common');
+
+  const fetchDoctorIds = async () => {
+    try {
+      const allDoctors = await doctorService.getDoctors();
+      const doctorIds = allDoctors.map(doctor => doctor.doctorId);
+      setAllDoctorIds(doctorIds);
+      console.log("All doctor IDs: ", allDoctorIds);
+    } catch (error) {
+      console.error(`Error fetching doctor IDs: ${error}`);
+    }
+  };
+
+  useEffect(() => {
+    fetchDoctorIds();
+  }, []);
+  // Generate a random index to select a doctor ID
+  const randomIndex = Math.floor(Math.random() * allDoctorIds.length);
+  
+  // Retrieve the randomly selected doctor ID
+  const randomDoctorId = allDoctorIds[randomIndex];
+
+  
 
   const createRequest = async (requestInfo) => {
     try {
@@ -23,6 +51,7 @@ const PatientCreateMedicalRequestModal = ({ user, open, setOpen, fetchData }) =>
       setError("Request creation failed. Please try again.");
     }
   };
+
 
   return (
     <Box>
@@ -47,7 +76,7 @@ const PatientCreateMedicalRequestModal = ({ user, open, setOpen, fetchData }) =>
           }}
          >
           <Typography variant="h4" color="primary">
-            Medical Request
+            {t('medical_request')}
           </Typography>
           {error && (
             <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>
@@ -71,7 +100,7 @@ const PatientCreateMedicalRequestModal = ({ user, open, setOpen, fetchData }) =>
               console.log("Register form values: ", values);
               const requestInfo = {
                 "patientId": user.user.patientId,
-                "doctorId": "661fcf4c8c7595363ea670fd", // random for now. TO DO algo to match doctor
+                "doctorId":  randomDoctorId, // random for now. TO DO algo to match doctor
                 "requestName": values.name,
                 "requestDescription": values.description,
                 "doctorPrescription": null,
@@ -159,7 +188,7 @@ const PatientCreateMedicalRequestModal = ({ user, open, setOpen, fetchData }) =>
                     <ErrorMessage name="preExistingConditions" />
                 </FormHelperText>
               <Button type="submit" variant="contained" color="primary">
-                Create Request
+               {t('create_request')}
               </Button>
             </Form>
           </Formik>

@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableContainer, TableHead, 
         TableRow, Paper, Tooltip, Button, Typography, Modal, Box, IconButton } from '@mui/material';
-import ChatIcon from '@mui/icons-material/Chat';
 import GetAppIcon from '@mui/icons-material/GetApp';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
 
 import medicalRequestService from '../../services/medicalrequestService';
+import { useTranslation } from 'react-i18next';
 
 
 const PatientMedicalRequestList = ({fetchData, medicalRequests}) => {
 
     const [openModal, setOpenModal] = useState(false);
     const [selectedRequest, setSelectedRequest] = useState(null);
+
+    // Function to handle internationalization
+    const { t } = useTranslation('common');
 
     useEffect(() => {
         fetchData('patient_medical_requests');
@@ -95,12 +98,12 @@ const PatientMedicalRequestList = ({fetchData, medicalRequests}) => {
                 <Table aria-label="medical request table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>Request</TableCell>
-                            <TableCell>Description</TableCell>
-                            <TableCell>Created Date</TableCell>
-                            <TableCell>Status</TableCell>
-                            <TableCell>Doctor</TableCell>
-                            <TableCell>Prescription</TableCell>
+                            <TableCell>{t('request')}</TableCell>
+                            <TableCell>{t('description')}</TableCell>
+                            <TableCell>{t('created_date')}</TableCell>
+                            <TableCell>{t('status')}</TableCell>
+                            <TableCell>{t('doctor')}</TableCell>
+                            <TableCell>{t('prescription')}</TableCell>
                             <TableCell></TableCell>
                         </TableRow>
                     </TableHead>
@@ -118,12 +121,9 @@ const PatientMedicalRequestList = ({fetchData, medicalRequests}) => {
                                         {request.medicalrequest.requestDescription}
                                     </Typography>
                                 </TableCell>
-                                <TableCell>{request.medicalrequest.creationTime}</TableCell>
+                                <TableCell>{formatDate(request.medicalrequest.creationTime)}</TableCell>
                                 <TableCell>{request.medicalrequest.status}</TableCell>
                                 <TableCell>{`Dr.${request.doctor.name}`}
-                                    <Tooltip title={`Chat with Dr.${request.doctor.name}`}>
-                                        <Button onClick={(e) => handleChatClick(e)}><ChatIcon /></Button>
-                                    </Tooltip>
                                 </TableCell>
                                 <TableCell>
                                 {request.medicalrequest.doctorPrescription ? 
@@ -167,7 +167,7 @@ const PatientMedicalRequestList = ({fetchData, medicalRequests}) => {
                     }}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <Typography id="modal-modal-title" variant="h6" component="h2">
-                            {selectedRequest? selectedRequest.medicalrequest.requestName: Request} Details
+                            {selectedRequest? selectedRequest.medicalrequest.requestName: Request} {t('details')}
                         </Typography>
                         <IconButton aria-label="close" onClick={handleCloseModal}>
                             <CloseIcon />
@@ -176,16 +176,16 @@ const PatientMedicalRequestList = ({fetchData, medicalRequests}) => {
                     {selectedRequest && (
                         <>
                         <Box sx={{mt: 2}}>
-                            <Typography variant="body1">Assigned to physician Dr. {selectedRequest.doctor.name}</Typography>
+                            <Typography variant="body1">{t('assigned_to_physician')} Dr. {selectedRequest.doctor.name}</Typography>
                         </Box>
                         <Box sx={{ mt: 2 }}>
                             <Typography variant="body1">{selectedRequest.medicalrequest.requestDescription}</Typography>
                         </Box>
                         <Box sx={{ mt: 2 }}>
-                            <Typography variant="body1">On {formatDate(selectedRequest.medicalrequest.creationTime)}</Typography>
+                            <Typography variant="body1">{t('on')} {formatDate(selectedRequest.medicalrequest.creationTime)}</Typography>
                         </Box>
                         <Box sx={{ mt: 2 }}>
-                            <Typography variant="body1">Status: {selectedRequest.medicalrequest.status}</Typography>
+                            <Typography variant="body1">{t('status')}: {selectedRequest.medicalrequest.status}</Typography>
                         </Box>
                         {selectedRequest.medicalrequest.doctorPrescription? 
                         <Box sx={{mt: 2}}>
@@ -194,18 +194,9 @@ const PatientMedicalRequestList = ({fetchData, medicalRequests}) => {
                                 startIcon={<GetAppIcon />}
                                 onClick={(e) => handleDownloadClick(e, selectedRequest.medicalrequest.doctorPrescription)}
                             >
-                                Download Prescription
+                                {t('download_prescription')}
                             </Button>
                         </Box> : null}
-                        <Box sx={{mt: 2}}>
-                            <Button
-                                variant="contained"
-                                startIcon={<ChatIcon />}
-                                onClick={(e) => handleChatClick(e)}
-                            >
-                                Chat with Dr. {selectedRequest.doctor.name}
-                            </Button>
-                        </Box>
                         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
                             <Button
                                 variant="contained"
@@ -213,7 +204,7 @@ const PatientMedicalRequestList = ({fetchData, medicalRequests}) => {
                                 startIcon={<DeleteIcon />}
                                 onClick={(e) => handleDeleteClick(e, selectedRequest.medicalrequest._id)}
                             >
-                                Delete Request
+                                {t('delete_request')}
                             </Button>
                         </Box>
                     </>

@@ -6,11 +6,17 @@ import Typography from '@mui/material/Typography';
 
 import labService from "../../services/labService";
 
+import { useTranslation } from 'react-i18next';
+
 
 const LabProfileUpdate = ({ user, showProfileUpdate }) => {
+
+    // state variables
     const [open, setOpen] = useState(true);
     const [error, setError] = useState(null);
     const [lab, setLab] = useState({});
+
+    const { t } = useTranslation('common');
 
     useEffect(() => {
         const fetchLab = async () => {
@@ -26,6 +32,7 @@ const LabProfileUpdate = ({ user, showProfileUpdate }) => {
         fetchLab();
     }, [user.user._id]);
 
+    // Update Lab Profile
     const handleSubmit = (values, { setSubmitting }) => {
         console.log("values",values);
         console.log("inside submiittttt")
@@ -67,7 +74,7 @@ const LabProfileUpdate = ({ user, showProfileUpdate }) => {
           }}
          >
              <Typography variant="h4" color="primary">
-                Update Profile
+                {t('update_profile')}
              </Typography>
              {error && (
             <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>
@@ -197,7 +204,7 @@ const LabProfileUpdate = ({ user, showProfileUpdate }) => {
               </FormHelperText>
 
                 <Button type="submit" variant="contained" color="primary">
-                Save Profile
+                {t('save_profile')}
               </Button>
 
                 </Form>

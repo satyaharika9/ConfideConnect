@@ -5,6 +5,7 @@ import { useState } from 'react';
 import PatientProfileUpdate from '../patient/PatientProfile';
 import DoctorProfileUpdate from '../doctor/DoctorProfile';
 import LabProfileUpdate from '../lab/LabProfile';
+import { useTranslation } from 'react-i18next';
 
 
 const Sidebar = ({ currentUser }) => {
@@ -13,6 +14,9 @@ const Sidebar = ({ currentUser }) => {
   const handleManageProfile = () => {
       setShowProfileUpdate(!showProfileUpdate);
   }
+
+   // Function to handle internationalization
+   const { t } = useTranslation('common');
 
   return (
     <Box
@@ -36,7 +40,7 @@ const Sidebar = ({ currentUser }) => {
       </Typography>
      
       <Button variant="contained" sx={{ mt: 2 }} onClick={handleManageProfile}>
-        Manage Profile
+        {t('manage_profile')}
       </Button>
       {
         currentUser.user.role === 'patient' && showProfileUpdate? <PatientProfileUpdate user={currentUser} showProfileUpdate={setShowProfileUpdate}/>: null

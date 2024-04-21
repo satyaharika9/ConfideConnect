@@ -5,11 +5,42 @@ import { TextField, Button, FormHelperText, Alert, Modal, Box } from '@mui/mater
 import Typography from '@mui/material/Typography';
 
 import labRequestService from "../../services/labrequestService";
+import { useTranslation } from 'react-i18next';
+
+import labService from "../../services/labService";
 
 
 const PatientCreateLabRequestModal = ({ user, open, setOpen, fetchData }) => {
 
   const [error, setError] = useState(null);
+  const [allLabIds, setAllLabIds] = useState([]);
+
+  // Function to handle internationalization
+  const { t } = useTranslation('common');
+
+  const fetchLabIds = async () => {
+    try {
+      const allLabs = await labService.getLabs();
+      const labIds = allLabs.map(lab => lab.labId);
+      setAllLabIds(labIds);
+      console.log("All lab IDs: ", allLabIds);
+    } catch (error) {
+      console.error(`Error fetching lab IDs: ${error}`);
+    }
+  }
+
+  useEffect(() => { 
+    fetchLabIds();
+  },[]);
+  
+
+  // Generate a random index to select a Lab ID
+  const randomIndex = Math.floor(Math.random() * allLabIds.length);
+  
+  // Retrieve the randomly selected Lab ID
+  const randomLabId = allLabIds[randomIndex];
+
+  console.log("Random Lab ID: ", randomLabId);
 
   const createRequest = async (requestInfo) => {
     try {
@@ -47,7 +78,7 @@ const PatientCreateLabRequestModal = ({ user, open, setOpen, fetchData }) => {
           }}
          >
           <Typography variant="h4" color="primary">
-            Lab Request
+            {t('lab_request')}
           </Typography>
           {error && (
             <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>
@@ -80,7 +111,7 @@ const PatientCreateLabRequestModal = ({ user, open, setOpen, fetchData }) => {
               console.log("Register form values: ", values);
               const requestInfo = {
                 "patientId": user.user.patientId,
-                "labId": "661fcf5c8c7595363ea67101", // random for now. TO DO algo to match lab
+                "labId": randomLabId, // random for now. TO DO algo to match lab
                 "requestName": values.name,
                 "requestDescription": values.description,
                 "labReport": "wdch",
@@ -252,7 +283,7 @@ const PatientCreateLabRequestModal = ({ user, open, setOpen, fetchData }) => {
               </FormHelperText>
               
               <Button type="submit" variant="contained" color="primary">
-                Create Request
+                {t('create_request')}
               </Button>
             </Form>
           </Formik>

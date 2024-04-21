@@ -5,12 +5,17 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
 
 import blogService from "../../services/blogService";
+import { useTranslation } from 'react-i18next';
 
 
 const BlogList = ({fetchData, blogs, user}) => {
 
+    // state variables
     const [openModal, setOpenModal] = useState(false);
     const [selectedBlog, setSelectedBlog] = useState(null);
+
+     // Function to handle internationalization
+     const { t } = useTranslation('common');
 
     useEffect(() => {
         if (user.user.role == "doctor") {
@@ -21,6 +26,7 @@ const BlogList = ({fetchData, blogs, user}) => {
         }
     }, []);
 
+    // Function to handle delete blog
     const handleDeleteClick = async (e, blogId) => {
         console.log('Delete button clicked');
         e.stopPropagation();
@@ -39,11 +45,13 @@ const BlogList = ({fetchData, blogs, user}) => {
         setOpenModal(false);
     };
 
+    // Function to handle row click
     const handleRowClick = (event) => {
         setSelectedBlog(event);
         setOpenModal(true);
     };
 
+    // Function to handle close modal
     const handleCloseModal = () => {
         setOpenModal(false);
         setSelectedBlog(null);
@@ -61,9 +69,9 @@ const BlogList = ({fetchData, blogs, user}) => {
             <Table aria-label="blog table">
                 <TableHead>
                     <TableRow>
-                        <TableCell>Blog</TableCell>
-                        <TableCell>Description</TableCell>
-                        <TableCell>Created Date</TableCell>
+                        <TableCell>{t('blog')}</TableCell>
+                        <TableCell>{t("description")}</TableCell>
+                        <TableCell>{t('created_date')}</TableCell>
                         <TableCell></TableCell>
                     </TableRow>
                 </TableHead>
@@ -114,7 +122,7 @@ const BlogList = ({fetchData, blogs, user}) => {
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <Typography id="modal-modal-title" variant="h6" component="h2">
                         {console.log("selectedBlog:",selectedBlog)}
-                            {selectedBlog ? selectedBlog.name : Event} Details
+                            {selectedBlog ? selectedBlog.name : Event} {t('details')}
                         </Typography>
                         <IconButton aria-label="close" onClick={handleCloseModal}>
                             <CloseIcon />
@@ -126,7 +134,7 @@ const BlogList = ({fetchData, blogs, user}) => {
                                 <Typography variant="body1">{selectedBlog.description}</Typography>
                             </Box>
                             <Box sx={{ mt: 2 }}>
-                                <Typography variant="body1">On {formatDate(selectedBlog.createdDate)}</Typography>
+                                <Typography variant="body1">{t('on')} {formatDate(selectedBlog.createdDate)}</Typography>
                             </Box>
                             <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
                                 <Button
@@ -135,7 +143,7 @@ const BlogList = ({fetchData, blogs, user}) => {
                                     startIcon={<DeleteIcon />}
                                     onClick={(e) => handleDeleteClick(e, selectedBlog._id)}
                                 >
-                                    Delete Blog
+                                    {t('delete_blog')}
                                 </Button>
                             </Box>
                         </>

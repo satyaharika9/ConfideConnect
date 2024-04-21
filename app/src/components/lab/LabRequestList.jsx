@@ -7,18 +7,24 @@ import CloseIcon from '@mui/icons-material/Close';
 
 import labRequestService from "../../services/labrequestService";
 
+import { useTranslation } from 'react-i18next';
+
 
 const LabRequestList = ({fetchData, labRequests}) => {
 
+    // state variables
     const [openModal, setOpenModal] = useState(false);
     const [selectedRequest, setSelectedRequest] = useState(null);
     const [dropDownValue, setDropDownValue] = useState(null);
     const [updateState, setUpdateState] = useState(null);
 
+    const { t } = useTranslation('common');
+
     useEffect(() => {
         fetchData("lab_lab_requests");
     }, []);
 
+    // Function to handle chat click
     const handleChatClick = (e) => {
         console.log('Chat button clicked');
         e.stopPropagation();
@@ -37,7 +43,7 @@ const LabRequestList = ({fetchData, labRequests}) => {
                     status: dropDownValue
                 }
             };
-            console.log("updatedRequest*************:", updatedRequest);
+            console.log("updatedRequest:", updatedRequest);
             const resp = await labRequestService.updateLabRequest(updateState.labrequest._id, updatedRequest.labrequest);
             console.log("Update response:", resp);
             fetchData('lab_lab_requests');
@@ -47,6 +53,7 @@ const LabRequestList = ({fetchData, labRequests}) => {
         }
     };
 
+    // Function to handle delete request
     const handleDeleteClick = async (e, labRequestId) => {
         console.log('Delete button clicked');
         e.stopPropagation();
@@ -95,6 +102,7 @@ const LabRequestList = ({fetchData, labRequests}) => {
 
 
 
+    // Function to handle row click
     const handleRowClick = (request) => {
         setSelectedRequest(request);
         setUpdateState(request);
@@ -102,6 +110,7 @@ const LabRequestList = ({fetchData, labRequests}) => {
         setOpenModal(true);
     };
 
+    // Function to handle close modal
     const handleCloseModal = () => {
         setOpenModal(false);
         setSelectedRequest(null);
@@ -121,10 +130,10 @@ const LabRequestList = ({fetchData, labRequests}) => {
             <Table aria-label="Lab request table">
                 <TableHead>
                     <TableRow>
-                        <TableCell>Request</TableCell>
-                        <TableCell>Description</TableCell>
-                        <TableCell>Created Date</TableCell>
-                        <TableCell>Status</TableCell>
+                        <TableCell>{t('request')}</TableCell>
+                        <TableCell>{t('description')}</TableCell>
+                        <TableCell>{t('created_date')}</TableCell>
+                        <TableCell>{t('status')}</TableCell>
                         <TableCell></TableCell>
                         <TableCell></TableCell>
                     </TableRow>
@@ -181,7 +190,7 @@ const LabRequestList = ({fetchData, labRequests}) => {
                     }}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <Typography id="modal-modal-title" variant="h6" component="h2">
-                            {selectedRequest? selectedRequest.labrequest.requestName: Request} Details
+                            {selectedRequest? selectedRequest.labrequest.requestName: Request} {t('details')}
                         </Typography>
                         <IconButton aria-label="close" onClick={handleCloseModal}>
                             <CloseIcon />
@@ -191,13 +200,13 @@ const LabRequestList = ({fetchData, labRequests}) => {
                         <>
                         {console.log("selectedRequest:",selectedRequest)}
                         <Box sx={{mt: 2}}>
-                            <Typography variant="body1">Assigned to physician Dr. {selectedRequest.lab.name}</Typography>
+                            <Typography variant="body1">{t('assigned_to_physician')} Dr. {selectedRequest.lab.name}</Typography>
                         </Box>
                         <Box sx={{ mt: 2 }}>
                             <Typography variant="body1">{selectedRequest.labrequest.requestDescription}</Typography>
                         </Box>
                         <Box sx={{ mt: 2 }}>
-                            <Typography variant="body1">On {formatDate(selectedRequest.labrequest.creationTime)}</Typography>
+                            <Typography variant="body1">{t('on')} {formatDate(selectedRequest.labrequest.creationTime)}</Typography>
                         </Box>
                         <Box sx={{ mt: 2 }}>
                          <FormControl  sx={{ mt: 2 }}>
@@ -224,7 +233,7 @@ const LabRequestList = ({fetchData, labRequests}) => {
                                 variant="contained"
                                 onClick={(e) => handleUpdate(e)}
                             >
-                                Update
+                                {t('update')}
                             </Button>
                         </Box>
                         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
@@ -234,7 +243,7 @@ const LabRequestList = ({fetchData, labRequests}) => {
                                 startIcon={<DeleteIcon />}
                                 onClick={(e) => handleDeleteClick(e, selectedRequest.labrequest._id)}
                             >
-                                Delete Request
+                                {t('delete_request')}
                             </Button>
                         </Box>
                     </>

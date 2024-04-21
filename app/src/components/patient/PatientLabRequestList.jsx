@@ -3,18 +3,20 @@ import {
     Table, TableBody, TableCell, TableContainer, TableHead,
     TableRow, Paper, Tooltip, Button, Typography, Modal, Box, IconButton
 } from '@mui/material';
-import ChatIcon from '@mui/icons-material/Chat';
 import GetAppIcon from '@mui/icons-material/GetApp';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
 
 import labRequestService from "../../services/labrequestService";
+import { useTranslation } from 'react-i18next';
 
 
 const PatientLabRequestList = ({fetchData, labRequests}) => {
 
     const [openModal, setOpenModal] = useState(false);
     const [selectedRequest, setSelectedRequest] = useState(null);
+
+    const { t } = useTranslation('common');
 
 
     useEffect(() => {
@@ -96,12 +98,12 @@ const PatientLabRequestList = ({fetchData, labRequests}) => {
                 <Table aria-label="lab request table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>Request</TableCell>
-                            <TableCell>Description</TableCell>
-                            <TableCell>Created Date</TableCell>
-                            <TableCell>Status</TableCell>
-                            <TableCell>Lab</TableCell>
-                            <TableCell>Report</TableCell>
+                            <TableCell>{t('request')}</TableCell>
+                            <TableCell>{t('description')}</TableCell>
+                            <TableCell>{t('created_date')}</TableCell>
+                            <TableCell>{t('status')}</TableCell>
+                            <TableCell>{t('lab')}</TableCell>
+                            <TableCell>{t('report')}</TableCell>
                             <TableCell></TableCell>
                         </TableRow>
                     </TableHead>
@@ -119,12 +121,9 @@ const PatientLabRequestList = ({fetchData, labRequests}) => {
                                     </Typography>
                                 </TableCell>
                                 <TableCell>{request.labrequest.requestDescription}</TableCell>
-                                <TableCell>{request.labrequest.createdDate}</TableCell>
+                                <TableCell>{formatDate(request.labrequest.createdDate)}</TableCell>
                                 <TableCell>{request.labrequest.status}</TableCell>
                                 <TableCell>{request.lab.name}
-                                    <Tooltip title={`Chat with ${request.lab.name} lab`}>
-                                        <Button onClick={(e) => handleChatClick(e)}><ChatIcon /></Button>
-                                    </Tooltip>
                                 </TableCell>
                                 <TableCell>
                                     {request.labrequest.labReport ?
@@ -164,7 +163,7 @@ const PatientLabRequestList = ({fetchData, labRequests}) => {
                 }}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <Typography id="modal-modal-title" variant="h6" component="h2">
-                            {selectedRequest ? selectedRequest.labrequest.requestName : Request} Details
+                            {selectedRequest ? selectedRequest.labrequest.requestName : Request} {t('details')}
                         </Typography>
                         <IconButton aria-label="close" onClick={handleCloseModal}>
                             <CloseIcon />
@@ -173,16 +172,16 @@ const PatientLabRequestList = ({fetchData, labRequests}) => {
                     {selectedRequest && (
                         <>
                             <Box sx={{ mt: 2 }}>
-                                <Typography variant="body1">Assigned to lab {selectedRequest.lab.name}</Typography>
+                                <Typography variant="body1">{t('assigned_to_lab')} {selectedRequest.lab.name}</Typography>
                             </Box>
                             <Box sx={{ mt: 2 }}>
                                 <Typography variant="body1">{selectedRequest.labrequest.requestDescription}</Typography>
                             </Box>
                             <Box sx={{ mt: 2 }}>
-                                <Typography variant="body1">On {formatDate(selectedRequest.labrequest.createdDate)}</Typography>
+                                <Typography variant="body1">{t('on')}{formatDate(selectedRequest.labrequest.createdDate)}</Typography>
                             </Box>
                             <Box sx={{ mt: 2 }}>
-                                <Typography variant="body1">Status: {selectedRequest.labrequest.status}</Typography>
+                                <Typography variant="body1">{t('status')}: {selectedRequest.labrequest.status}</Typography>
                             </Box>
                             {selectedRequest.labrequest.labReport ?
                                 <Box sx={{ mt: 2 }}>
@@ -191,18 +190,10 @@ const PatientLabRequestList = ({fetchData, labRequests}) => {
                                         startIcon={<GetAppIcon />}
                                         onClick={(e) => handleDownloadClick(e, selectedRequest.labrequest.labReport)}
                                     >
-                                        Download Report
+                                        {t('download_report')}
                                     </Button>
                                 </Box> : null}
-                            <Box sx={{ mt: 2 }}>
-                                <Button
-                                    variant="contained"
-                                    startIcon={<ChatIcon />}
-                                    onClick={(e) => handleChatClick(e)}
-                                >
-                                    Chat with {selectedRequest.lab.name}
-                                </Button>
-                            </Box>
+                           
                             <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
                                 <Button
                                     variant="contained"
@@ -210,7 +201,7 @@ const PatientLabRequestList = ({fetchData, labRequests}) => {
                                     startIcon={<DeleteIcon />}
                                     onClick={(e) => handleDeleteClick(e, selectedRequest.labrequest._id)}
                                 >
-                                    Delete Request
+                                   {t('delete_request')}
                                 </Button>
                             </Box>
                         </>

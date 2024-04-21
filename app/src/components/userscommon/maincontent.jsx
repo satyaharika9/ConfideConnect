@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { Box, Button, IconButton, Tooltip } from '@mui/material';
 import ForumIcon from '@mui/icons-material/Forum';
+import { useTranslation } from 'react-i18next';
 
 import SubNavBar from "../userscommon/subnavbar";
 import PatientLabRequestList from '../patient/PatientLabRequestList';
@@ -45,6 +46,15 @@ const MainContent = ({ currentUser }) => {
     const [labRequestsForLab, setLabRequestsForLab] = useState([]);
     const [eventsForLab, setEventsForLab] = useState([]);
     const [blogsForLab, setBlogsForLab] = useState([]);
+
+    const tabMappings = {
+        patient: ['Medical Requests', 'Lab Requests'],
+        doctor: ['Medical Requests', 'Events', 'Blogs'],
+        lab: ['Lab Requests', 'Events', 'Blogs']
+    };
+
+    // Function to handle internationalization
+    const { t } = useTranslation('common');
 
     const fetchData = async (type) => {
         dispatch(setLoading(true));
@@ -226,7 +236,7 @@ const MainContent = ({ currentUser }) => {
                                     <Button variant="contained" color="primary" 
                                         onClick={()=>handlePatientCreateRequestClick("medical")}
                                         sx={{marginTop: 'auto', marginBottom: '50px'}}>
-                                        Create A Medical Request
+                                        {t('create_a_medical_request')}
                                     </Button>
                                 </>
                             }
@@ -236,7 +246,7 @@ const MainContent = ({ currentUser }) => {
                                     <Button variant="contained" color="primary" 
                                         onClick={()=>handlePatientCreateRequestClick("lab")}
                                         sx={{marginTop: 'auto', marginBottom: '50px'}}>
-                                        Create A Lab Request
+                                        {t('create_a_lab_request')}
                                     </Button>
                                 </>
                             }
@@ -266,7 +276,7 @@ const MainContent = ({ currentUser }) => {
                                     <Button variant="contained" color="primary" 
                                         onClick={() => handleCreateEventClick()}
                                         sx={{marginTop: 'auto', marginBottom: '50px'}}>
-                                        Create An Event
+                                        {t('create_an_event')}
                                     </Button>
                                 </>
                             }
@@ -281,7 +291,7 @@ const MainContent = ({ currentUser }) => {
                                     <Button variant="contained" color="primary" 
                                         onClick={() => handleCreateBlogClick()}
                                         sx={{marginTop: 'auto', marginBottom: '50px'}}>
-                                        Create A Blog
+                                       {t('create_a_blog')}
                                     </Button>
                                 </>
                             }
@@ -312,7 +322,7 @@ const MainContent = ({ currentUser }) => {
                                     <Button variant="contained" color="primary" 
                                         onClick={() => handleCreateEventClick()}
                                         sx={{marginTop: 'auto', marginBottom: '50px'}}>
-                                        Create An Event
+                                        {t('create_an_event')}
                                     </Button>
                                 </>
                             }
@@ -327,7 +337,7 @@ const MainContent = ({ currentUser }) => {
                                     <Button variant="contained" color="primary" 
                                         onClick={() => handleCreateBlogClick()}
                                         sx={{marginTop: 'auto', marginBottom: '50px'}}>
-                                        Create A Blog
+                                        {t('create_a_blog')}
                                     </Button>
                                 </>
                             }

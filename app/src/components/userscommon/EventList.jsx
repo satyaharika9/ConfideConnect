@@ -5,13 +5,18 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
 
 import eventService from "../../services/eventService";
-
+import { useTranslation } from 'react-i18next';
 
 const EventList = ({fetchData, events, user}) => {
 
+    // state variables
     const [openModal, setOpenModal] = useState(false);
     const [selectedEvent, setSelectedEvent] = useState(null);
 
+     // Function to handle internationalization
+     const { t } = useTranslation('common');
+
+    //  useEffect to fetch data
     useEffect(() => {
         if (user.user.role == "doctor") {
             fetchData('doctor_events');
@@ -21,6 +26,7 @@ const EventList = ({fetchData, events, user}) => {
         }
     }, []);
 
+    // Function to handle delete event
     const handleDeleteClick = async (e, eventId) => {
         console.log('Delete button clicked');
         e.stopPropagation();
@@ -39,6 +45,7 @@ const EventList = ({fetchData, events, user}) => {
         setOpenModal(false);
     };
 
+    // Function to handle row click
     const handleRowClick = (event) => {
         setSelectedEvent(event);
         setOpenModal(true);
@@ -61,10 +68,10 @@ const EventList = ({fetchData, events, user}) => {
             <Table aria-label="event table">
                 <TableHead>
                     <TableRow>
-                        <TableCell>Event</TableCell>
-                        <TableCell>Description</TableCell>
-                        <TableCell>Created Date</TableCell>
-                        <TableCell>Location</TableCell>
+                        <TableCell>{t('event')}</TableCell>
+                        <TableCell>{t('description')}</TableCell>
+                        <TableCell>{t('created_date')}</TableCell>
+                        <TableCell>{t('location')}</TableCell>
                         <TableCell></TableCell>
                     </TableRow>
                 </TableHead>
@@ -116,7 +123,7 @@ const EventList = ({fetchData, events, user}) => {
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <Typography id="modal-modal-title" variant="h6" component="h2">
                         {console.log("selectedEvent:",selectedEvent)}
-                            {selectedEvent ? selectedEvent.name : Event} Details
+                            {selectedEvent ? selectedEvent.name : Event} {t('details')}
                         </Typography>
                         <IconButton aria-label="close" onClick={handleCloseModal}>
                             <CloseIcon />
@@ -128,7 +135,7 @@ const EventList = ({fetchData, events, user}) => {
                                 <Typography variant="body1">{selectedEvent.description}</Typography>
                             </Box>
                             <Box sx={{ mt: 2 }}>
-                                <Typography variant="body1">On {formatDate(selectedEvent.createdDate)}</Typography>
+                                <Typography variant="body1">{t('on')} {formatDate(selectedEvent.createdDate)}</Typography>
                             </Box>
                             <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
                                 <Button
@@ -137,7 +144,7 @@ const EventList = ({fetchData, events, user}) => {
                                     startIcon={<DeleteIcon />}
                                     onClick={(e) => handleDeleteClick(e, selectedEvent._id)}
                                 >
-                                    Delete Event
+                                    {t('delete_event')}
                                 </Button>
                             </Box>
                         </>

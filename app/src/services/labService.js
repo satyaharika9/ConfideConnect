@@ -15,6 +15,12 @@ const updateLab = async (labId, lab) => {
 
 }
 
-const labService = { getLab, updateLab };
+// Fetch all labs
+const getLabs = async () => {
+  const response = await axios.get(baseURL);
+  return response.data;
+}
+
+const labService = { getLab, updateLab, getLabs };
 
 export default labService;

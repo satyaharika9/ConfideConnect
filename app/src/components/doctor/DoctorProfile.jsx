@@ -5,11 +5,16 @@ import { TextField, Button, FormHelperText, Alert, Modal, Box,  Select, MenuItem
 import Typography from '@mui/material/Typography';
 
 import doctorService from "../../services/doctorService";
+import { useTranslation } from 'react-i18next';
 
 const DoctorProfileUpdate = ({ user, showProfileUpdate }) => {
+
+  // state variables
   const [open, setOpen] = useState(true);
   const [error, setError] = useState(null);
   const [doctor, setDoctor] = useState({});
+
+  const { t } = useTranslation('common');
 
   useEffect(() => {
       const fetchDoctor = async () => {
@@ -46,7 +51,6 @@ const DoctorProfileUpdate = ({ user, showProfileUpdate }) => {
         .finally(() => setSubmitting(false));
     };
   
-
   const handleClose = () => {
       setOpen(false);
   }
@@ -75,7 +79,7 @@ const DoctorProfileUpdate = ({ user, showProfileUpdate }) => {
         }}
        >
            <Typography variant="h4" color="primary">
-              Update Profile
+              {t('update_profile')}
            </Typography>
            {error && (
           <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>
@@ -282,7 +286,7 @@ const DoctorProfileUpdate = ({ user, showProfileUpdate }) => {
               </FormHelperText>
 
               <Button type="submit" variant="contained" color="primary">
-              Save Profile
+              {t('save_profile')}
             </Button>
 
               </Form>
