@@ -50,7 +50,7 @@ const AppNavbar = () => {
   };
 
   return (
-    <AppBar position="static" color="primary" sx={{ backgroundColor: 'black'}}>
+    <AppBar position="sticky" color="primary" sx={{ backgroundColor: 'black'}}>
       <Toolbar>
         {!isActiveRoute('/home') ? (
           <Box sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer'  }} 
