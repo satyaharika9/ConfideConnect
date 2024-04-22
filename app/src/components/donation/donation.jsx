@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import donationService from '../../services/donationService';
 import { TextField, Button, Typography, FormControl, InputLabel, Select, MenuItem, Box, Card, Container, Alert } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 
 function Donation() {
@@ -12,6 +13,8 @@ function Donation() {
     const [country, setCountry] = useState('');
     const stripe = useStripe();
     const elements = useElements();
+    
+    const { t } = useTranslation('common');
 
     const [error, setError] = useState(null);
 
@@ -54,7 +57,7 @@ function Donation() {
             <Container maxWidth="sm" sx={{ width: '40vw' }}>
                 {!success ? (
                     <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 3 }}>
-                        <Typography variant="h4" color="primary" gutterBottom>Donate to Our Cause</Typography>
+                        <Typography variant="h4" color="primary" gutterBottom>{t('donate_to_our_cause')}</Typography>
                         <TextField
                             label="Email"
                             type="email"
@@ -109,7 +112,7 @@ function Donation() {
                             </Card>
                         </FormControl>
                         <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mb: 2 }}>
-                            Donate
+                            {t('donate')}
                         </Button>
                     </Box>
                 ) : (
@@ -120,7 +123,7 @@ function Donation() {
                       textAlign: 'center',  
                     }}
                   >
-                    Thank you for your Donation, {name}! Your donation has been received.
+                    {t('thank_you_donation_text')}, {name}! Your donation has been received.
                   </Typography>
                   
                     </Alert>

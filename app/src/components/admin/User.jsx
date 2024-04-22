@@ -95,7 +95,7 @@ const AdminUsers = () => {
                 marginLeft: '-28px'
             }}>
                 
-            <Paper sx={{ width: '96%', margin: 0, overflow: 'auto', padding: 2, marginBottom: 2, marginTop:2, marginLeft:1, padding:2 }}>
+            <Paper sx={{ width: '96%', margin: 0, overflow: 'auto', marginBottom: 2, marginTop:2, marginLeft:1, padding:2 }}>
                 <Grid container spacing={2} sx={{ alignItems: 'center', fontFamily:'sans-serif', minWidth: 1000  }}>
                      {/* Table Headers */}
                     <Grid item xs={12}>

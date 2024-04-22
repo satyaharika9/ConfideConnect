@@ -56,5 +56,8 @@
     "inquiries_text": "  Inquiries? Contact us at",
     "email": "Email",
     "phone_number": "Phone Number",
-    "home": "Home"
+    "home": "Home",
+    "donate_to_our_cause": "Donate to our cause",
+    "thank_you_donation_text": "Thank you for your Donation",
+    "your_donation_received":"Your donation has been received"
 }
