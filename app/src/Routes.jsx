@@ -14,7 +14,7 @@ import PatientPage from './pages/PatientPage';
 import DoctorPage from './pages/DoctorPage';
 import LabPage from './pages/LabPage';
 import { setTokens, setUser } from './store/slices/user-slice';
-// import EventsPage from './pages/EventPage';
+import EventsPage from './pages/EventPage';
 // import BlogsPage from './pages/BlogPage';
  import DonationPage from './pages/DonationPage';
 
@@ -53,7 +53,7 @@ const AppRoutes = () => {
         <Route path="/patient" element={<PatientPage />} />
         <Route path="/doctor" element={<DoctorPage />} />
         <Route path="/lab" element={<LabPage />} />
-        {/* <Route path="/events" element={<EventsPage />} /> */}
+        <Route path="/events" element={<EventsPage />} /> 
         {/* <Route path="/blogs" element={<BlogsPage />} /> */}
          <Route path="/donations" element={<DonationPage />} /> 
         {/* <Route path="*" element={<Navigate to="/Home" />} /> */}
