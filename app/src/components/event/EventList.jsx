@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardMedia, Typography, Box } from '@mui/material';
+
 import { fetchEvents } from "../../services/eventService"; 
+
 
 const EventCards = ({ onEventSelect }) => {
     const [events, setEvents] = useState([]);
     const [selectedEventId, setSelectedEventId] = useState(null);  // State to track the selected event ID
-    const [lastImageIndex, setLastImageIndex] = useState(0)
 
     const images = [
         '/src/assets/eventsImages/aids img1.jpeg',
@@ -39,29 +40,31 @@ const EventCards = ({ onEventSelect }) => {
         <Box sx={{
             display: 'flex',
             overflowX: 'scroll',
-            width: '100%',
-            height: '200px',
-            bgcolor: 'background.paper',
-            '&::-webkit-scrollbar': {
-                height: '8px'
-            },
-            '&::-webkit-scrollbar-thumb': {
-                background: 'rgba(255,255,255,0.5)',
-                borderRadius: '4px'
-            }
+            width: '90%',
+            // height: '200px',
+            // bgcolor: 'background.paper',
+            // '&::-webkit-scrollbar': {
+            //     height: '8px'
+            // },
+            // '&::-webkit-scrollbar-thumb': {
+            //     background: 'rgba(255,255,255,0.5)',
+            //     borderRadius: '4px'
+            // },
+            justifyContent: 'space-around',
+            alignItems: 'center'
         }}>
             {events.map(event => (
                 <Card
                     key={event._id}
                     sx={{
-                        minWidth: 300,
+                        minWidth: 200,
                         m: 1,
                         bgcolor: 'background.default',
                         boxShadow: 3,
                         display: 'flex',
                         paddingBottom: '5px',
                         flexDirection: 'column',
-                        border: event._id === selectedEventId ? '2px solid #1976d2' : 'none',  // Highlight if selected
+                        border: event._id === selectedEventId ? '1px solid' : 'none',  // Highlight if selected
                         transform: event._id === selectedEventId ? 'scale(1.05)' : 'scale(1)',
                         transition: 'transform 0.3s ease, border 0.3s ease'
                     }}
@@ -69,17 +72,17 @@ const EventCards = ({ onEventSelect }) => {
                 >
                     <CardMedia
                         component="img"
-                        sx={{ height: 140, objectFit: 'cover' }}  // Ensure images cover the area well
+                        sx={{ height: 80, objectFit: 'cover' }}  // Ensure images cover the area well
                         image={event.image}
                         alt="Event Image"
                     />
                     <CardContent>
-                        <Typography gutterBottom variant="h5" component="div" sx={{ fontWeight: 'bold', fontSize: '1.25rem' }}>
+                        <Typography gutterBottom variant="h6" component="div">
                             {event.name}
                         </Typography>
-                        <Typography variant="body2" color="text.secondary">
+                        {/* <Typography variant="body2" color="text.secondary">
                             {event.description}
-                        </Typography>
+                        </Typography> */}
                     </CardContent>
                 </Card>
             ))}
