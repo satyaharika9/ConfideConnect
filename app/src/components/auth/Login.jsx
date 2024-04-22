@@ -138,12 +138,12 @@ const Login = () => {
           </Form>
         </Formik>
         <Typography variant="body2" mt={3}>
-          Forgot password? <Link onClick={handleForgotPasswordClick} underline="hover" sx={{ cursor: 'pointer' }}>
-            Click Here
+          {t('forgot_password')}? <Link onClick={handleForgotPasswordClick} underline="hover" sx={{ cursor: 'pointer' }}>
+            {t('click_here')}
           </Link>
         </Typography>
         <Typography variant="body2" mt={2}>
-          Don't have an account? <Link onClick={handleSignupClick} underline="hover" sx={{ cursor: 'pointer' }}>
+          {t('dont_have_an_account')}? <Link onClick={handleSignupClick} underline="hover" sx={{ cursor: 'pointer' }}>
             {t('signup')}
           </Link>
         </Typography>

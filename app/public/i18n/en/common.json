@@ -38,6 +38,8 @@
     "signup": "Sign Up",
     "lab_requests": "Lab Requests",
     "medical_requests": "Medical Requests",
-    "my_dashboard": "My Dashboard"
-
+    "my_dashboard": "My Dashboard",
+    "forgot_password":"Forgot Password",
+    "dont_have_an_account": "Don't have an account",
+    "click_here":"Click here"
 }

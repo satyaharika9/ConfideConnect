@@ -38,5 +38,8 @@
     "create_a_medical_request": "மருத்துவ கோரிக்கை உருவாக்க",
     "signup": "பதிவு செய்ய",
     "lab_requests": "ஆய்வு கோரிக்கைகள்",
-    "my_dashboard": "எனது டாஷ்போர்டு"
+    "my_dashboard": "எனது டாஷ்போர்டு",
+    "forgot_password":"கடவுச்சொல்லை மறந்துவிட்டீர்களா",
+    "dont_have_an_account": "உங்களிடம் கணக்கு இல்லை",
+    "click_here":"இங்கே கிளிக் செய்யவும்"
 }
