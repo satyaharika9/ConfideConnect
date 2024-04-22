@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import donationService from '../../services/donationService';
 import { TextField, Button, Typography, FormControl, InputLabel, Select, MenuItem, Box, Card, Container, Alert } from '@mui/material';
-//import '../../App.css';
+
 
 function Donation() {
     const [success, setSuccess] = useState(false);

@@ -1,159 +1,158 @@
-import React, { useEffect, useState } from "react";
+import React from 'react';
+import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import ribbonImage4 from '../assets/images/ribbon7.png'; 
+import Button from '@mui/material/Button';
 import Lottie from 'lottie-react';
+
+import ImageSlider from '../components/home/ImageSlider';
 import animationData from '../assets/anim/doctorAnim.json';
-import aidsAnim from '../assets/anim/aidsAnim.json';
-import { red } from "@mui/material/colors";
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import ImageSlider from '../components/home/ImageSlider'
 import image0 from '../assets/anim/aids-microbe.jpg';
 import image1 from '../assets/anim/aids-support.jpg';
 import image2 from '../assets/anim/aids-protection.jpg';
 import globe from '../assets/anim/globe1.json';
-import { Link } from 'react-router-dom';
-import { Button } from "@mui/material";
-import "../../src/App.css";
-
-
-
+import ribbonImage4 from '../assets/images/ribbon7.png';
 
 
 const Home = () => {
+  // const images = [image0, image1, image2];
+  const images = [image2];
 
-  
-
-  const images = [image0, image1, image2]; 
-  const interval = 3000;
-
-  const indexToImage = {
-    0: image0,
-    1: image1,
-    2: image2
-    
-  };
   return (
     <>
-    
-    <Box  
-    sx={{
-      backgroundColor: 'black',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      height: 'calc(100vh - 64px)',
-      
-    }}
-    >   
-      <img
-        src={ribbonImage4}
-        alt="AIDS Ribbon"
-        style={{
-          maxWidth: '350px',
-          maxHeight: '350px',
-         
-          
+      <Box
+        sx={{
+          backgroundColor: 'black',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: 'calc(100vh - 64px)',
         }}
-      />
-     
-      
-      <Typography variant="h4" component="h1" sx={{ color: 'white', marginTop: '30px' }}>
-      ConfideConnect
-      </Typography>
+      >
+        <img
+          src={ribbonImage4}
+          alt="AIDS Ribbon"
+          style={{
+            maxWidth: '350px',
+            maxHeight: '350px',
+          }}
+        />
+        <Typography variant="h4" component="h1" sx={{
+          marginTop: '15px',
+          backgroundImage: 'linear-gradient(45deg, #FFFFFF, #CCCCCC)',
+          backgroundClip: 'text',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          textShadow: '0 4px 10px rgba(0,0,0,0.6)',
+          fontSize: '3rem',
+          }}>
+          ConfideConnect
+        </Typography>
       </Box>
-      
-    <section class="sectionBackground">
-     
-     <div class="sectionDiv">
-          <div class="divMargin">  
-         
-            <h1 class="width2 regFont whitetext" >Hope in Unity: Supporting Lives Affected by AIDS</h1>
-            <p class="width2 regFont whitetext">Empowering lives affected by AIDS, our platform offers comprehensive support and resources to navigate the challenges of living with HIV/AIDS. From access to medical care to community support networks, we're here to ensure no one faces the journey alone.
-            </p>
-            
-            <Button variant="contained" color="primary" component={Link} to="/blogs">
+
+      <Box sx={{ backgroundColor: 'black', paddingRight: '100px', paddingLeft: '100px', height: 'calc(100vh - 64px)' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: '200px' }}>
+          <Box>
+            <Typography variant="h2" sx={{ color: 'white', marginTop: '10px'  }}>
+              Accessible Healthcare: Anonymous Support for AIDS Patients
+            </Typography>
+            <Typography sx={{ color: 'white' }}>
+              Break barriers to healthcare for AIDS patients with our platform. Connect anonymously with doctors for free, ensuring access to crucial medical advice and support, all from the comfort of your home.
+            </Typography>
+            <Button variant="contained" color="primary" component={Link} to="/login" sx={{ marginTop: '20px' }}>
+              Login
+            </Button>
+          </Box>
+          <Box>
+            <Lottie animationData={animationData} />
+          </Box>
+        </Box>
+      </Box>
+
+      <Box sx={{ backgroundColor: 'black', paddingRight: '100px', paddingLeft: '100px', height: 'calc(100vh - 64px)' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: '100px' }}>
+          <Box sx={{width: '85vw'}}>
+            <Lottie animationData={globe} />
+          </Box>
+          <Box>
+            <Typography variant="h2" sx={{ color: 'white', marginTop: '10px'  }}>
+              Empowering Awareness: Stay Informed about HIV/AIDS Events
+            </Typography>
+            <Typography>
+              Explore our platform for comprehensive information on upcoming HIV/AIDS awareness events, including dates, locations, and timings. Join us in spreading awareness and making a difference in the fight against HIV/AIDS.
+            </Typography>
+            <Button variant="contained" color="primary" component={Link} to="/events" sx={{ marginTop: '20px' }}>
+              Explore Events
+            </Button>
+          </Box>
+        </Box>
+      </Box>
+
+      <Box sx={{ backgroundColor: 'black', paddingRight: '100px', paddingLeft: '100px', height: 'calc(100vh - 64px)' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: '200px' }}>
+          <Box sx={{ width: '700px' }}>
+            <Typography variant="h2" sx={{ color: 'white' }}>
+              Hope in Unity: Supporting Lives Affected by AIDS
+            </Typography>
+            <Typography sx={{ color: 'white', marginTop: '10px'  }}>
+              Empowering lives affected by AIDS, our platform offers comprehensive support and resources to navigate the challenges of living with HIV/AIDS. From access to medical care to community support networks, we're here to ensure no one faces the journey alone.
+            </Typography>
+            <Button variant="contained" color="primary" component={Link} to="/blogs" sx={{ marginTop: '20px' }}>
               View Blogs
             </Button>
-            
-        </div>
-        <div class="divMargin">
-    <ImageSlider images={images} interval={3000} /></div></div>
-    </section>
-    <section class="sectionBackground">
-     
-     <div class="sectionDiv">
-     <div class="divMargin">
-          <Lottie  class="globeAnim" animationData={globe} /></div>
-        <div class="divMargin">  
-        
-            <h1 class="width2 regFont whitetext" >Empowering Awareness: Stay Informed about HIV/AIDS Events</h1>
-            <p class="width2 regFont whitetext">Explore our platform for comprehensive information on upcoming HIV/AIDS awareness events, including dates, locations, and timings. Join us in spreading awareness and making a difference in the fight against HIV/AIDS.
-            </p>
-            
-            <Button variant="contained" color="primary" component={Link} to="/events">
-            Explore Events
-            </Button>
-            
-        </div>
-         
-        </div>
-    </section>
-    <section class="sectionBackground">
-     
-     <div class="sectionDiv">
-          
-          <div style={{marginTop: '280px'}}>  
-          
-            <h1 class="width2 regFont whitetext">Accessible Healthcare: Anonymous Support for AIDS Patients</h1>
-            <p class="width2 regFont whitetext">Break barriers to healthcare for AIDS patients with our platform. Connect anonymously with doctors for free, ensuring access to crucial medical advice and support, all from the comfort of your home.
-            </p>
-           
-            <Button variant="contained" color="primary" component={Link} to="/login">
-            Login
-            </Button>
-            
-        </div>
+          </Box>
+          <Box>
+            <ImageSlider images={images} interval={3000} />
+          </Box>
+        </Box>
+      </Box>
 
-     
-    <div> <Lottie  class="docAnim" animationData={animationData} /></div>
-    </div>
-    </section>
-    <section class="flex-container sectionBackground">
-  <div class="flex-container footerDiv" >
-    <div >
-            <img class="footerImage" src={ribbonImage4} alt="HTML"></img>
-            <p class="width2 black regFont footerCaption"  >Connecting Patients with Specialist Care: Your Health, Our Priority.</p>
-           
-        </div>
-        <ul>
-            <li>
-                <p class="black regFont"><b>CONFIDE CONNECT</b></p>
-            </li>
-            <li><a class="black regFont" href="confideconnect/home">HOME</a></li>
-            <li><a class="black regFont" href="confideconnect/events">EVENTS</a></li>
-            <li><a class="black regFont" href="confideconnect/blogs">BLOGS</a></li>
-            <li><a class="black regFont" href="confideconnect/donations">DONATION</a></li>
-        </ul>
-        
-        <ul>
-            <p class="black regFont"><b>Inquiries? Contact us at</b></p>
-            
-            <p class="width2 black regFont">Email: contactteam@confideconnect.com </p>
-            
-            <p class="width2 black regFont">Phone no: +1 617-442-5178</p>
-        </ul>
-        </div>
-    </section>
-    
-    
-
-      </>
+      <Box sx={{ 
+          backgroundColor: '#212121', 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          padding: '50px'
+        }}>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <img src={ribbonImage4} alt="HTML" style={{ width: '30px', height: '55px', marginRight: '10px' }} />
+          <Typography >
+            Connecting Patients with Specialist Care: <br />
+            Your Health, Our Priority.
+          </Typography>
+        </Box>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Link to="/home" style={{ color: '#ffffff', textDecoration: 'none', margin: '15px' }}>
+            <Typography >
+              HOME
+            </Typography>
+          </Link>
+          <Link to="/events" style={{ color: '#ffffff', textDecoration: 'none', margin: '15px' }}>
+            <Typography >
+              EVENTS
+            </Typography>
+          </Link>
+          <Link to="/blogs" style={{ color: '#ffffff', textDecoration: 'none', margin: '15px' }}>
+            <Typography >
+              BLOGS
+            </Typography>
+          </Link>
+          <Link to="/donations" style={{ color: '#ffffff', textDecoration: 'none', margin: '15px' }}>
+            <Typography >
+              DONATION
+            </Typography>
+          </Link>
+        </Box>
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Typography variant="h6">Inquiries? Contact us </Typography>
+          <Typography variant="body2">
+            Email: <a href="mailto:confideconnect.com" style={{ color: '#1976d2' }}>confideconnect.com</a>
+          </Typography>
+          <Typography variant="body2">Phone no: +1 617-442-5178</Typography>
+        </Box>
+      </Box>
+    </>
   );
-
 };
 
 export default Home;

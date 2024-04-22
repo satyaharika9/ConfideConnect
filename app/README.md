@@ -11,6 +11,7 @@
     - npm install socket.io-client
     - npm install i18next i18next-http-backend react-i18next
     - npm install @stripe/react-stripe-js @stripe/stripe-js
+    - npm install react-leaflet
 
 ## Run Frontend
         - cd app
