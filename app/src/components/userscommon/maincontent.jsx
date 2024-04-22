@@ -36,7 +36,7 @@ const MainContent = ({ currentUser }) => {
     const dispatch = useDispatch();
 
     const user = useSelector((state) => state.user);
-    console.log("userrrrrrrrr: ",user);
+    console.log("Redux user: ",user);
 
     const [labRequestsForPatient, setLabRequestsForPatient] = useState([]);
     const [medicalRequestsForPatients, setMedicalRequestsForPatients] = useState([]);
@@ -46,12 +46,6 @@ const MainContent = ({ currentUser }) => {
     const [labRequestsForLab, setLabRequestsForLab] = useState([]);
     const [eventsForLab, setEventsForLab] = useState([]);
     const [blogsForLab, setBlogsForLab] = useState([]);
-
-    const tabMappings = {
-        patient: ['medical_requests', 'lab_requests'],
-        doctor: ['medical_requests', 'events', 'blogs'],
-        lab: ['lab_requests', 'events', 'blogs']
-    };
 
     // Function to handle internationalization
     const { t } = useTranslation('common');
