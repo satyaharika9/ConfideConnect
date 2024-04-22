@@ -98,6 +98,7 @@ const AppNavbar = () => {
           <MenuItem value="en">English</MenuItem>
           <MenuItem value="ta">தமிழ்</MenuItem>
           <MenuItem value="ma">മലയാളം</MenuItem>
+          <MenuItem value="te">తెలుగు</MenuItem>
         </Select>
         {isAuthenticated ? (
           <Tooltip title="Logout" placement="bottom">

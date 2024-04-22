@@ -19,6 +19,7 @@
     "@stripe/stripe-js": "^3.3.0",
     "axios": "^1.6.8",
     "formik": "^2.4.5",
+    "i18n": "^0.15.1",
     "i18next": "^23.11.2",
     "i18next-http-backend": "^2.5.1",
     "react": "^18.2.0",
