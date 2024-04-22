@@ -20,7 +20,31 @@ const deleteBlog = async (blogId) => {
   const response = await axios.delete(baseURL+`/${blogId}`);
   return response.data;
 }
+// Fetch all blogs
+const adminGetBlogs = async () => {
+    const response = await axios.get(baseURL);
+    return response.data;
+}
 
-const blogService = { getBlogs, createBlog, deleteBlog };
+// Update blog
+const adminUpdateBlog = async (blog) => {
+    const response = await axios.put(`${baseURL}/${blog._id}`, blog);
+    return response.data;
+}
+
+// Delete blog
+const adminDeleteBlog = async (id) => {
+    const response = await axios.delete(`${baseURL}/${id}`);
+    return response.data;
+}
+
+// Create blog
+const adminCreateBlog = async (newBlog) => {
+    const response = await axios.post(baseURL, newBlog);
+    return response.data;
+}
+
+// Blog service object
+const blogService = {  getBlogs, createBlog, deleteBlog, adminCreateBlog, adminDeleteBlog, adminGetBlogs, adminUpdateBlog };
 
 export default blogService;

@@ -4,25 +4,25 @@ import axios from "axios";
 const baseURL = "http://localhost:3002/confideconnect";
 
 // Fetch all users
-const getAllUsers = async () => {
+const AdminGetAllUsers = async () => {
   const response = await axios.get(baseURL+'/users');
   return response.data;
 }
 
 // Update user
-const updateUser = async (user) => {
+const AdminUpdateUser = async (user) => {
   const response = await axios.put(baseURL+`/users/${user._id}`, user);
   return response.data;
 }
 
 // Delete user
-const deleteUser = async (id) => {
+const AdminDeleteUser = async (id) => {
   const response = await axios.delete(baseURL+`/users/${id}`);
   return response.data;
 }
 
 // Create user
-const createUser = async (newUserInfo) => {
+const AdminCreateUser = async (newUserInfo) => {
   const response = await axios.post(baseURL+'/users', newUserInfo);
   return response.data;
 }
@@ -62,6 +62,8 @@ const resetPassword = async (userInfo, token) => {
   return response.data;
 }
 
-const userService = { createUser, login, getUser, getUserDetails, getResetToken, resetPassword };
+// User service object
+const userService = {  login, getUser, getUserDetails, getResetToken, resetPassword,  AdminGetAllUsers, AdminUpdateUser, AdminDeleteUser, AdminCreateUser };
+
 
 export default userService;

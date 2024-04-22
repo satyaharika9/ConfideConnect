@@ -43,6 +43,29 @@ const getLocationKey = async (city, state, country) => {
     }
 };
 
+// Fetch all events
+const AdminGetEvents = async () => {
+    const response = await axios.get(baseURL);
+    return response.data;
+}
+
+// Update event
+const AdminUpdateEvent = async (event) => {
+    const response = await axios.put(`${baseURL}/${event._id}`, event);
+    return response.data;
+}
+
+// Delete event
+const AdminDeleteEvent = async (id) => {
+    const response = await axios.delete(`${baseURL}/${id}`);
+    return response.data;
+}
+
+// Create event
+const AdminCreateEvent = async (newEvent) => {
+    const response = await axios.post(baseURL, newEvent);
+    return response.data;
+}
 
 
 const fetchWeather = async (locationKey, date) => {
@@ -84,5 +107,5 @@ export const fetchEvents = async () => {
 };
 
 
-const eventService = { getEventsForCreator, createEvent, deleteEvent,fetchEvents };
+const eventService = { getEventsForCreator, createEvent, deleteEvent,fetchEvents, AdminCreateEvent, AdminDeleteEvent, AdminGetEvents, AdminUpdateEvent  };
 export default eventService;

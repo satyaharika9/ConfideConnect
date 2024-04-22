@@ -3,7 +3,7 @@ import axios from "axios";
 const baseURL = "http://localhost:3002/confideconnect/patients";
 
 // Fetch all patients
-const getPatients = async () => {
+const AdminGetPatients = async () => {
     const response = await axios.get(baseURL);
     return response.data;
 }
@@ -11,6 +11,10 @@ const getPatients = async () => {
 // Update patient
 const updatePatient = async (id,patient) => {
     const response = await axios.put(`${baseURL}/${id}`, patient);
+    return response.data;}
+    
+const AdminUpdatePatient = async (patient) => {
+    const response = await axios.put(`${baseURL}/${patient.patientId}`, patient);
     return response.data;
 }
 
@@ -21,6 +25,6 @@ const getPatientById = async (patientId) => {
 }
 
 // Patient service object
-const patientService = { getPatients, updatePatient, getPatientById };
+const patientService = {  updatePatient, getPatientById, AdminGetPatients, AdminUpdatePatient};
 
 export default patientService;

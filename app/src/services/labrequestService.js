@@ -32,12 +32,32 @@ const updateLabRequest = async (labRequestId, requestInfo) => {
   return response.data;
 }
 
-const labRequestService = {
-  getLabRequestsForPatient,
-  getLabRequestsForLab,
-  createLabRequest,
-  deleteLabRequest,
-  updateLabRequest
-};
+// Fetch all labrequests
+const AdminGetLabRequests = async () => {
+    const response = await axios.get(baseURL);
+    return response.data;
+}
+
+// Update labrequest
+const AdminUpdateLabRequest = async (labrequest) => {
+    const response = await axios.put(`${baseURL}/${labrequest._id}`, labrequest);
+    return response.data;
+}
+
+// Delete labrequest
+const AdminDeleteLabRequest = async (id) => {
+    const response = await axios.delete(`${baseURL}/${id}`);
+    return response.data;
+}
+
+// Create labrequest
+const AdminCreateLabRequest = async (newLabRequest) => {
+    const response = await axios.post(baseURL, newLabRequest);
+    return response.data;
+}
+
+// Labrequest service object
+const labRequestService = { getLabRequestsForPatient,getLabRequestsForLab, createLabRequest,deleteLabRequest,
+  updateLabRequest, AdminCreateLabRequest, AdminDeleteLabRequest, AdminGetLabRequests, AdminUpdateLabRequest};
 
 export default labRequestService;

@@ -33,12 +33,32 @@ const updateMedicalRequest = async (medicalRequestId, requestInfo) => {
   return response.data;
 }
 
-const medicalRequestService = {
-  getMedicalRequestsForPatient,
-  getMedicalRequestsForDoctor,
-  createMedicalRequest,
-  deleteMedicalRequest,
-  updateMedicalRequest
-};
+// Fetch all medical requests
+const AdminGetMedicalRequests = async () => {
+    const response = await axios.get(baseURL);
+    return response.data;
+}
+
+// Update medical request
+const AdminUpdateMedicalRequest = async (medicalrequest) => {
+    const response = await axios.put(`${baseURL}/${medicalrequest._id}`, medicalrequest);
+    return response.data;
+}
+
+// Delete medical request
+const AdminDeleteMedicalRequest = async (id) => {
+    const response = await axios.delete(`${baseURL}/${id}`);
+    return response.data;
+
+}
+
+// Create medical request
+const AdminCreateMedicalRequest = async (newMedicalRequest) => {
+    const response = await axios.post(baseURL, newMedicalRequest);
+    return response.data;
+}
+
+// Medical request service object
+const medicalRequestService = { getMedicalRequestsForPatient, getMedicalRequestsForDoctor,createMedicalRequest,deleteMedicalRequest, updateMedicalRequest, AdminCreateMedicalRequest, AdminDeleteMedicalRequest, AdminGetMedicalRequests, AdminUpdateMedicalRequest};
 
 export default medicalRequestService;

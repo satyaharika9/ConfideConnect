@@ -21,6 +21,18 @@ const getLabs = async () => {
   return response.data;
 }
 
-const labService = { getLab, updateLab, getLabs };
+const AdminGetLabs = async () => {
+    const response = await axios.get(baseURL);
+    return response.data;
+}
+
+// Update lab
+const AdminUpdateLab= async (lab) => {
+    const response = await axios.put(`${baseURL}/${lab.labId}`, lab);
+    return response.data;
+}
+
+// Lab service object
+const labService = { getLab, updateLab, getLabs, AdminGetLabs, AdminUpdateLab };
 
 export default labService;

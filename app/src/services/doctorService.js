@@ -21,6 +21,18 @@ const updateDoctor = async (doctorId, doctor) => {
   return response.data;
 }
 
-const doctorService = { getDoctor, updateDoctor, getDoctors};
+const AdminGetDoctors = async () => {
+    const response = await axios.get(baseURL);
+    return response.data;
+}
+
+// Update doctor
+const AdminUpdateDoctor = async (doctor) => {
+    const response = await axios.put(`${baseURL}/${doctor.doctorId}`, doctor);
+    return response.data;
+}
+
+// Doctor service object
+const doctorService = {getDoctor, updateDoctor, getDoctors, AdminGetDoctors, AdminUpdateDoctor };
 
 export default doctorService;
