@@ -51,8 +51,10 @@
     "hope_in_unity_text":"Hope in Unity: Supporting Lives Affected by AIDS",
     "empowering_lives_text": "Empowering lives affected by AIDS, our platform offers comprehensive support and resources to navigate the challenges of living with HIV/AIDS. From access to medical care to community support networks, we're here to ensure no one faces the journey alone.",
     "view_blogs": "View Blogs",
-    "connecting_patients_text": "Connecting Patients with Specialist Care: Your Health, Our Priority.",
+    "connecting_patients_text": "Connecting Patients with Specialist Care",
+    "your_health":"Your Health, Our Priority",
     "inquiries_text": "  Inquiries? Contact us at",
     "email": "Email",
-    "phone_number": "Phone Number"
+    "phone_number": "Phone Number",
+    "home": "Home"
 }

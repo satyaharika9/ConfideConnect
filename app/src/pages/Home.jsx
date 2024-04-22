@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Lottie from 'lottie-react';
+import { useTranslation } from 'react-i18next';
 
 import ImageSlider from '../components/home/ImageSlider';
 import animationData from '../assets/anim/doctorAnim.json';
@@ -16,6 +17,7 @@ import ribbonImage4 from '../assets/images/ribbon7.png';
 
 const Home = () => {
   // const images = [image0, image1, image2];
+  const { t } = useTranslation('common');
   const images = [image2];
 
   return (
@@ -47,7 +49,7 @@ const Home = () => {
           textShadow: '0 4px 10px rgba(0,0,0,0.6)',
           fontSize: '3rem',
           }}>
-          ConfideConnect
+          {t('confide_connect')}
         </Typography>
       </Box>
 
@@ -55,13 +57,13 @@ const Home = () => {
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '200px' }}>
           <Box>
             <Typography variant="h2" sx={{ color: 'white', marginTop: '10px'  }}>
-              Accessible Healthcare: Anonymous Support for AIDS Patients
+              {t('accessible_healthcare')}: {t('anonymous_support_text')}
             </Typography>
             <Typography sx={{ color: 'white' }}>
-              Break barriers to healthcare for AIDS patients with our platform. Connect anonymously with doctors for free, ensuring access to crucial medical advice and support, all from the comfort of your home.
+              {t('break_barriers_text')}
             </Typography>
             <Button variant="contained" color="primary" component={Link} to="/login" sx={{ marginTop: '20px' }}>
-              Login
+              {t('login')}
             </Button>
           </Box>
           <Box>
@@ -77,13 +79,13 @@ const Home = () => {
           </Box>
           <Box>
             <Typography variant="h2" sx={{ color: 'white', marginTop: '10px'  }}>
-              Empowering Awareness: Stay Informed about HIV/AIDS Events
+              {t('empowering_awareness_text')}
             </Typography>
             <Typography>
-              Explore our platform for comprehensive information on upcoming HIV/AIDS awareness events, including dates, locations, and timings. Join us in spreading awareness and making a difference in the fight against HIV/AIDS.
+              {t('explore_text')}
             </Typography>
             <Button variant="contained" color="primary" component={Link} to="/events" sx={{ marginTop: '20px' }}>
-              Explore Events
+              {t('explore_events')}
             </Button>
           </Box>
         </Box>
@@ -93,13 +95,13 @@ const Home = () => {
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '200px' }}>
           <Box sx={{ width: '700px' }}>
             <Typography variant="h2" sx={{ color: 'white' }}>
-              Hope in Unity: Supporting Lives Affected by AIDS
+              {t('hope_in_unity_text')}
             </Typography>
             <Typography sx={{ color: 'white', marginTop: '10px'  }}>
-              Empowering lives affected by AIDS, our platform offers comprehensive support and resources to navigate the challenges of living with HIV/AIDS. From access to medical care to community support networks, we're here to ensure no one faces the journey alone.
+             {t('empowering_lives_text')}
             </Typography>
             <Button variant="contained" color="primary" component={Link} to="/blogs" sx={{ marginTop: '20px' }}>
-              View Blogs
+              {t('view_blogs')}
             </Button>
           </Box>
           <Box>
@@ -117,38 +119,38 @@ const Home = () => {
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <img src={ribbonImage4} alt="HTML" style={{ width: '30px', height: '55px', marginRight: '10px' }} />
           <Typography >
-            Connecting Patients with Specialist Care: <br />
-            Your Health, Our Priority.
+            {t('connecting_patients_text')}: <br />
+            {t('your_health')}.
           </Typography>
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Link to="/home" style={{ color: '#ffffff', textDecoration: 'none', margin: '15px' }}>
             <Typography >
-              HOME
+              {t('home')}
             </Typography>
           </Link>
           <Link to="/events" style={{ color: '#ffffff', textDecoration: 'none', margin: '15px' }}>
             <Typography >
-              EVENTS
+             {t('events')}
             </Typography>
           </Link>
           <Link to="/blogs" style={{ color: '#ffffff', textDecoration: 'none', margin: '15px' }}>
             <Typography >
-              BLOGS
+              {t('blogs')}
             </Typography>
           </Link>
           <Link to="/donations" style={{ color: '#ffffff', textDecoration: 'none', margin: '15px' }}>
             <Typography >
-              DONATION
+              {t('donate')}
             </Typography>
           </Link>
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography variant="h6">Inquiries? Contact us </Typography>
+          <Typography variant="h6">{t('inquiries_text')} </Typography>
           <Typography variant="body2">
-            Email: <a href="mailto:confideconnect.com" style={{ color: '#1976d2' }}>confideconnect.com</a>
+            {t('email')}: <a href="mailto:confideconnect.com" style={{ color: '#1976d2' }}>confideconnect.com</a>
           </Typography>
-          <Typography variant="body2">Phone no: +1 617-442-5178</Typography>
+          <Typography variant="body2">{t('phone_number')}: +1 617-442-5178</Typography>
         </Box>
       </Box>
     </>
