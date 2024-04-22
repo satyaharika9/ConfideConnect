@@ -36,5 +36,6 @@
     "download_prescription": "மருத்துவ பத்திரத்தை பதிவிறக்கு",
     "create_a_lab_request": "ஆய்வு கோரிக்கை உருவாக்க",
     "create_a_medical_request": "மருத்துவ கோரிக்கை உருவாக்க",
-    "signup": "பதிவு செய்ய"
+    "signup": "பதிவு செய்ய",
+    "lab_requests": "ஆய்வு கோரிக்கைகள்"
 }

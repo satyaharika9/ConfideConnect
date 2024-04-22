@@ -5,7 +5,6 @@
     "donate": "Donate",
     "login": "Login",
     "manage_profile": "Manage Profile",
-    "medical_requests": "Medical Requests",
     "request": "Request",
     "description": "Description",
     "created_date": "Created Date",
@@ -36,6 +35,8 @@
     "download_prescription": "Download Prescription",
     "create_a_lab_request": "Create a Lab Request",
     "create_a_medical_request": "Create a Medical Request",
-    "signup": "Sign Up"
+    "signup": "Sign Up",
+    "lab_requests": "Lab Requests",
+    "medical_requests": "Medical Requests"
 
 }

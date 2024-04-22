@@ -135,7 +135,6 @@ const LabRequestList = ({fetchData, labRequests}) => {
                         <TableCell>{t('created_date')}</TableCell>
                         <TableCell>{t('status')}</TableCell>
                         <TableCell></TableCell>
-                        <TableCell></TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -154,11 +153,6 @@ const LabRequestList = ({fetchData, labRequests}) => {
                             </TableCell>
                             <TableCell>{formatDate(request.labrequest.createdDate)}</TableCell>
                             <TableCell>{request.labrequest.status}</TableCell>
-                            <TableCell>
-                                <Tooltip title={`Chat with patient`}>
-                                    <Button onClick={() => handleChatClick()}><ChatIcon /></Button>
-                                </Tooltip>
-                            </TableCell>
                             <TableCell>
                                 <Tooltip title="Delete Request">
                                     <Button onClick={() => handleDeleteClick(request.labrequest._id)}><DeleteIcon /></Button>

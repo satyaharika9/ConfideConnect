@@ -48,9 +48,9 @@ const MainContent = ({ currentUser }) => {
     const [blogsForLab, setBlogsForLab] = useState([]);
 
     const tabMappings = {
-        patient: ['Medical Requests', 'Lab Requests'],
-        doctor: ['Medical Requests', 'Events', 'Blogs'],
-        lab: ['Lab Requests', 'Events', 'Blogs']
+        patient: ['medical_requests', 'lab_requests'],
+        doctor: ['medical_requests', 'events', 'blogs'],
+        lab: ['lab_requests', 'events', 'blogs']
     };
 
     // Function to handle internationalization

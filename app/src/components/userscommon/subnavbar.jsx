@@ -1,8 +1,11 @@
 import React from 'react';
 import { Box, Tabs, Tab } from '@mui/material';
+import {useTranslation} from 'react-i18next';
 
 
 const SubNavBar = ({ items, handleTabChange, tabIndex }) => {
+
+  const { t } = useTranslation('common');
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -14,7 +17,7 @@ const SubNavBar = ({ items, handleTabChange, tabIndex }) => {
         textColor="primary"
       >
         {items.map((item, index) => (
-          <Tab key={index} label={item} />
+          <Tab key={index} label={t(item)} />
         ))}
       </Tabs>
     </Box>
