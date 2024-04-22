@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const BASE_URL = 'http://localhost:3002/confideconnect';
+const baseURL = 'http://localhost:3002/confideconnect/donations';
 
 
 // Fetch all donations

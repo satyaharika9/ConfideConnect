@@ -155,7 +155,7 @@ const LabRequestList = ({fetchData, labRequests}) => {
                             <TableCell>{request.labrequest.status}</TableCell>
                             <TableCell>
                                 <Tooltip title="Delete Request">
-                                    <Button onClick={() => handleDeleteClick(request.labrequest._id)}><DeleteIcon /></Button>
+                                    <Button onClick={(e) => handleDeleteClick(e,request.labrequest._id)}><DeleteIcon /></Button>
                                 </Tooltip>
                             </TableCell>
                         </TableRow>

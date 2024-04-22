@@ -81,7 +81,7 @@ const AppNavbar = () => {
         <Button color="inherit" onClick={() => navigate('/blogs')}
           variant={isActiveRoute('/blogs') ? "contained" : "text"}
           sx={{ mr: 1 }}>
-          {t('events')}
+          {t('blogs')}
         </Button>
         <Button color="inherit" onClick={() => navigate('/donations')}
           variant={isActiveRoute('/donations') ? "contained" : "text"}

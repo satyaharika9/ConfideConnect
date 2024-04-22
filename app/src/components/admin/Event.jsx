@@ -14,7 +14,7 @@ const AdminEvents = () => {
     // Fetch all events
     const fetchEvents = async () => {
         setLoading(true);
-        eventService.getEvents().then((data) => {
+        eventService.AdminGetEvents().then((data) => {
             setEvents(data);
             setLoading(false);
         }).catch((err) => {

@@ -153,7 +153,7 @@ const AdminPatients = () => {
                                 type="text"
                                 fullWidth
                                 onChange={handleChange}
-                                value={editingPatient.address.street || ''}
+                                value={editingPatient.address?.street || ''}
                             />
                             <TextField
                                 margin="dense"
