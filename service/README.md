@@ -6,6 +6,7 @@
     - npm install jsonwebtoken
     - npm install nodemailer
     - npm install socket.io
+    - npm install stripe
 
 ## Run Backend
         - cd service

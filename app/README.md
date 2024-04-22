@@ -10,6 +10,7 @@
     - npm install @reduxjs/toolkit
     - npm install socket.io-client
     - npm install i18next i18next-http-backend react-i18next
+    - npm install @stripe/react-stripe-js @stripe/stripe-js
 
 ## Run Frontend
         - cd app
