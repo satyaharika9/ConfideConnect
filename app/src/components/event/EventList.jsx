@@ -8,13 +8,13 @@ const EventCards = ({ onEventSelect }) => {
     const [lastImageIndex, setLastImageIndex] = useState(0)
 
     const images = [
-        'assets/eventsImages/aids imag 3.jpeg',
-        'assets/eventsImages/aids img 2.webp',
-        'assets/eventsImages/aids imag 3.jpeg',
-        'assets/eventsImages/aids img 4.jpeg',
-        'assets/eventsImages/aids img 5.jpeg',
-        'assets/eventsImages/aids img 6.png',
-        'assets/eventsImages/aids img 7.jpeg'
+        '/src/assets/eventsImages/aids img1.jpeg',
+        '/src/assets/eventsImages/aids img 2.webp',
+        '/src/assets/eventsImages/aids imag 3.jpeg',
+        '/src/assets/eventsImages/aids img 4.jpeg',
+        '/src/assets/eventsImages/aids img 5.jpeg',
+        '/src/assets/eventsImages/aids img 6.png',
+        '/src/assets/eventsImages/aids img 7.jpeg'
     ];
 
     useEffect(() => {
@@ -40,7 +40,7 @@ const EventCards = ({ onEventSelect }) => {
             display: 'flex',
             overflowX: 'scroll',
             width: '100%',
-            height: '300px',
+            height: '200px',
             bgcolor: 'background.paper',
             '&::-webkit-scrollbar': {
                 height: '8px'
@@ -59,6 +59,7 @@ const EventCards = ({ onEventSelect }) => {
                         bgcolor: 'background.default',
                         boxShadow: 3,
                         display: 'flex',
+                        paddingBottom: '5px',
                         flexDirection: 'column',
                         border: event._id === selectedEventId ? '2px solid #1976d2' : 'none',  // Highlight if selected
                         transform: event._id === selectedEventId ? 'scale(1.05)' : 'scale(1)',
@@ -68,7 +69,7 @@ const EventCards = ({ onEventSelect }) => {
                 >
                     <CardMedia
                         component="img"
-                        sx={{ height: 140, objectFit: 'cover' }}  
+                        sx={{ height: 140, objectFit: 'cover' }}  // Ensure images cover the area well
                         image={event.image}
                         alt="Event Image"
                     />

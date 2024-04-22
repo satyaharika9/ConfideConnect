@@ -7,7 +7,7 @@ const EventsPage = () => {
     const [focusedEvent, setFocusedEvent] = useState(null);
 
     const handleEventSelect = (event) => {
-        setFocusedEvent(event); 
+        setFocusedEvent(event); // Update the focused event to the selected one
     };
 
     return (

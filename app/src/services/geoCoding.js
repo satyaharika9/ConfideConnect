@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const OPENCAGE_API_KEY = '0128f8336def4764b41b531627265c77';
+const OPENCAGE_API_KEY = 'a541ebd2f65a46f089dc86b9401c75bb';
 const OPENCAGE_URL = 'https://api.opencagedata.com/geocode/v1/json';
 
 const geocode = async (query) => {

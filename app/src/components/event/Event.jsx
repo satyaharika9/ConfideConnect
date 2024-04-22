@@ -1,14 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import Box from '@mui/material/Box';
-import { fetchEvents } from "../../services/eventService"; // Import your event fetching service
-
-function SetViewOnClick({ coords, zoom }) {
-  const map = useMap();
-  map.setView(coords, zoom);
-  return null;
-}
+import { fetchEvents } from "../../services/eventService";
+import SetViewOnClick from "./SetViewOnClick";
 
 const EventMap = ({ focusedEvent }) => {
     const [events, setEvents] = useState([]);
@@ -33,10 +28,17 @@ const EventMap = ({ focusedEvent }) => {
                 {events.map(event => (
                     <Marker key={event._id} position={[event.coords.latitude, event.coords.longitude]}>
                         <Popup>
-                            {event.name}<br />
-                            {event.description}<br />
-                            {event.address.street}<br />
-                            {event.address.city}
+                            <div style={{ color: '#007BFF', fontWeight: 'bold' }}>{event.name}</div>
+                            <div style={{ color: '#28A745' }}>{event.description}</div>
+                            <div style={{ color: '#FFC107' }}>
+                                {event.address.street}<br />
+                                {event.address.city}
+                            </div>
+                            {event.weather && (
+                                <div style={{ color: '#DC3545', fontStyle: 'italic' }}>
+                                    Weather on event day: {event.weather.temperature}°F
+                                </div>
+                            )}
                         </Popup>
                     </Marker>
                 ))}
