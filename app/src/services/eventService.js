@@ -3,7 +3,8 @@ import geocode from "./geoCoding";
 
 const baseURL = "http://localhost:3002/confideconnect/events";
 
-const ACCUWEATHER_API_KEY = 'EHbpk9jlB6EHkPqJcwoeGGwLYkZu6ceA';  
+// Fetches weather and location data
+const ACCUWEATHER_API_KEY = 'h1TzCcRjAMRXPo9wUN9KQ0SFIqC8x3Nx';
 const ACCUWEATHER_BASE_URL = 'http://dataservice.accuweather.com';
 
 // get events by creatorId
