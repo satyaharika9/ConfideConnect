@@ -9,6 +9,7 @@
     - npm install react-redux
     - npm install @reduxjs/toolkit
     - npm install socket.io-client
+    - npm install i18next i18next-http-backend react-i18next
 
 ## Run Frontend
         - cd app
