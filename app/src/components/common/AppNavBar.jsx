@@ -70,23 +70,23 @@ const AppNavbar = () => {
           <Button color="inherit" onClick={() => navigate(`/${user.role}`)}
             variant={isActiveRoute(`/${user.role}`) ? "contained" : "text"}
             sx={{ mr: 1 }}>
-            My Dashboard
+            {t('my_dashboard')}
           </Button>
         ) : null}
         <Button color="inherit" onClick={() => navigate('/events')}
           variant={isActiveRoute('/events') ? "contained" : "text"}
           sx={{ mr: 1 }}>
-          Events
+          {t('events')}
         </Button>
         <Button color="inherit" onClick={() => navigate('/blogs')}
           variant={isActiveRoute('/blogs') ? "contained" : "text"}
           sx={{ mr: 1 }}>
-          Blogs
+          {t('events')}
         </Button>
         <Button color="inherit" onClick={() => navigate('/donations')}
           variant={isActiveRoute('/donations') ? "contained" : "text"}
           sx={{ mr: 1 }}>
-          Donate
+          {t('donate')}
         </Button>
         <Select
           labelId="language-select-label"

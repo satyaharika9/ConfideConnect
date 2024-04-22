@@ -37,6 +37,7 @@
     "create_a_medical_request": "Create a Medical Request",
     "signup": "Sign Up",
     "lab_requests": "Lab Requests",
-    "medical_requests": "Medical Requests"
+    "medical_requests": "Medical Requests",
+    "my_dashboard": "My Dashboard"
 
 }
