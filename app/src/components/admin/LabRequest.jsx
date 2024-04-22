@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import labRequestService from '../../services/labrequestService';
-import { Button, Paper, CircularProgress, Grid, Typography,IconButton, Box,Dialog, DialogActions, DialogContent, DialogTitle, TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { Button, Paper, CircularProgress, Grid, Typography,IconButton, Box,Dialog, DialogActions, DialogContent, DialogTitle,
+     TextField, FormControl, InputLabel, Select, MenuItem, Tooltip, Input} from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import GetAppIcon from '@mui/icons-material/GetApp';
 
 // AdminLabRequests component
 const AdminLabRequests = () => {
@@ -14,7 +16,7 @@ const AdminLabRequests = () => {
     // Fetch all lab requests
     const fetchLabRequests = async () => {
         setLoading(true);
-       labRequestService.getLabRequests().then(res => {
+       labRequestService.AdminGetLabRequests().then(res => {
         setLabRequests(Array.isArray(res) ? res : []);
         console.log('Lab Requests:', res);
             setLoading(false);
@@ -22,6 +24,11 @@ const AdminLabRequests = () => {
             console.error('Something went wrong:', err);
             setLoading(false);
         });
+    };
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return [date.getFullYear(), (date.getMonth() + 1).toString().padStart(2, '0'), date.getDate().toString().padStart(2, '0')].join('-');
     };
 
     // Fetch all lab requests on component mount
@@ -76,7 +83,7 @@ const AdminLabRequests = () => {
 
     // Save lab request
    const handleSave = () => {
-    const action = isNewLabRequest ? labRequestService.createLabRequest : labRequestService.updateLabRequest;
+    const action = isNewLabRequest ? labRequestService.AdminCreateLabRequest : labRequestService.AdminUpdateLabRequest;
     console.log('Updating data...', editingLabRequest);
         action(editingLabRequest)
             .then(() => {
@@ -92,13 +99,80 @@ const AdminLabRequests = () => {
 const handleDelete = (id) => (e) => {
     e.stopPropagation(); // Prevent opening the edit dialog or any other click propagation issues
     console.log('Deleting data with ID:', id);
-    labRequestService.deleteLabRequest(id)
+    labRequestService.AdminDeleteLabRequest(id)
         .then(() => {
             fetchLabRequests(); // Refresh the list after deletion
         })
         .catch(err => {
             console.error('Delete failed:', err);
         });
+};
+
+// Function to handle file download
+const handleDownloadClick = (e, base64Data) => {
+    e.stopPropagation();
+    console.log('Download button clicked');
+
+    // Convert base64 to raw binary data held in a string
+    const byteCharacters = atob(base64Data.split(',')[1]); // Remove header
+
+    // Convert binary string to an array of 8-bit unsigned integers
+    const byteArrays = [];
+    for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+        const slice = byteCharacters.slice(offset, offset + 512);
+        const byteNumbers = new Array(slice.length);
+        for (let i = 0; i < slice.length; i++) {
+            byteNumbers[i] = slice.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        byteArrays.push(byteArray);
+    }
+
+    // Create a blob from the typed arrays
+    const blob = new Blob(byteArrays, {type: 'application/pdf'});
+    const blobUrl = URL.createObjectURL(blob);
+
+    // Create a link and trigger download
+    const link = document.createElement('a');
+    link.href = blobUrl;
+    link.setAttribute('download', 'Report.pdf');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    // Clean up the blob URL
+    URL.revokeObjectURL(blobUrl);
+};
+
+
+// Function to handle file upload
+const handleFileUpload = (event) => {
+    if (event.target.type === "file") {
+        const file = event.target.files?.[0];
+        if (file) {
+            if (file.type !== "application/pdf") {
+                console.log("Invalid file type: ", file.type);
+                alert("Please upload a PDF file.");
+                return;
+            }
+
+            console.log("File uploaded: ", file);
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+
+            reader.onload = () => {
+                console.log("File as Data URL: ", reader.result);
+                setEditingLabRequest(prevState => ({
+                    ...prevState,
+                    labReport: reader.result
+                }));
+            };
+
+            reader.onerror = (error) => {
+                console.log("Error reading file: ", error);
+            };
+        }
+    }
 };
 
 // Handle form input changes
@@ -143,7 +217,7 @@ const textStyle = {
                 marginLeft: '-28px'
             }}>
            <Paper sx={{ width: '96%', height:'95%', overflowX: 'auto', padding: 2, marginBottom: 2, marginTop:2, marginLeft: 1 }}>
-                <Grid container spacing={2} sx={{ minWidth: 2600, alignItems: 'center' }}>
+                <Grid container spacing={2} sx={{ minWidth: 2800, alignItems: 'center' }}>
                     {/* Header Row of the table*/}
                     <Grid item xs={12}>
                         <Grid container spacing={1} sx={{ fontWeight: 'bold', borderBottom: '2px solid white' }}>
@@ -174,29 +248,34 @@ const textStyle = {
                                 <Grid container spacing={1}>
                                     <Grid item xs={1}><Typography style={textStyle}>{request._id}</Typography></Grid>
                                     <Grid item xs={1}><Typography style={textStyle}>{request.patientId}</Typography></Grid>
-                                    <Grid item xs={1}><Typography style={textStyle}>{request.doctorId}</Typography></Grid>
+                                    <Grid item xs={1}><Typography style={textStyle}>{request.labId}</Typography></Grid>
                                     <Grid item xs={1}><Typography style={textStyle}>{request.requestName}</Typography></Grid>
                                     <Grid item xs={1}><Typography style={textStyle}>{request.requestDescription}</Typography></Grid>
-                                    <Grid item xs={0.5}><Typography style={textStyle}>{request.doctorPrescription}</Typography></Grid>
+                                    <Grid item xs={0.5}>{request.labReport ? 
+                                    <Tooltip title="Download Report">
+                                        <Button onClick={(e) => handleDownloadClick(e, request.labReport)}>
+                                            <GetAppIcon />
+                                        </Button>
+                                    </Tooltip> : 
+                                    "On the way..."
+                                }</Grid>
                                     <Grid item xs={1}><Typography style={textStyle}>{request.status}</Typography></Grid>
                                     <Grid item xs={1}><Typography style={textStyle}>{request.notificationEmail}</Typography></Grid>
                                     <Grid item xs={1}><Typography style={textStyle}>{request.notificationPhone}</Typography></Grid>
-                                    <Grid item xs={0.6}><Typography style={textStyle}>{request.creationTime}</Typography></Grid>
-                                    <Grid item xs={0.6}><Typography style={textStyle}>{request.modifiedTime}</Typography></Grid>
+                                    <Grid item xs={0.6}><Typography style={textStyle}>{formatDate(request.createdDate)}</Typography></Grid>
+                                    <Grid item xs={0.6}><Typography style={textStyle}>{formatDate(request.modifiedTime)}</Typography></Grid>
                                     <Grid item xs={1}><Typography style={textStyle}>{request.preExistingConditions}</Typography></Grid>
-                                    <Grid item xs={1}>
-    <Typography style={textStyle}>
-        {
-            [
-                request.patientAddress?.street,
-                request.patientAddress?.city,
-                request.patientAddress?.state,
-                request.patientAddress?.country,
-                request.patientAddress?.zip
-            ].filter(Boolean).join(', ')
-        }
-    </Typography>
-</Grid>
+                                    <Grid item xs={1}><Typography style={textStyle}>{
+                                                        [
+                                                            request.patientAddress?.street,
+                                                            request.patientAddress?.city,
+                                                            request.patientAddress?.state,
+                                                            request.patientAddress?.country,
+                                                            request.patientAddress?.zip
+                                                        ].filter(Boolean).join(', ')
+                                                    }
+                                                </Typography>
+                                            </Grid>
                                     <Grid item xs={0.3}><IconButton onClick={handleDelete(request._id)} aria-label="delete"><DeleteIcon />
                                     </IconButton></Grid>
                              </Grid>
@@ -256,13 +335,9 @@ const textStyle = {
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <TextField
-                                        fullWidth
-                                        label="Report"
-                                        name="labReport"
-                                        value={editingLabRequest.labReport || ''}
-                                        onChange={handleChange}
-                                    />
+                                <Box sx={{ mt: 4 }}>
+                            <Input type="file" accept="application/pdf" onChange={handleFileUpload} />
+                        </Box>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <FormControl fullWidth>

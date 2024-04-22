@@ -18,7 +18,7 @@ const AdminPatients = () => {
     // Fetch all patients
     const fetchPatients = () => {
         setLoading(true);
-        patientService.getPatients().then((res) => {
+        patientService.AdminGetPatients().then((res) => {
             setPatients(res); // Ensure this correctly targets the array of patients
             setLoading(false);
         }).catch((err) => {
@@ -42,7 +42,7 @@ const AdminPatients = () => {
     // Save the patient
     const handleSave = () => {
         console.log('Updating data...', editingPatient);
-        patientService.updatePatient(editingPatient)
+        patientService.AdminUpdatePatient(editingPatient)
             .then(() => {
                 fetchPatients(); // Refresh the patient list
                 handleClose(); // Close the dialog after save

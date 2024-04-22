@@ -14,7 +14,7 @@ const AdminDonations = () => {
     // Fetch all donations
     const fetchDonations = async () => {
         setLoading(true);
-        donationService.getDonations().then((data) => {
+        donationService.AdminGetDonations().then((data) => {
             setDonations(data);
             setLoading(false);
         }).catch((err) => {
@@ -43,7 +43,7 @@ const AdminDonations = () => {
     // Save donation
     const handleSave = () => {
         console.log('Updating donation...',editingDonation);
-        donationService.updateDonation(editingDonation).then(() => {
+        donationService.AdminUpdateDonation(editingDonation).then(() => {
             fetchDonations();
             handleClose();
         }).catch((error) => {
@@ -55,7 +55,7 @@ const AdminDonations = () => {
     const handleDelete = (id) => (e) =>{
         e.stopPropagation(); // Prevent opening the edit dialog or any other click propagation issues
         console.log('Deleting donation...',id);
-        donationService.deleteDonation(id).then(() => {
+        donationService.AdminDeleteDonation(id).then(() => {
             fetchDonations();
         }).catch((error) => {
             console.error('Something went wrong:', error);

@@ -14,7 +14,7 @@ const AdminBlogs = () => {
     // Fetch all blogs
     const fetchBlogs = async () => {
         setLoading(true);
-        blogService.getBlogs().then((data) => {
+        blogService.adminGetBlogs().then((data) => {
             setBlogs(data);
             setLoading(false);
         }).catch((err) => {
@@ -43,7 +43,7 @@ const AdminBlogs = () => {
     // Save blog
     const handleSave = () => {
         console.log('Updating blog...',editingBlog);
-        blogService.updateBlog(editingBlog).then(() => {
+        blogService.adminUpdateBlog(editingBlog).then(() => {
             fetchBlogs();
             handleClose();
         }).catch((error) => {
@@ -55,7 +55,7 @@ const AdminBlogs = () => {
     const handleDelete = (id) => (e) =>{
         e.stopPropagation(); // Prevent opening the edit dialog or any other click propagation issues
         console.log('Deleting blog...',id);
-        blogService.deleteBlog(id).then(() => {
+        blogService.adminDeleteBlog(id).then(() => {
             fetchBlogs();
         }).catch((error) => {
             console.error('Something went wrong:', error);
@@ -82,6 +82,11 @@ const AdminBlogs = () => {
             
             return updated;
         });
+    };
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return [date.getFullYear(), (date.getMonth() + 1).toString().padStart(2, '0'), date.getDate().toString().padStart(2, '0')].join('-');
     };
 
     return (
@@ -121,7 +126,7 @@ const AdminBlogs = () => {
                                     <Grid item xs={2}><Typography>{blog._id}</Typography></Grid>
                                     <Grid item xs={2}><Typography>{blog.name}</Typography></Grid>
                                     <Grid item xs={3}><Typography>{blog.content}</Typography></Grid>
-                                    <Grid item xs={2}><Typography>{blog.creationTime? new Date(patient.dob).toLocaleDateString() : 'N/A'}</Typography></Grid>
+                                    <Grid item xs={2}><Typography>{formatDate(blog.createdDate)}</Typography></Grid>
                                     <Grid item xs={2}><Typography>{blog.creatorId}</Typography></Grid>
                                     <Grid item xs={1}>
                                     <IconButton  onClick={handleDelete(blog._id)} aria-label="delete"><DeleteIcon /></IconButton></Grid>           

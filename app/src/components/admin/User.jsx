@@ -15,7 +15,7 @@ const AdminUsers = () => {
     // Fetch all users
     const fetchUsers = async () => {
         setLoading(true);
-        userService.getAllUsers().then((res) => {
+        userService.AdminGetAllUsers().then((res) => {
             setUsers(res);
             setLoading(false);
         }).catch((err)=>{
@@ -49,7 +49,7 @@ const AdminUsers = () => {
 
     // Save user
     const handleSave = () => {
-        const action = isNewUser ? userService.createUser : userService.updateUser;
+        const action = isNewUser ? userService.AdminCreateUser : userService.AdminUpdateUser;
         console.log(`${isNewUser ? 'Creating' : 'Updating'} user...`, userDetails);
         action(userDetails)
             .then(() => {
@@ -65,7 +65,7 @@ const AdminUsers = () => {
     const handleDelete = (id) => (e) => {
         e.stopPropagation();
         console.log('Deleting user...', id);
-        userService.deleteUser(id)
+        userService.AdminDeleteUser(id)
             .then(() => {
                 fetchUsers();
             })

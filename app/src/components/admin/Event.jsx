@@ -84,6 +84,11 @@ const AdminEvents = () => {
         });
     };
 
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return [date.getFullYear(), (date.getMonth() + 1).toString().padStart(2, '0'), date.getDate().toString().padStart(2, '0')].join('-');
+    };
+
     return (
         <>
         <Box sx={{
@@ -123,7 +128,7 @@ const AdminEvents = () => {
                                     <Grid item xs={1.5}><Typography>{event.name}</Typography></Grid>
                                     <Grid item xs={2}><Typography>{event.description}</Typography></Grid>
                                     <Grid item xs={2}><Typography>{[event.address?.street, event.address?.city, event.address?.state, event.address?.country, event.address?.zip].filter(Boolean).join(', ')}</Typography></Grid>
-                                    <Grid item xs={1.5}><Typography>{event.creationTime? new Date(patient.dob).toLocaleDateString() : 'N/A'}</Typography></Grid>
+                                    <Grid item xs={1.5}><Typography>{formatDate(event.createdDate)}</Typography></Grid>
                                     <Grid item xs={2}><Typography>{event.creatorId}</Typography></Grid>
                                     <Grid item xs={0.5}>
                                     <IconButton  onClick={handleDelete(event._id)} aria-label="delete"><DeleteIcon /></IconButton></Grid>

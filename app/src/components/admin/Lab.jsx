@@ -13,7 +13,7 @@ const AdminLabs = () => {
     // Fetch all labs
     const fetchLabs = () => {
        setLoading(true);
-       labService.getLabs().then(res => {
+       labService.AdminGetLabs().then(res => {
            setLabs(res);
            setLoading(false);
        }).catch(err => {  
@@ -39,19 +39,9 @@ const AdminLabs = () => {
         setEditingLab(null);
     };
 
-    // Edit lab
-    const handleEdit = () => {
-        labService.updateLab(editingLab).then(res => {
-            fetchLabs();
-            handleClose();
-        }).catch(err => {
-            console.error('Something went wrong:', err);
-        });
-    };
-
     // Save lab
     const handleSave = () => {
-        labService.updateLab(editingLab).then(res => {  
+        labService.AdminUpdateLab(editingLab).then(res => {  
             fetchLabs();
             handleClose();
         }).catch(err => {    
@@ -99,9 +89,9 @@ const AdminLabs = () => {
                  <Grid item xs={12}>
                         <Grid container spacing={1} sx={{ fontWeight: 'bold', borderBottom: '2px solid white' }}>
                             <Grid item xs={3}><Typography>Lab ID</Typography></Grid>
-                            <Grid item xs={1}><Typography>Name</Typography></Grid>
+                            <Grid item xs={3}><Typography>Name</Typography></Grid>
                             <Grid item xs={2}><Typography>Phone</Typography></Grid>
-                            <Grid item xs={2}><Typography>Address</Typography></Grid>
+                            <Grid item xs={4}><Typography>Address</Typography></Grid>
                         </Grid>
                     
                     </Grid>
@@ -116,9 +106,9 @@ const AdminLabs = () => {
                                 <Grid item xs={12} key={lab.labId} onClick={() => handleOpen(lab)} sx={{ cursor: 'pointer', borderBottom: '2px solid white', padding: 1 }}>
                                     <Grid container spacing={1}>
                                         <Grid item xs={3}><Typography>{lab.labId}</Typography></Grid>
-                                        <Grid item xs={1}><Typography>{lab.name}</Typography></Grid>
+                                        <Grid item xs={3}><Typography>{lab.name}</Typography></Grid>
                                         <Grid item xs={2}><Typography>{lab.phone}</Typography></Grid>
-                                        <Grid item xs={2}><Typography>{[lab.address?.street, lab.address?.city, lab.address?.state, lab.address?.country, lab.address?.zip].filter(Boolean).join(', ')}</Typography></Grid>
+                                        <Grid item xs={4}><Typography>{[lab.address?.street, lab.address?.city, lab.address?.state, lab.address?.country, lab.address?.zip].filter(Boolean).join(', ')}</Typography></Grid>
                                     </Grid>
                             </Grid>            
                         ))

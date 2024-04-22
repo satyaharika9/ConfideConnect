@@ -13,7 +13,7 @@ const AdminDoctors = () => {
     // Fetch all doctors
     const fetchDoctors = () => {
         setLoading(true);
-        doctorService.getDoctors().then((res) => {
+        doctorService.AdminGetDoctors().then((res) => {
             setDoctors(res);
             setLoading(false);
         }).catch((err) => {
@@ -42,7 +42,7 @@ const AdminDoctors = () => {
     // Save doctor
     const handleSave = () => {
         console.log('Updating data...', editingDoctor);
-        doctorService.updateDoctor(editingDoctor)
+        doctorService.AdminUpdateDoctor(editingDoctor)
             .then(() => {
                 fetchDoctors();
                 handleClose();

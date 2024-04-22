@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import medicalRequestService from '../../services/medicalrequestService';
-import { Button, Paper, CircularProgress, Grid, Typography,IconButton, Box,Dialog, DialogActions, DialogContent, DialogTitle, TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { Button, Paper, CircularProgress, Grid, Typography,IconButton, Box,Dialog, DialogActions, DialogContent, DialogTitle,
+     TextField, FormControl, InputLabel, Select, MenuItem, Tooltip, Input } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import GetAppIcon from '@mui/icons-material/GetApp';
 
 // AdminMedicalRequests component
 const AdminMedicalRequests = () => {
@@ -15,7 +17,7 @@ const AdminMedicalRequests = () => {
     // Fetch all medical requests
     const fetchMedicalRequests = async () => {
         setLoading(true);
-       medicalRequestService.getMedicalRequests().then(res => {
+       medicalRequestService.AdminGetMedicalRequests().then(res => {
             setMedicalRequests(res);
             setLoading(false);
         }).catch(err => {
@@ -39,6 +41,11 @@ const AdminMedicalRequests = () => {
     
     }
 
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return [date.getFullYear(), (date.getMonth() + 1).toString().padStart(2, '0'), date.getDate().toString().padStart(2, '0')].join('-');
+    };
+
     // Fetch all medical requests on component mount
     useEffect(() => {
         fetchMedicalRequests();
@@ -50,6 +57,36 @@ const AdminMedicalRequests = () => {
         setOpen(true);
     }
 
+     // Function to handle file upload
+     const handleFileUpload = (event) => {
+        if (event.target.type === "file") {
+            const file = event.target.files?.[0];
+            if (file) {
+                if (file.type !== "application/pdf") {
+                    console.log("Invalid file type: ", file.type);
+                    alert("Please upload a PDF file.");
+                    return;
+                }
+
+                console.log("File uploaded: ", file);
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+
+                reader.onload = () => {
+                    console.log("File as Data URL: ", reader.result);
+                    setEditingMedicalRequest(prevState => ({
+                        ...prevState,
+                        doctorPrescription: reader.result
+                    }));
+                };
+
+                reader.onerror = (error) => {
+                    console.log("Error reading file: ", error);
+                };
+            }
+        }
+    };
+
     // Close dialog
     const handleClose = () => {
         setOpen(false);
@@ -58,7 +95,7 @@ const AdminMedicalRequests = () => {
 
     // Save medical request
    const handleSave = () => {
-    const action = isNewMedicalRequest ? medicalRequestService.createMedicalRequest : medicalRequestService.updateMedicalRequest;
+    const action = isNewMedicalRequest ? medicalRequestService.AdminCreateMedicalRequest : medicalRequestService.AdminUpdateMedicalRequest;
     console.log('Updating data...', editingMedicalRequest);
     action(editingMedicalRequest).then(() => {
                 fetchMedicalRequests(); // Refresh the list after saving
@@ -72,13 +109,49 @@ const AdminMedicalRequests = () => {
 const handleDelete = (id) => (e) => {
     e.stopPropagation(); // Prevent opening the edit dialog or any other click propagation issues
     console.log('Deleting data with ID:', id);
-    medicalRequestService.deleteMedicalRequest(id)
+    medicalRequestService.AdminDeleteMedicalRequest(id)
         .then(() => {
             fetchMedicalRequests(); // Refresh the list after deletion
         })
         .catch(err => {
             console.error('Delete failed:', err);
         });
+};
+
+// Function to handle file download
+const handleDownloadClick = (e, base64Data) => {
+    e.stopPropagation();
+    console.log('Download button clicked');
+
+    // Convert base64 to raw binary data held in a string
+    const byteCharacters = atob(base64Data.split(',')[1]); // Remove header
+
+    // Convert binary string to an array of 8-bit unsigned integers
+    const byteArrays = [];
+    for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+        const slice = byteCharacters.slice(offset, offset + 512);
+        const byteNumbers = new Array(slice.length);
+        for (let i = 0; i < slice.length; i++) {
+            byteNumbers[i] = slice.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        byteArrays.push(byteArray);
+    }
+
+    // Create a blob from the typed arrays
+    const blob = new Blob(byteArrays, {type: 'application/pdf'});
+    const blobUrl = URL.createObjectURL(blob);
+
+    // Create a link and trigger download
+    const link = document.createElement('a');
+    link.href = blobUrl;
+    link.setAttribute('download', 'prescription.pdf');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    // Clean up the blob URL
+    URL.revokeObjectURL(blobUrl);
 };
 
 
@@ -158,15 +231,21 @@ const textStyle = {
                                     <Grid item xs={1}><Typography style={textStyle}>{request.doctorId}</Typography></Grid>
                                     <Grid item xs={1}><Typography style={textStyle}>{request.requestName}</Typography></Grid>
                                     <Grid item xs={1}><Typography style={textStyle}>{request.requestDescription}</Typography></Grid>
-                                    <Grid item xs={0.5}><Typography style={textStyle}>{request.doctorPrescription}</Typography></Grid>
+                                    <Grid item xs={0.5}>{request.doctorPrescription ? 
+                                    <Tooltip title="Download Prescription">
+                                        <Button onClick={(e) => handleDownloadClick(e, request.doctorPrescription)}>
+                                            <GetAppIcon />
+                                        </Button>
+                                    </Tooltip> : 
+                                    "On the way..."
+                                }</Grid>
                                     <Grid item xs={1}><Typography style={textStyle}>{request.status}</Typography></Grid>
                                     <Grid item xs={1}><Typography style={textStyle}>{request.notificationEmail}</Typography></Grid>
                                     <Grid item xs={1}><Typography style={textStyle}>{request.notificationPhone}</Typography></Grid>
-                                    <Grid item xs={1}><Typography style={textStyle}>{request.creationTime}</Typography></Grid>
-                                    <Grid item xs={1}><Typography style={textStyle}>{request.modifiedTime}</Typography></Grid>
+                                    <Grid item xs={1}><Typography style={textStyle}>{formatDate(request.creationTime)}</Typography></Grid>
+                                    <Grid item xs={1}><Typography style={textStyle}>{formatDate(request.modifiedTime)}</Typography></Grid>
                                     <Grid item xs={1}><Typography style={textStyle}>{request.preExistingConditions}</Typography></Grid>
-                                    <Grid item xs={0.5}><IconButton onClick={handleDelete(request._id)} aria-label="delete"><DeleteIcon />
-    </IconButton></Grid>
+                                    <Grid item xs={0.5}><IconButton onClick={handleDelete(request._id)} aria-label="delete"><DeleteIcon /></IconButton></Grid>
                              </Grid>
                             </Grid>
                         ))
@@ -223,13 +302,9 @@ const textStyle = {
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <TextField
-                                        fullWidth
-                                        label="Prescription"
-                                        name="doctorPrescription"
-                                        value={editingMedicalRequest.doctorPrescription || ''}
-                                        onChange={handleChange}
-                                    />
+                                <Box sx={{ mt: 4 }}>
+                            <Input type="file" accept="application/pdf" onChange={handleFileUpload} />
+                        </Box>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <FormControl fullWidth>
