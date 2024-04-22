@@ -41,5 +41,18 @@
     "my_dashboard": "My Dashboard",
     "forgot_password":"Forgot Password",
     "dont_have_an_account": "Don't have an account",
-    "click_here":"Click here"
+    "click_here":"Click here",
+    "accessible_healthcare":"Accessible Healthcare",
+    "anonymous_support_text":"Anonymous Support for AIDS Patients",
+    "break_barriers_text":"Break barriers to healthcare for AIDS patients with our platform. Connect anonymously with doctors for free, ensuring access to crucial medical advice and support, all from the comfort of your home.",
+    "empowering_awareness_text": "Empowering Awareness: Stay Informed about HIV/AIDS Events",
+    "explore_text": "Explore our platform for comprehensive information on upcoming HIV/AIDS awareness events, including dates, locations, and timings. Join us in spreading awareness and making a difference in the fight against HIV/AIDS.",
+    "explore_events": "Explore Events",
+    "hope_in_unity_text":"Hope in Unity: Supporting Lives Affected by AIDS",
+    "empowering_lives_text": "Empowering lives affected by AIDS, our platform offers comprehensive support and resources to navigate the challenges of living with HIV/AIDS. From access to medical care to community support networks, we're here to ensure no one faces the journey alone.",
+    "view_blogs": "View Blogs",
+    "connecting_patients_text": "Connecting Patients with Specialist Care: Your Health, Our Priority.",
+    "inquiries_text": "  Inquiries? Contact us at",
+    "email": "Email",
+    "phone_number": "Phone Number"
 }
