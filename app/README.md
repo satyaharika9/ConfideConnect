@@ -12,6 +12,7 @@
     - npm install i18next i18next-http-backend react-i18next
     - npm install @stripe/react-stripe-js @stripe/stripe-js
     - npm install react-leaflet
+    - npm install -D vite-plugin-pwa @vite-pwa/assets-generator
 
 ## Run Frontend
         - cd app
