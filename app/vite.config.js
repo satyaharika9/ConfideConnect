@@ -45,27 +45,27 @@ export default defineConfig({
           }
         ]
         }),
-        workbox : {
-          runtimeCaching: [
-            {
-              urlPattern: ({ url }) => {
-              return url.pathname.includes('confideconnect')
-              },
-              handler: 'CacheFirst',
-              method: 'GET',
-              options: {
-              cacheName: 'static-assets',
-              expiration: {
-              maxEntries: 10,
-              maxAgeSeconds: 60 * 60 * 24
-              },
-              cacheableResponse: {
-              statuses: [0, 200]
-              }
-              }
-              }
-          ]
-        }
+        // workbox : {
+        //   runtimeCaching: [
+        //     {
+        //       urlPattern: ({ url }) => {
+        //       return url.pathname.includes('confideconnect')
+        //       },
+        //       handler: 'CacheFirst',
+        //       method: 'GET',
+        //       options: {
+        //       cacheName: 'static-assets',
+        //       expiration: {
+        //       maxEntries: 10,
+        //       maxAgeSeconds: 60 * 60 * 24
+        //       },
+        //       cacheableResponse: {
+        //       statuses: [0, 200]
+              // }
+              // }
+              // }
+          // ]
+        // }
 
 
 
