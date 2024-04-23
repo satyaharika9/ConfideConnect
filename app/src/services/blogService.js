@@ -45,6 +45,16 @@ const adminCreateBlog = async (newBlog) => {
 }
 
 // Blog service object
+export const fetchBlogs = async () => {
+  try {
+    const response = await axios.get(baseURL);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching blogs:', error);
+    return [];
+  }
+};
+
 const blogService = {  getBlogs, createBlog, deleteBlog, adminCreateBlog, adminDeleteBlog, adminGetBlogs, adminUpdateBlog };
 
 export default blogService;
